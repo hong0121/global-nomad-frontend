@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
   /* White & Black */
@@ -28,4 +28,10 @@
 
   --breakpoint-md: 744px; /* 744px~ tablet */
   --breakpoint-lg: 1200px; /* 1200px~ web */
+}
+
+@layer base {
+  button {
+    cursor: pointer;
+  }
 }
