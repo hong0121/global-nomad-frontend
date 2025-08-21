@@ -54,7 +54,7 @@
 @layer base {
   /* custom reset */
   * {
-    @apply leading-[1.2];
+    @apply leading-[1.2] text-gray-950;
   }
 
   button {
