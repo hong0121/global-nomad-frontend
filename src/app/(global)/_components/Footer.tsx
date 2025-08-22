@@ -1,9 +1,4 @@
-"use client";
-
-import FacebookIcon from "../../../../public/images/icons/FacebookIcon.svg";
-import InstagramIcon from "../../../../public/images/icons/InstagramIcon.svg";
-import YoutubeIcon from "../../../../public/images/icons/YoutubeIcon.svg";
-import XIcon from "../../../../public/images/icons/XIcon.svg";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -17,18 +12,38 @@ export default function Footer() {
           <span>∙</span>
           <span>FAQ</span>
         </nav>
-        <ul className="flex items-center gap-4 order-3 text-gray-400">
+        <ul className="flex items-center gap-4 order-3">
           <li>
-            <FacebookIcon className="w-5 h-5" />
+            <Image
+              src="/images/icons/FacebookIcon.svg"
+              width={20}
+              height={20}
+              alt="페이스북 바로가기"
+            />
           </li>
           <li>
-            <InstagramIcon className="w-5 h-5" />
+            <Image
+              src="/images/icons/InstagramIcon.svg"
+              width={20}
+              height={20}
+              alt="인스타그램 바로가기"
+            />
           </li>
           <li>
-            <YoutubeIcon className="w-5 h-5" />
+            <Image
+              src="/images/icons/YoutubeIcon.svg"
+              width={20}
+              height={20}
+              alt="유튜브 바로가기"
+            />
           </li>
           <li>
-            <XIcon className="w-5 h-5" />
+            <Image
+              src="/images/icons/XIcon.svg"
+              width={20}
+              height={20}
+              alt="X 바로가기"
+            />
           </li>
         </ul>
       </div>
