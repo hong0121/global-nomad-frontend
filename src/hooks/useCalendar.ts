@@ -1,4 +1,4 @@
-import { getDaysArray } from '@/app/(global)/detail/[id]/_utils/getDaysArray';
+import { getDaysArray } from '@/src/app/(global)/detail/[id]/_utils/getDaysArray';
 import { useState } from 'react';
 
 export function useCalendar() {

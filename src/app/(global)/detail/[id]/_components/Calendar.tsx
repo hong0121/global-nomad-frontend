@@ -1,11 +1,11 @@
 'use client';
 
 import { addMonths, format } from 'date-fns';
-import ArrowLeft from '../../../../../../public/images/icons/ArrowLeft.svg';
-import ArrowRight from '../../../../../../public/images/icons/ArrowRight.svg';
-import { useCalendar } from '@/hooks/useCalendar';
+import ArrowLeft from '@/public/images/icons/ArrowLeft.svg';
+import ArrowRight from '@/public/images/icons/ArrowRight.svg';
+import { useCalendar } from '@/src/hooks/useCalendar';
 import { useCallback } from 'react';
-import CalendarDay from '@/components/CalendarDay';
+import CalendarDay from '@/src/components/CalendarDay';
 
 export default function Calendar({
   dateCallback,

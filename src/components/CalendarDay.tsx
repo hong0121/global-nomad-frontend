@@ -1,4 +1,4 @@
-import { dateToCalendarDate } from '@/app/(global)/detail/[id]/_utils/dateParser';
+import { dateToCalendarDate } from '@/src/app/(global)/detail/[id]/_utils/dateParser';
 import { format } from 'date-fns';
 
 export default function CalendarDay({
