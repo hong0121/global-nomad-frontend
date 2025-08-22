@@ -8,7 +8,7 @@ export default function Header() {
   const [isLogin, setIsLogin] = useState(false);
 
   return (
-    <header className="sticky top-0">
+    <header className="absolute top-0 left-0 right-0">
       <div className="flex justify-between items-center max-w-[1520px] h-12 mx-auto px-6 md:px-[30px] lg:px-0 lg:w-[calc(100%-60px)]">
         <h1>
           <Link href="/" className="w-7 md:w-[174px]">
