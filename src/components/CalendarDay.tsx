@@ -12,7 +12,7 @@ export default function CalendarDay({
   selected: Date;
   dateCallback: (selected: Date) => void;
 }) {
-  const today = new Date(Date.now());
+  const today = new Date();
   const todayDate = format(today, 'yyyy-MM-dd');
   const currentMonth = format(currentDate, 'MM');
   const calendarDate = dateToCalendarDate(date);
