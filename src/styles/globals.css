@@ -1,6 +1,26 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
+  /* typography */
+  --text-32: 32px;
+  --text-24: 24px;
+  --text-20: 20px;
+  --text-18: 18px;
+  --text-16: 16px;
+  --text-14: 14px;
+  --text-13: 13px;
+  --text-12: 12px;
+  --text-11: 10px;
+
+  --text-20-body: 20px;
+  --text-20-body--line-height: 1.6;
+  --text-18-body: 18px;
+  --text-18-body--line-height: 1.4;
+  --text-16-body: 16px;
+  --text-16-body--line-height: 1.8;
+  --text-14-body: 14px;
+  --text-14-body--line-height: 1.8;
+
   /* White & Black */
   --color-white: #ffffff;
   --color-black: #000000;
@@ -26,6 +46,18 @@
   /* Red */
   --color-red-500: #ff2727;
 
+  /* breakpoint */
   --breakpoint-md: 744px; /* 744px~ tablet */
   --breakpoint-lg: 1200px; /* 1200px~ web */
+}
+
+@layer base {
+  /* custom reset */
+  * {
+    @apply leading-[1.2] text-gray-950;
+  }
+
+  button {
+    @apply cursor-pointer;
+  }
 }
