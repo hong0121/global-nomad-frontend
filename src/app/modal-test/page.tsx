@@ -5,10 +5,22 @@
 import { useState } from 'react';
 import AlertModal from '@/components/common/Modal/AlertModal';
 import ConfirmModal from '@/components/common/Modal/ConfirmModal';
+import ReviewModal from '@/components/common/Modal/ReviewModal';
 
 export default function ModalTestPage() {
   const [alertOpen, setAlertOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [reviewOpen, setReviewOpen] = useState(false);
+
+  // 임시 체험 내용
+  const dummyReservation = {
+    id: 1,
+    activity: { title: '요가 클래스' },
+    date: '2025-09-01',
+    startTime: '10:00',
+    endTime: '12:00',
+    headCount: 3,
+  };
 
   return (
     <div className="p-6">
@@ -22,10 +34,17 @@ export default function ModalTestPage() {
       </button>
 
       <button
-        className="bg-green-500 text-white px-4 py-2 rounded"
+        className="bg-green-500 text-white px-4 py-2 rounded mr-2"
         onClick={() => setConfirmOpen(true)}
       >
         Confirm 열기
+      </button>
+
+      <button
+        className="bg-yellow-500 text-white px-4 py-2 rounded"
+        onClick={() => setReviewOpen(true)}
+      >
+        Review 열기
       </button>
 
       <AlertModal
@@ -37,11 +56,14 @@ export default function ModalTestPage() {
       <ConfirmModal
         isOpen={confirmOpen}
         message={`저장되지 않았습니다.\n정말 뒤로 가시겠습니까?`}
-        onConfirm={() => {
-          console.log('삭제');
-          setConfirmOpen(false);
-        }}
+        onConfirm={() => setConfirmOpen(false)}
         onCancel={() => setConfirmOpen(false)}
+      />
+
+      <ReviewModal
+        isOpen={reviewOpen}
+        reservation={dummyReservation}
+        onClose={() => setReviewOpen(false)}
       />
     </div>
   );
