@@ -1,5 +1,5 @@
-import { getDaysArray } from '@/src/app/(global)/detail/[id]/_utils/getDaysArray';
 import { useState } from 'react';
+import { getDaysArray } from '../utils/getDaysArray';
 
 export function useCalendar() {
   const today = new Date();
