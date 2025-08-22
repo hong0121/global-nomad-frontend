@@ -1,3 +1,4 @@
+import Button from '@/components/Button';
 import { twMerge } from 'tailwind-merge';
 
 type AlertModalProps = {
@@ -21,13 +22,14 @@ export default function AlertModal({ isOpen, message, onClose }: AlertModalProps
           'md:w-[400px] md:h-[170px]'
         )}
       >
-        <p className="mt-1 text-black md:mt-2.5">{message}</p>{' '}
-        <button
+        <p className="mt-1 text-black md:mt-2.5 text-16 font-bold md:text-18">{message}</p>{' '}
+        <Button
           onClick={onClose}
-          className="w-full max-w-[180px] bg-primary-500 text-white px-4 py-3 rounded-[14px] md:max-w-[200px] md:py-3.5"
+          variant="primary"
+          className="w-full max-w-[180px] px-4 py-3 rounded-[14px] md:max-w-[200px] md:py-3.5"
         >
           확인
-        </button>
+        </Button>
       </div>
     </div>
   );

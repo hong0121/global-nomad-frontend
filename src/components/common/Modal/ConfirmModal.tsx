@@ -1,5 +1,6 @@
 import { twMerge } from 'tailwind-merge';
 import Image from 'next/image';
+import Button from '@/components/Button';
 
 type ConfirmModalProps = {
   isOpen: boolean;
@@ -28,20 +29,23 @@ export default function ConfirmModal({ isOpen, message, onConfirm, onCancel }: C
             fill
           />
         </div>
-        <p className="text-black mt-0.5 mb-5 whitespace-pre-line text-center md:mb-6">{message}</p>
+        <p className="text-black mt-0.5 mb-5 whitespace-pre-line text-center font-bold text-16 leading-relaxed md:text-18 md:mb-6">
+          {message}
+        </p>
         <div className="flex justify-center gap-2 md:gap-3">
-          <button
+          <Button
             onClick={onCancel}
-            className="flex-shrink-0 w-full max-w-[113px] h-[41px] px-4 py-2 rounded-xl border border-gray-200 text-gray-600"
+            variant="secondary"
+            className="flex-shrink-0 w-full max-w-[113px] h-[41px] px-4 py-2 md:max-w-[135px] md:h-[47px]"
           >
             아니오
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={onConfirm}
-            className="flex-shrink-0 w-full max-w-[113px] h-[41px] px-4 py-2 rounded-xl bg-primary-500 text-white"
+            className="flex-shrink-0 w-full max-w-[113px] h-[41px] px-4 py-2 md:max-w-[135px] md:h-[47px]"
           >
             네
-          </button>
+          </Button>
         </div>
       </div>
     </div>
