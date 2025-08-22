@@ -25,8 +25,7 @@ export default function AlertModal({ isOpen, message, onClose }: AlertModalProps
         <p className="mt-1 text-black md:mt-2.5 text-16 font-bold md:text-18">{message}</p>{' '}
         <Button
           onClick={onClose}
-          variant="primary"
-          className="w-full max-w-[180px] px-4 py-3 rounded-[14px] md:max-w-[200px] md:py-3.5"
+          className="w-full max-w-[180px] rounded-[14px] md:max-w-[200px] md:py-3.5"
         >
           확인
         </Button>

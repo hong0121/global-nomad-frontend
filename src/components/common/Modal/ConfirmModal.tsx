@@ -36,13 +36,13 @@ export default function ConfirmModal({ isOpen, message, onConfirm, onCancel }: C
           <Button
             onClick={onCancel}
             variant="secondary"
-            className="flex-shrink-0 w-full max-w-[113px] h-[41px] px-4 py-2 md:max-w-[135px] md:h-[47px]"
+            className="flex-shrink-0 w-full max-w-[113px] h-[41px] md:max-w-[135px] md:h-[47px]"
           >
             아니오
           </Button>
           <Button
             onClick={onConfirm}
-            className="flex-shrink-0 w-full max-w-[113px] h-[41px] px-4 py-2 md:max-w-[135px] md:h-[47px]"
+            className="flex-shrink-0 w-full max-w-[113px] h-[41px] md:max-w-[135px] md:h-[47px]"
           >
             네
           </Button>
