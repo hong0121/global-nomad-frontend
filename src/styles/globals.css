@@ -54,7 +54,11 @@
 @layer base {
   /* custom reset */
   * {
-    @apply leading-[1.2] text-gray-950;
+    @apply leading-[1.2] text-inherit;
+  }
+
+  body {
+    @apply text-gray-950;
   }
 
   button {
