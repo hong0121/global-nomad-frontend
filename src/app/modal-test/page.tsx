@@ -23,25 +23,25 @@ export default function ModalTestPage() {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-xl font-bold mb-4">모달 테스트 페이지</h1>
+    <div className='p-6'>
+      <h1 className='text-xl font-bold mb-4'>모달 테스트 페이지</h1>
 
       <button
-        className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+        className='bg-blue-500 text-white px-4 py-2 rounded mr-2'
         onClick={() => setAlertOpen(true)}
       >
         Alert 열기
       </button>
 
       <button
-        className="bg-green-500 text-white px-4 py-2 rounded mr-2"
+        className='bg-green-500 text-white px-4 py-2 rounded mr-2'
         onClick={() => setConfirmOpen(true)}
       >
         Confirm 열기
       </button>
 
       <button
-        className="bg-yellow-500 text-white px-4 py-2 rounded"
+        className='bg-yellow-500 text-white px-4 py-2 rounded'
         onClick={() => setReviewOpen(true)}
       >
         Review 열기
@@ -49,7 +49,7 @@ export default function ModalTestPage() {
 
       <AlertModal
         isOpen={alertOpen}
-        message="이미 사용 중인 이메일입니다."
+        message='이미 사용 중인 이메일입니다.'
         onClose={() => setAlertOpen(false)}
       />
 

@@ -1,4 +1,4 @@
-import axiosInstance from './apiClient';
+import apiClient from '@/src/services/apiClient';
 
 interface SubmitReviewBody {
   rating: number;
@@ -10,7 +10,7 @@ export async function submitReview(
   body: SubmitReviewBody
 ) {
   try {
-    const res = await axiosInstance.post(
+    const res = await apiClient.post(
       `/my-reservations/${reservationId}/reviews`,
       body
     );

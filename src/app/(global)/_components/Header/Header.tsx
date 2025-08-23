@@ -1,3 +1,4 @@
+'use client';
 import LoggingInGnb from '@/src/app/(global)/_components/Header/LoggingInGnb';
 import LoggingOutGnb from '@/src/app/(global)/_components/Header/LoggingOutGnb';
 import Image from 'next/image';
