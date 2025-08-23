@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import '../styles/globals.css';
-import { pretendard } from '../styles/fonts';
+import '@/src/styles/globals.css';
+import { pretendard } from '@/src/styles/fonts';
 
 export const metadata: Metadata = {
   title: 'Global Nomad',
@@ -13,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko">
+    <html lang='ko'>
       <body className={pretendard.className}>{children}</body>
     </html>
   );

@@ -1,5 +1,5 @@
+import { cn } from '@/src/utils/cn';
 import { ButtonHTMLAttributes, ReactNode } from 'react';
-import { cn } from '../utils/cn';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: keyof typeof ButtonVariant;

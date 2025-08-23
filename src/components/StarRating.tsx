@@ -32,11 +32,11 @@ export default function StarRating({
         return (
           <button
             key={starIndex}
-            type="button"
+            type='button'
             onMouseEnter={() => setHoveredStar(starIndex)}
             onMouseLeave={() => setHoveredStar(null)}
             onClick={() => handleClick(starIndex)}
-            className="transition-opacity ease-in-out duration-300"
+            className='transition-opacity ease-in-out duration-300'
           >
             <Image
               src={
@@ -44,10 +44,10 @@ export default function StarRating({
                   ? '/images/icons/StarFilled.svg'
                   : '/images/icons/StarEmpty.svg'
               }
-              alt="체험 리뷰 별점"
+              alt='체험 리뷰 별점'
               width={36}
               height={36}
-              className="md:w-[42px] md:h-[42px]"
+              className='md:w-[42px] md:h-[42px]'
             />
           </button>
         );
