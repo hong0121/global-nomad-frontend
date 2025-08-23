@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Image from 'next/image';
 
-import Button from '@/components/Button';
-import StarRating from '@/components/StarRating';
-import { formatDate } from '@/utils/formatDate';
+import { formatDate } from '@/src/utils/formatDate';
+import { submitReview } from '@/src/services/createReview';
+import StarRating from '../../StarRating';
+import Button from '../../Button';
 
 type ReviewModalProps = {
   isOpen: boolean;
@@ -19,14 +20,24 @@ type ReviewModalProps = {
   onClose: () => void;
 };
 
-export default function ReviewModal({ isOpen, reservation, onClose }: ReviewModalProps) {
+export default function ReviewModal({
+  isOpen,
+  reservation,
+  onClose,
+}: ReviewModalProps) {
   const [rating, setRating] = useState(0);
   const [content, setContent] = useState('');
   const maxLength = 100;
 
   if (!isOpen || !reservation) return null;
 
-  const { activity, date: rawDate, startTime, endTime, headCount } = reservation;
+  const {
+    activity,
+    date: rawDate,
+    startTime,
+    endTime,
+    headCount,
+  } = reservation;
   const date = formatDate(rawDate);
 
   const handleSubmit = async () => {
@@ -39,18 +50,15 @@ export default function ReviewModal({ isOpen, reservation, onClose }: ReviewModa
       });
 
       onClose();
-      console.log('리뷰작성완료');
+      console.log('리뷰 작성 완료');
     } catch (err) {
-      console.error(`리뷰작성실패`, err);
+      console.error(`리뷰 작성 실패`, err);
     }
   };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div
-        className="absolute inset-0 bg-black opacity-50"
-        onClick={onClose}
-      />
+      <div className="absolute inset-0 bg-black opacity-50" onClick={onClose} />
       <div
         className={twMerge(
           'relative flex flex-col justify-center items-center w-[322px] h-[493px] bg-white rounded-[30px] p-6',

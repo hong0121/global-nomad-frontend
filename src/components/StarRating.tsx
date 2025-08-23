@@ -1,4 +1,4 @@
-import twMerge from '@/utils/customTwMerge';
+import twMerge from '@/src/utils/customTwMerge';
 import Image from 'next/image';
 import { useState } from 'react';
 
@@ -8,7 +8,11 @@ interface StarRatingProps {
   className?: string;
 }
 
-export default function StarRating({ totalStars = 5, onChange, className }: StarRatingProps) {
+export default function StarRating({
+  totalStars = 5,
+  onChange,
+  className,
+}: StarRatingProps) {
   const [hoveredStar, setHoveredStar] = useState<number | null>(null);
   const [selectedStar, setSelectedStar] = useState<number>(0);
 
@@ -21,7 +25,9 @@ export default function StarRating({ totalStars = 5, onChange, className }: Star
     <div className={twMerge('flex', className)}>
       {Array.from({ length: totalStars }, (_, i) => {
         const starIndex = i + 1;
-        const isFilled = hoveredStar ? starIndex <= hoveredStar : starIndex <= selectedStar;
+        const isFilled = hoveredStar
+          ? starIndex <= hoveredStar
+          : starIndex <= selectedStar;
 
         return (
           <button
@@ -33,7 +39,11 @@ export default function StarRating({ totalStars = 5, onChange, className }: Star
             className="transition-opacity ease-in-out duration-300"
           >
             <Image
-              src={isFilled ? '/images/icons/StarFilled.svg' : '/images/icons/StarEmpty.svg'}
+              src={
+                isFilled
+                  ? '/images/icons/StarFilled.svg'
+                  : '/images/icons/StarEmpty.svg'
+              }
               alt="체험 리뷰 별점"
               width={36}
               height={36}
