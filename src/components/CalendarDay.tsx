@@ -1,5 +1,5 @@
+import { dateToCalendarDate } from '@/src/utils/dateParser';
 import { format } from 'date-fns';
-import { dateToCalendarDate } from '../utils/dateParser';
 
 export default function CalendarDay({
   date,
