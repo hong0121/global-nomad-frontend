@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
-import "@/styles/globals.css";
-import { pretendard } from "@/styles/fonts";
+import type { Metadata } from 'next';
+import '@/src/styles/globals.css';
+import { pretendard } from '@/src/styles/fonts';
 
 export const metadata: Metadata = {
-  title: "Global Nomad",
-  description: "Global Nomad Project",
+  title: 'Global Nomad',
+  description: 'Global Nomad Project',
 };
 
 export default function RootLayout({
@@ -13,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko">
+    <html lang='ko'>
       <body className={pretendard.className}>{children}</body>
     </html>
   );
