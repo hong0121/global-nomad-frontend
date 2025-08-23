@@ -28,30 +28,30 @@ export default function Calendar({
   };
 
   return (
-    <div className="w-sm">
-      <div className="w-full flex justify-between items-center">
-        <div className="space-x-2">
+    <div className='w-sm'>
+      <div className='w-full flex justify-between items-center'>
+        <div className='space-x-2'>
           <span>{format(displayController.dateToDisplay, 'MMMM')}</span>
           <span>{format(displayController.dateToDisplay, 'yyyy')}</span>
         </div>
-        <div className="flex">
+        <div className='flex'>
           <button
             onClick={handleLeftClick}
-            className="w-[46px] h-[46px] flex justify-center items-center rounded-lg hover:bg-gray-50"
+            className='w-[46px] h-[46px] flex justify-center items-center rounded-lg hover:bg-gray-50'
           >
             <ArrowLeft />
           </button>
           <button
             onClick={handleRightClick}
-            className="w-[46px] h-[46px] flex justify-center items-center rounded-lg hover:bg-gray-50"
+            className='w-[46px] h-[46px] flex justify-center items-center rounded-lg hover:bg-gray-50'
           >
             <ArrowRight />
           </button>
         </div>
       </div>
-      <div className="w-full grid grid-cols-7 gap-1">
+      <div className='w-full grid grid-cols-7 gap-1'>
         {yoil.map((yoil, i) => (
-          <div key={i} className="w-[46px] h-[46px] grid place-items-center">
+          <div key={i} className='w-[46px] h-[46px] grid place-items-center'>
             {yoil}
           </div>
         ))}
