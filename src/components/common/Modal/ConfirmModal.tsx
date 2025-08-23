@@ -1,6 +1,5 @@
-import { twMerge } from 'tailwind-merge';
 import Image from 'next/image';
-import Button from '@/components/Button';
+import Button from '../../Button';
 
 type ConfirmModalProps = {
   isOpen: boolean;
@@ -9,7 +8,12 @@ type ConfirmModalProps = {
   onCancel: () => void;
 };
 
-export default function ConfirmModal({ isOpen, message, onConfirm, onCancel }: ConfirmModalProps) {
+export default function ConfirmModal({
+  isOpen,
+  message,
+  onConfirm,
+  onCancel,
+}: ConfirmModalProps) {
   if (!isOpen) return null;
 
   return (

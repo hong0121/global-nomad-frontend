@@ -2,10 +2,10 @@
 
 'use client';
 
+import AlertModal from '@/src/components/common/Modal/AlertModal';
+import ConfirmModal from '@/src/components/common/Modal/ConfirmModal';
+import ReviewModal from '@/src/components/common/Modal/ReviewModal';
 import { useState } from 'react';
-import AlertModal from '@/components/common/Modal/AlertModal';
-import ConfirmModal from '@/components/common/Modal/ConfirmModal';
-import ReviewModal from '@/components/common/Modal/ReviewModal';
 
 export default function ModalTestPage() {
   const [alertOpen, setAlertOpen] = useState(false);
