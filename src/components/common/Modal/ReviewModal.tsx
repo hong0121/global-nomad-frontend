@@ -61,7 +61,7 @@ export default function ReviewModal({
       <div className="absolute inset-0 bg-black opacity-50" onClick={onClose} />
       <div
         className={twMerge(
-          'relative flex flex-col justify-center items-center w-[322px] h-[493px] bg-white rounded-[30px] p-6',
+          'relative flex flex-col justify-center items-center w-[322px] h-[493px] bg-white rounded-[30px] p-6 shadow-[0_4px_24px_0_#9CB4CA33]',
           'md:w-[385px] md:h-[549px]'
         )}
       >
@@ -73,8 +73,10 @@ export default function ReviewModal({
           className="absolute top-5 right-6"
           onClick={onClose}
         />
-        <p className="text-black text-14 font-bold mb-1.5">{activity.title}</p>
-        <p className="text-gray-500 text-13 font-medium mb-3.5">{`${date} / ${startTime} ~ ${endTime} (${headCount}명)`}</p>
+        <p className="text-black text-14 font-bold mb-1.5 md:text-16">
+          {activity.title}
+        </p>
+        <p className="text-gray-500 text-13 font-medium mb-3.5 md:text-14">{`${date} / ${startTime} ~ ${endTime} (${headCount}명)`}</p>
         <StarRating
           onChange={(value) => setRating(value)}
           className="mb-5 md:mb-[30px] gap-1 md:gap-2"
@@ -87,7 +89,7 @@ export default function ReviewModal({
           onChange={(e) => setContent(e.target.value)}
           maxLength={maxLength}
           placeholder="체험에서 느낀 경험을 자유롭게 남겨주세요"
-          className="text-start border border-gray-100 rounded-xl p-5 resize-none w-full h-[179px] overflow-y-auto text-14-body md:text-16-body font-medium shadow-xs mb-2 focus:outline-none"
+          className="text-start border border-gray-100 rounded-xl p-5 resize-none w-full h-[179px] overflow-y-auto text-14-body md:text-16-body font-medium shadow-[0_4px_24px_0_#9CB4CA33] mb-2 focus:outline-none"
         />
         <span className="block w-full text-end mb-5 md:mb-[30px] text-gray-600 text-13">
           {content.length}/{maxLength}
