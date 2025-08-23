@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
-import "@/styles/globals.css";
-import { pretendard } from "@/styles/fonts";
+import type { Metadata } from 'next';
+import '../styles/globals.css';
+import { pretendard } from '../styles/fonts';
 
 export const metadata: Metadata = {
-  title: "Global Nomad",
-  description: "Global Nomad Project",
+  title: 'Global Nomad',
+  description: 'Global Nomad Project',
 };
 
 export default function RootLayout({
