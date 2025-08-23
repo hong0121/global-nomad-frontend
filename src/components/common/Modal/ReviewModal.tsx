@@ -21,7 +21,7 @@ type ReviewModalProps = {
 
 export default function ReviewModal({ isOpen, reservation, onClose }: ReviewModalProps) {
   const [rating, setRating] = useState(0);
-  const [text, setText] = useState('');
+  const [content, setContent] = useState('');
   const maxLength = 100;
 
   if (!isOpen || !reservation) return null;
@@ -35,7 +35,7 @@ export default function ReviewModal({ isOpen, reservation, onClose }: ReviewModa
     try {
       await submitReview(reservation.id, {
         rating,
-        content: text,
+        content,
       });
 
       onClose();
@@ -75,14 +75,14 @@ export default function ReviewModal({ isOpen, reservation, onClose }: ReviewModa
           소중한 경험을 들려주세요
         </span>
         <textarea
-          value={text}
-          onChange={(e) => setText(e.target.value)}
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
           maxLength={maxLength}
           placeholder="체험에서 느낀 경험을 자유롭게 남겨주세요"
           className="text-start border border-gray-100 rounded-xl p-5 resize-none w-full h-[179px] overflow-y-auto text-14-body md:text-16-body font-medium shadow-xs mb-2 focus:outline-none"
         />
         <span className="block w-full text-end mb-5 md:mb-[30px] text-gray-600 text-13">
-          {text.length}/{maxLength}
+          {content.length}/{maxLength}
         </span>
         <Button
           onClick={handleSubmit}
