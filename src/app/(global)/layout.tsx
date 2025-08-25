@@ -1,5 +1,5 @@
-import Footer from '@/src/app/(global)/_components/Footer';
-import Header from '@/src/app/(global)/_components/Header/Header';
+import Footer from '@/src/components/pages/(global)/Footer';
+import Header from '@/src/components/pages/(global)/Header/Header';
 
 export default function GlobalLayout({
   children,
