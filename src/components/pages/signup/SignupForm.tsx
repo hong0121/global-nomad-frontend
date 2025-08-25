@@ -1,6 +1,6 @@
 'use client';
-import { createUser } from '@/src/app/(auth)/signup/_services/api';
 import Button from '@/src/components/Button';
+import { createUser } from '@/src/services/pages/signup/api';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { FormEvent } from 'react';
