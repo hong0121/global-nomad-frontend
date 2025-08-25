@@ -1,4 +1,4 @@
-import AuthFormHelper from '@/src/components/primitive/auth/AuthFormHelper';
+import AuthFormHelper from '@/src/components/primitives/auth/AuthFormHelper';
 import KakaoSignupButton from '@/src/components/pages/signup/KakaoSignupButton';
 import SignupForm from '@/src/components/pages/signup/SignupForm';
 

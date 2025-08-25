@@ -1,6 +1,6 @@
 'use client';
-import LoggingInGnb from '@/src/app/(global)/_components/Header/LoggingInGnb';
-import LoggingOutGnb from '@/src/app/(global)/_components/Header/LoggingOutGnb';
+import LoggingInGnb from '@/src/components/primitives/global/Header/LoggingInGnb';
+import LoggingOutGnb from '@/src/components/primitives/global/Header/LoggingOutGnb';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';

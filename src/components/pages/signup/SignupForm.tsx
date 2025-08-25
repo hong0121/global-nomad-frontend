@@ -1,5 +1,5 @@
 'use client';
-import Button from '@/src/components/Button';
+import Button from '@/src/components/primitives/Button';
 import { createUser } from '@/src/services/pages/signup/api';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
