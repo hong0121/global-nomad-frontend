@@ -14,7 +14,7 @@ export default function CalendarChip({
   };
   return (
     <div
-      className={`${stateClasses[state]} w-[56px] md:w-[68px] py-1 text-14 text-center rounded`}
+      className={`${stateClasses[state]} w-[56px] md:w-[44px] lg:w-[68px] py-1 text-11 sm:text-14 text-center rounded`}
     >
       {children}
     </div>

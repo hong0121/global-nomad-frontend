@@ -46,7 +46,7 @@ export default function ReservationCalendar({
   const mappedScheduleToDate = mergeScheduleWithDays(schedule, daysArray);
 
   return (
-    <section className='w-[640px] rounded-2xl shadow space-y-6'>
+    <section className='w-[375px] md:w-[476px] lg:w-[640px] rounded-2xl shadow space-y-6'>
       <div className='w-full py-6 flex justify-center items-center gap-8'>
         <button onClick={handleLeftClick}>
           <LeftArrowIcon />
@@ -60,7 +60,7 @@ export default function ReservationCalendar({
       </div>
       <div className='grid grid-cols-7 place-items-center'>
         {yoils.map((yoil, i) => (
-          <div key={i} className='text-16 font-bold'>
+          <div key={i} className='text-13 sm:text-16 font-bold'>
             {yoil}
           </div>
         ))}

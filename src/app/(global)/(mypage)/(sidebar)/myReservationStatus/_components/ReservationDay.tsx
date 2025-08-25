@@ -35,7 +35,7 @@ export default function ReservationDay({
         className={`${yoilClasses} ${prevNextMonthClasses} w-full h-[124px] flex flex-col items-center border-b border-b-gray-50`}
       >
         <div className={`${todayClasses} w-fit rounded-full p-2`}>
-          <span className='text-16'>{format(date, 'd')}</span>
+          <span className='text-12 sm:text-16'>{format(date, 'd')}</span>
         </div>
       </div>
     );
@@ -45,7 +45,7 @@ export default function ReservationDay({
         className={`${yoilClasses} ${prevNextMonthClasses} w-full h-[124px] flex flex-col items-center gap-1 border-b border-b-gray-50`}
       >
         <div className={`${todayClasses} w-fit relative rounded-full p-2`}>
-          <span className='text-16'>{format(date, 'd')}</span>
+          <span className='text-12 sm:text-16'>{format(date, 'd')}</span>
           <div className='w-2 h-2 absolute top-0 right-0 rounded-full bg-red-500' />
         </div>
         {schedule && schedule.pending !== 0 && (
