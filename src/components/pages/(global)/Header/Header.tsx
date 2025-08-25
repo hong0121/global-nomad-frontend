@@ -1,9 +1,9 @@
 'use client';
-import LoggingInGnb from '@/src/app/(global)/_components/Header/LoggingInGnb';
-import LoggingOutGnb from '@/src/app/(global)/_components/Header/LoggingOutGnb';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import LoggingOutGnb from './LoggingOutGnb';
+import LoggingInGnb from './LoggingInGnb';
 
 export default function Header() {
   const [isLogin, setIsLogin] = useState(false);
