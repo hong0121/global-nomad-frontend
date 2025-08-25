@@ -1,4 +1,4 @@
-import apiClient from '@/src/services/apiClient';
+import apiClient from '@/src/services/primitive/apiClient';
 
 interface SubmitReviewBody {
   rating: number;
