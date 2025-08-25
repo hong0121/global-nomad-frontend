@@ -8,3 +8,41 @@ export interface IScheduleCount {
   confirmed: number;
   pending: number;
 }
+
+export interface IAvailableReservationSchedule {
+  date: string;
+  times: {
+    endTime: string;
+    startTime: string;
+    id: number;
+  }[];
+}
+
+export interface ISubImage {
+  id: number;
+  imageUrl: string;
+}
+
+export interface ISchedule {
+  id: number;
+  date: string;
+  startTime: string;
+  endTime: string;
+}
+
+export interface IActivity {
+  id: number;
+  userId: number;
+  title: string;
+  description: string;
+  category: string;
+  price: number;
+  address: string;
+  bannerImageUrl: string;
+  subImages: ISubImage[];
+  schedules: IAvailableReservationSchedule[];
+  reviewCount: number;
+  rating: number;
+  createdAt: string;
+  updatedAt: string;
+}
