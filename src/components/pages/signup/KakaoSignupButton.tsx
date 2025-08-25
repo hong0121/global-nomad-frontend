@@ -1,9 +1,9 @@
 'use client';
 
-import Button from '@/src/components/Button';
-import KakaoIcon from '@/public/images/icons/KakaoIcon.svg';
 import { useRouter } from 'next/navigation';
+import Button from '@/src/components/primitives/Button';
 import { KAKAO_AUTH_URL } from '@/src/constants/social';
+import KakaoIcon from '@/public/images/icons/KakaoIcon.svg';
 
 export default function KakaoSignupButton() {
   const router = useRouter();

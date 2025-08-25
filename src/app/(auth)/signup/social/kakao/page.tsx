@@ -1,5 +1,5 @@
 'use client';
-import LoadingSpinner from '@/src/components/primitive/LoadingSpinner';
+import LoadingSpinner from '@/src/components/primitives/LoadingSpinner';
 import signupAction from '@/src/services/pages/signup/actions';
 import { AxiosError } from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';

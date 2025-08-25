@@ -1,4 +1,4 @@
-import { apiClient } from '@/src/services/primitive/apiClient';
+import { apiClient } from '@/src/services/primitives/apiClient';
 import { UserResponseType } from '@/src/types/userType';
 
 interface SignupRequestBody {

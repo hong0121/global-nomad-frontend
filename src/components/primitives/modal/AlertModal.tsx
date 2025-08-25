@@ -1,4 +1,4 @@
-import Button from '@/src/components/Button';
+import Button from '@/src/components/primitives/Button';
 
 type AlertModalProps = {
   isOpen: boolean;
