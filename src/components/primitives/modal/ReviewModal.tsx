@@ -3,8 +3,8 @@ import Image from 'next/image';
 
 import { formatDate } from '@/src/utils/formatDate';
 import { submitReview } from '@/src/services/createReview';
-import StarRating from '@/src/components/StarRating';
-import Button from '@/src/components/Button';
+import StarRating from '@/src/components/primitives/StarRating';
+import Button from '@/src/components/primitives/Button';
 
 type ReviewModalProps = {
   isOpen: boolean;

@@ -1,6 +1,6 @@
 'use client';
 
-import CalendarChip from '@/src/components/CalendarChip';
+import CalendarChip from '@/src/components/primitives/CalendarChip';
 import { IScheduleCount } from '@/src/types/scheduleType';
 import { dateToCalendarDate } from '@/src/utils/dateParser';
 import { format } from 'date-fns';

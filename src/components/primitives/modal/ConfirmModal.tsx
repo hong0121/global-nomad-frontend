@@ -1,4 +1,4 @@
-import Button from '@/src/components/Button';
+import Button from '@/src/components/primitives/Button';
 import Image from 'next/image';
 
 type ConfirmModalProps = {

@@ -2,9 +2,9 @@
 
 'use client';
 
-import AlertModal from '@/src/components/modal/AlertModal';
-import ConfirmModal from '@/src/components/modal/ConfirmModal';
-import ReviewModal from '@/src/components/modal/ReviewModal';
+import AlertModal from '@/src/components/primitives/modal/AlertModal';
+import ConfirmModal from '@/src/components/primitives/modal/ConfirmModal';
+import ReviewModal from '@/src/components/primitives/modal/ReviewModal';
 import { useState } from 'react';
 
 export default function ModalTestPage() {
