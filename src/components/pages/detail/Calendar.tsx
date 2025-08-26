@@ -7,16 +7,11 @@ import { useCalendar } from '@/src/hooks/useCalendar';
 import { useCallback } from 'react';
 import CalendarDay from '@/src/components/primitives/CalendarDay';
 
-export default function Calendar({
-  dateCallback,
-}: {
-  dateCallback: (date: Date) => void;
-}) {
+export default function Calendar() {
   const { daysArray, dateSelector, displayController } = useCalendar();
   const yoil = ['일', '월', '화', '수', '목', '금', '토'];
 
   const dateSetter = useCallback((date: Date) => {
-    dateCallback(date);
     dateSelector.setSelectedDate(date);
   }, []);
 
@@ -28,7 +23,8 @@ export default function Calendar({
   };
 
   return (
-    <div className='w-sm'>
+    <article className='w-sm'>
+      <span className='text-16 font-bold'>날짜</span>
       <div className='w-full flex justify-between items-center'>
         <div className='space-x-2'>
           <span>{format(displayController.dateToDisplay, 'MMMM')}</span>
@@ -65,6 +61,6 @@ export default function Calendar({
           />
         ))}
       </div>
-    </div>
+    </article>
   );
 }
