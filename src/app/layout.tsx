@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import '@/src/styles/globals.css';
 import { pretendard } from '@/src/styles/fonts';
+import QueryProvider from '@/src/components/primitives/QueryProvider';
 
 export const metadata: Metadata = {
   title: 'Global Nomad',
@@ -14,7 +15,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang='ko'>
-      <body className={pretendard.className}>{children}</body>
+      <body className={pretendard.className}>
+        <QueryProvider>{children}</QueryProvider>
+      </body>
     </html>
   );
 }
