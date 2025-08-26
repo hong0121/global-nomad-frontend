@@ -1,10 +1,10 @@
 'use client';
 
-import ActivityDetail from '@/src/components/pages/(global)/[id]/ActivityDetail';
-import ActivityImage from '@/src/components/pages/(global)/[id]/ActivityImage';
-import ActivityInfo from '@/src/components/pages/(global)/[id]/ActivityInfo';
+import ActivityDetail from '@/src/components/pages/detail/ActivityDetail';
+import ActivityImage from '@/src/components/pages/detail/ActivityImage';
+import ActivityInfo from '@/src/components/pages/detail/ActivityInfo';
 import { useBreakPoint } from '@/src/hooks/useBreakPoint';
-import { Activity, SubImage } from '@/src/services/pages/[id]/Activity';
+import { Activity } from '@/src/services/pages/[id]/Activity';
 import { ReviewResponse } from '@/src/services/pages/[id]/Review';
 
 interface Props {

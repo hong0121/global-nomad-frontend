@@ -1,4 +1,4 @@
-import ResponsiveLayout from '@/src/components/pages/(global)/[id]/ResponsiveLayout';
+import ResponsiveLayout from '@/src/components/pages/detail/ResponsiveLayout';
 import { Activity, getActivityById } from '@/src/services/pages/[id]/Activity';
 import {
   getReviewsByActivityId,
