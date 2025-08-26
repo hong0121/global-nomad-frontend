@@ -1,13 +1,20 @@
-interface DetailPageProps {
-  params: Promise<{ id: string }>;
+import ResponsiveLayout from '@/src/components/pages/(global)/[id]/ResponsiveLayout';
+import { Activity, getActivityById } from '@/src/services/pages/[id]/Activity';
+import {
+  getReviewsByActivityId,
+  ReviewResponse,
+} from '@/src/services/pages/[id]/Review';
+
+interface Props {
+  params: { id: string };
 }
 
-export default async function DetailPage({ params }: DetailPageProps) {
+export default async function DetailPage({ params }: Props) {
   const { id } = await params;
-  return (
-    <main>
-      <h1>체험 상세 페이지</h1>
-      <p>체험 ID: {id}</p>
-    </main>
-  );
+  const activityId = Number(id);
+  const activity: Activity = await getActivityById(activityId);
+  const reviewData: ReviewResponse = await getReviewsByActivityId(activityId);
+
+  // ResponsiveLayout 컴포넌트에 데이터만 전달
+  return <ResponsiveLayout activity={activity} reviewData={reviewData} />;
 }
