@@ -1,13 +1,9 @@
 'use client';
 
-<<<<<<< HEAD
-=======
 import CalendarChip from '@/src/components/primitives/CalendarChip';
->>>>>>> dev
 import { IScheduleCount } from '@/src/types/scheduleType';
 import { dateToCalendarDate } from '@/src/utils/dateParser';
 import { format } from 'date-fns';
-import CalendarChip from '../../primitives/CalendarChip';
 import DayModal from './modal/DayModal';
 import { useState } from 'react';
 
