@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { Activity } from '@/src/services/pages/[id]/Activity';
 import { ReviewResponse } from '@/src/services/pages/[id]/Review';
 import RatingText from './RatingText';
+import { useState } from 'react';
 
 interface Props {
   activity: Activity;
@@ -53,6 +54,16 @@ export default function ActivityDetail({ activity, reviewData }: Props) {
     ],
   };
 
+  // 페이지네이션
+  const [currentPage, setCurrentPage] = useState(1);
+  const reviewsPerPage = 3;
+  const totalPages = Math.ceil(mockreviewData.reviews.length / reviewsPerPage);
+
+  const currentReviews = mockreviewData.reviews.slice(
+    (currentPage - 1) * reviewsPerPage,
+    currentPage * reviewsPerPage
+  );
+
   return (
     <>
       {/* 체험설명 */}
@@ -96,11 +107,11 @@ export default function ActivityDetail({ activity, reviewData }: Props) {
           </div>
         </div>
 
-        {/* 리뷰 3개씩 목록으로 표시 (예정) */}
-        {mockreviewData.reviews.map((review) => (
+        {/* 리뷰 목록 (현재 임시 데이터) */}
+        {currentReviews.map((review) => (
           <article
             key={review.id}
-            className='w-full rounded-3xl p-5 shadow-[0px_4px_24px_0px_#dde6ef] mb-5'
+            className='w-full rounded-3xl p-5 shadow-[0px_4px_24px_0px_#dde6ef] mb-10 not-even:md:mb-5'
           >
             <h3 className='inline-block text-14 font-semibold mb-2 md:text-16 md:font-bold'>
               {review.user.nickname}{' '}
@@ -127,13 +138,23 @@ export default function ActivityDetail({ activity, reviewData }: Props) {
 
         {/* 임시 페이지네이션 UI */}
         <div className='flex justify-center gap-2 w-full mt-10 mb-20'>
-          <button>이전</button>
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>4</button>
-          <button>5</button>
-          <button>다음</button>
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((prev) => prev - 1)}
+          >
+            이전
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button key={i + 1} onClick={() => setCurrentPage(i + 1)}>
+              {i + 1}
+            </button>
+          ))}
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage((prev) => prev + 1)}
+          >
+            다음
+          </button>
         </div>
       </section>
     </>
