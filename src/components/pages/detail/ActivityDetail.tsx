@@ -123,7 +123,7 @@ export default function ActivityDetail({ activity, reviewData }: Props) {
             </h3>
             <div className='flex md:mb-2.5'>
               {Array.from({ length: review.rating }, (_, i) => (
-                <div className='relative w-4 h-4 mb-2'>
+                <div key={i} className='relative w-4 h-4 mb-2'>
                   <Image
                     src='/images/icons/StarFilled.svg'
                     alt='체험별점'
