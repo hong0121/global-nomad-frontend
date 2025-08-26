@@ -1,4 +1,4 @@
-import { IScheduleCount } from '../types/scheduleType';
+import { IScheduleCount } from '@/src/types/scheduleType';
 
 export default function CalendarChip({
   state,
