@@ -1,5 +1,6 @@
 import { InputHTMLAttributes, useState } from 'react';
 import Image from 'next/image';
+import clsx from 'clsx';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -7,6 +8,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string;
   isPasswordVisible?: boolean;
   isPassword?: boolean;
+  variant?: 'default' | 'auth' | 'experience';
 }
 
 const Input = ({
@@ -15,19 +17,25 @@ const Input = ({
   placeholder,
   isPasswordVisible = false,
   isPassword = false,
+  variant,
   ...props
 }: InputProps) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePassword = () => setShowPassword((prev) => !prev);
+
   const baseBorder = 'border border-[var(--color-gray-100)]';
   const focusBorder =
     'focus:border-[var(--color-primary-500)] focus:outline-none';
   const errorBorder = errorMessage ? 'border-[var(--color-red-500)]' : '';
-
-  const [showPassword, setShowPassword] = useState(false);
-  const togglePassword = () => setShowPassword((prev) => !prev);
+  const variantLabelStyles = clsx({
+    'font-bold text-base text-[var(--color-gray-950)]':
+      variant === 'experience',
+    'font-medium text-base text-[var(--color-gray-900)]': variant === 'auth',
+  });
 
   return (
-    <div className='flex flex-col gap-[10px]'>
-      <label className='font-medium text-base'>{label}</label>
+    <div className='flex flex-col gap-[10px] '>
+      <label className={variantLabelStyles}>{label}</label>
       <div className='relative'>
         <input
           {...props}
