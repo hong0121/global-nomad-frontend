@@ -15,6 +15,7 @@ export async function submitReview(
       body
     );
     return res.data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     console.error('리뷰 등록 실패', err);
     throw err;
