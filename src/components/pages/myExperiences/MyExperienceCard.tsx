@@ -1,8 +1,8 @@
 'use client';
 
 import { IActivity } from '@/src/types/scheduleType';
-import Button from '../../primitives/Button';
 import StarIcon from '@/public/images/icons/StarFilled.svg';
+import ExperienceButton from './ExperienceButton';
 
 export default function MyExperienceCard({ data }: { data: IActivity }) {
   return (
@@ -23,9 +23,12 @@ export default function MyExperienceCard({ data }: { data: IActivity }) {
           &#8361; {data.price.toLocaleString()} <span>&#47; 인</span>
         </h2>
         <div className='flex gap-2'>
-          <Button size='sm' variant='primary'>
+          <ExperienceButton size='sm' variant='outline'>
             수정하기
-          </Button>
+          </ExperienceButton>
+          <ExperienceButton size='sm' variant='outline' alert={true}>
+            삭제하기
+          </ExperienceButton>
         </div>
       </div>
       <img
