@@ -1,4 +1,4 @@
-import apiClient from '@/src/services/primitives/apiClient';
+import { apiClient } from '../primitives/apiClient';
 
 export async function getReservedSchedule(activitiyId: number, date: string) {
   try {

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 import { formatDate } from '@/src/utils/formatDate';
-import { submitReview } from '@/src/services/createReview';
+import { submitReview } from '@/src/services/pages/createReview/api';
 import StarRating from '@/src/components/primitives/StarRating';
 import Button from '@/src/components/primitives/Button';
 
