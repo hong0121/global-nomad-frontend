@@ -4,8 +4,8 @@ import ActivityDetail from '@/src/components/pages/detail/ActivityDetail';
 import ActivityImage from '@/src/components/pages/detail/ActivityImage';
 import ActivityInfo from '@/src/components/pages/detail/ActivityInfo';
 import { useBreakPoint } from '@/src/hooks/useBreakPoint';
-import { Activity } from '@/src/services/pages/[id]/Activity';
-import { ReviewResponse } from '@/src/services/pages/[id]/Review';
+import { Activity } from '@/src/services/pages/detail/activity';
+import { ReviewResponse } from '@/src/services/pages/detail/review';
 
 interface Props {
   activity: Activity;
@@ -16,7 +16,7 @@ export default function ResponsiveLayout({ activity, reviewData }: Props) {
   const { isLg } = useBreakPoint();
 
   return (
-    <main>
+    <div>
       {isLg ? (
         // 데스크탑
         <div className='flex justify-center gap-5 mx-0'>
@@ -38,6 +38,6 @@ export default function ResponsiveLayout({ activity, reviewData }: Props) {
           {/* 예약 컴포넌트 들어갈 자리 */}
         </>
       )}
-    </main>
+    </div>
   );
 }

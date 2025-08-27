@@ -1,9 +1,12 @@
 import ResponsiveLayout from '@/src/components/pages/detail/ResponsiveLayout';
-import { Activity, getActivityById } from '@/src/services/pages/[id]/Activity';
+import {
+  Activity,
+  getActivityById,
+} from '@/src/services/pages/detail/activity';
 import {
   getReviewsByActivityId,
   ReviewResponse,
-} from '@/src/services/pages/[id]/Review';
+} from '@/src/services/pages/detail/review';
 
 interface Props {
   params: { id: string };
