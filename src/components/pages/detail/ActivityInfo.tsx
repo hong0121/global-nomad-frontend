@@ -1,11 +1,33 @@
 import { Activity } from '@/src/types/activityType';
 import Image from 'next/image';
+import DropdownList from './DrowdownList';
+import { useEffect, useRef, useState } from 'react';
 
 interface Props {
   activity: Activity;
 }
 
 export default function ActivityInfo({ activity }: Props) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const handleClickButton = () => {
+    setIsOpen((pre) => !pre);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   return (
     <>
       <section className='flex items-start justify-between pt-5 md:pt-6 pb-5 md:pb-6 border-b border-gray-100 lg:border-none'>
@@ -34,14 +56,22 @@ export default function ActivityInfo({ activity }: Props) {
             </span>
           </div>
         </div>
-        <button aria-label='더보기'>
-          <Image
-            src='/images/icons/MoreIcon.svg'
-            alt=''
-            width={28}
-            height={28}
-          />
-        </button>
+        <div className='relative inline-block' ref={dropdownRef}>
+          <button aria-label='더보기' onClick={handleClickButton}>
+            <Image
+              src='/images/icons/MoreIcon.svg'
+              alt=''
+              width={28}
+              height={28}
+            />
+          </button>
+
+          {isOpen && (
+            <div className='absolute right-7 top-0 z-10'>
+              <DropdownList />
+            </div>
+          )}
+        </div>
       </section>
     </>
   );
