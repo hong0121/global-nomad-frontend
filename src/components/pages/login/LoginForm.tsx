@@ -1,32 +1,11 @@
 'use client';
 
 import Button from '@/src/components/primitives/Button';
-import { loginRequestBody, loginUser } from '@/src/services/pages/login/api';
-import { queries } from '@/src/services/primitives/queries';
-import { setTokenAction } from '@/src/services/primitives/tokenAction';
-import { TokenUserResponseType } from '@/src/types/userType';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
+import useLoginUser from '@/src/hooks/auth/useLoginUser';
 import { FormEvent } from 'react';
 
 export default function LoginForm() {
-  const router = useRouter();
-  const queryClient = useQueryClient();
-  const loginMutation = useMutation({
-    mutationFn: (data: loginRequestBody) => loginUser(data),
-    onSuccess: async (data: TokenUserResponseType) => {
-      queryClient.setQueryData(queries.user(), data.user); // 리액트 쿼리 데이터 캐싱
-      await setTokenAction(data); // 토큰 쿠키 설정
-      router.replace('/');
-    },
-    onError: (error) => {
-      const err = error as AxiosError<{ message: string }>;
-      if (err?.response?.status === 400 || err?.response?.status === 404) {
-        alert('로그인 정보를 다시 확인해주세요.');
-      }
-    },
-  });
+  const loginMutation = useLoginUser();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
