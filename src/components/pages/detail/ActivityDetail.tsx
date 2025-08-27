@@ -1,8 +1,9 @@
 import Image from 'next/image';
-import { Activity } from '@/src/services/pages/[id]/Activity';
-import { ReviewResponse } from '@/src/services/pages/[id]/Review';
 import RatingText from './RatingText';
 import { useState } from 'react';
+import { Review, ReviewResponse } from '@/src/services/pages/detail/review';
+import { Activity } from '@/src/services/pages/detail/activity';
+import { REVIEWS_PER_PAGE } from '@/src/constant/pagination';
 
 interface Props {
   activity: Activity;
@@ -56,7 +57,7 @@ export default function ActivityDetail({ activity, reviewData }: Props) {
 
   // 페이지네이션
   const [currentPage, setCurrentPage] = useState(1);
-  const reviewsPerPage = 3;
+  const reviewsPerPage = REVIEWS_PER_PAGE;
   const totalPages = Math.ceil(mockreviewData.reviews.length / reviewsPerPage);
 
   const currentReviews = mockreviewData.reviews.slice(
@@ -108,7 +109,7 @@ export default function ActivityDetail({ activity, reviewData }: Props) {
         </div>
 
         {/* 리뷰 목록 (현재 임시 데이터) */}
-        {currentReviews.map((review) => (
+        {currentReviews.map((review: Review) => (
           <article
             key={review.id}
             className='w-full rounded-3xl p-5 shadow-[0px_4px_24px_0px_#dde6ef] mb-10 not-even:md:mb-5'
