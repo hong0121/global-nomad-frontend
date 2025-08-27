@@ -6,7 +6,7 @@ import { AxiosError } from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
-export default function KakaoSignupPage() {
+export default function KakaoSignupClient() {
   const router = useRouter();
   const flagRef = useRef(false);
   const searchParams = useSearchParams();
@@ -33,6 +33,12 @@ export default function KakaoSignupPage() {
       } catch (error) {
         const err = error as AxiosError<{ message: string }>;
 
+        if (err?.response?.status === 400) {
+          // 유저 안내 메세지 - 추후에 토스트로 변경 예정
+          alert('이미 등록된 사용자입니다. 로그인 페이지로 이동합니다.');
+          router.replace('/login'); // 로그인 페이지로 이동
+          return;
+        }
         console.error(err?.response?.data?.message);
         // 유저 안내 메세지 - 추후에 토스트로 변경 예정
         alert('카카오 회원가입에 실패하였습니다. 다시 시도해주세요.');
