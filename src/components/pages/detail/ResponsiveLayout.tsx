@@ -19,7 +19,7 @@ export default function ResponsiveLayout({ activity, reviewData }: Props) {
     <div>
       {isLg ? (
         // 데스크탑
-        <div className='flex justify-center gap-5 mx-0'>
+        <div className='flex justify-center gap-10 mx-0'>
           <div className='max-w-[670px] w-full'>
             <ActivityImage activity={activity} />
             <ActivityDetail activity={activity} reviewData={reviewData} />
