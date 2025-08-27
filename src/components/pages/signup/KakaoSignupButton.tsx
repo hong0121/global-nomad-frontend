@@ -2,13 +2,13 @@
 
 import { useRouter } from 'next/navigation';
 import Button from '@/src/components/primitives/Button';
-import { KAKAO_AUTH_URL } from '@/src/constants/social';
+import { KAKAO_AUTH_URL_SIGNUP } from '@/src/constants/social';
 import KakaoIcon from '@/public/images/icons/KakaoIcon.svg';
 
 export default function KakaoSignupButton() {
   const router = useRouter();
 
-  const handleClick = () => router.replace(KAKAO_AUTH_URL);
+  const handleClick = () => router.replace(KAKAO_AUTH_URL_SIGNUP);
 
   return (
     <>
