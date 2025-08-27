@@ -4,8 +4,12 @@ import { getReviewsByActivityId } from '@/src/services/pages/detail/review';
 import { Activity } from '@/src/types/activityType';
 import { ReviewResponse } from '@/src/types/reviewType';
 
+interface Params {
+  id: string;
+}
+
 interface Props {
-  params: { id: string };
+  params: Promise<Params>;
 }
 
 export default async function DetailPage({ params }: Props) {
