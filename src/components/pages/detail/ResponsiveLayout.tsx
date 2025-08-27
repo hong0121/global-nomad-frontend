@@ -4,8 +4,8 @@ import ActivityDetail from '@/src/components/pages/detail/ActivityDetail';
 import ActivityImage from '@/src/components/pages/detail/ActivityImage';
 import ActivityInfo from '@/src/components/pages/detail/ActivityInfo';
 import { useBreakPoint } from '@/src/hooks/useBreakPoint';
-import { Activity } from '@/src/services/pages/detail/activity';
-import { ReviewResponse } from '@/src/services/pages/detail/review';
+import { Activity } from '@/src/types/activityType';
+import { ReviewResponse } from '@/src/types/reviewType';
 
 interface Props {
   activity: Activity;

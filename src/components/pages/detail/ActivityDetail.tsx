@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import RatingText from './RatingText';
 import { useState } from 'react';
-import { Review, ReviewResponse } from '@/src/services/pages/detail/review';
-import { Activity } from '@/src/services/pages/detail/activity';
 import { REVIEWS_PER_PAGE } from '@/src/constant/pagination';
+import { Review, ReviewResponse } from '@/src/types/reviewType';
+import { Activity } from '@/src/types/activityType';
 
 interface Props {
   activity: Activity;

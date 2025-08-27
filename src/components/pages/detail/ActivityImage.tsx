@@ -1,4 +1,4 @@
-import { Activity } from '@/src/services/pages/detail/activity';
+import { Activity } from '@/src/types/activityType';
 import Image from 'next/image';
 
 interface Props {
