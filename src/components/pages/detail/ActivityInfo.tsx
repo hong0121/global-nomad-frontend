@@ -68,7 +68,7 @@ export default function ActivityInfo({ activity }: Props) {
 
           {isOpen && (
             <div className='absolute right-7 top-0 z-10'>
-              <DropdownList />
+              <DropdownList activityId={activity.id} />
             </div>
           )}
         </div>
