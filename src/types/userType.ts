@@ -6,3 +6,9 @@ export interface UserResponseType {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface TokenUserResponseType {
+  user: UserResponseType;
+  refreshToken: string;
+  accessToken: string;
+}
