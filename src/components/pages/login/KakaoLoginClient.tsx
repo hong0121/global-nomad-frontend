@@ -1,7 +1,7 @@
 'use client';
 import LoadingSpinner from '@/src/components/primitives/LoadingSpinner';
 import { KAKAO_REDIRECT_URI_LOGIN } from '@/src/constants/social';
-import useKakaoLoginUser from '@/src/hooks/auth/useKakaoLoginUser';
+import useKakaoLoginUser from '@/src/hooks/pages/auth/useKakaoLoginUser';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 

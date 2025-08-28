@@ -1,7 +1,7 @@
 'use client';
 
 import Button from '@/src/components/primitives/Button';
-import useLoginUser from '@/src/hooks/auth/useLoginUser';
+import useLoginUser from '@/src/hooks/pages/auth/useLoginUser';
 import { FormEvent } from 'react';
 
 export default function LoginForm() {
