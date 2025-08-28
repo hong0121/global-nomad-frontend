@@ -1,5 +1,5 @@
 import { apiClient } from '@/src/services/primitives/apiClient';
-import { UserResponseType } from '@/src/types/userType';
+import { TokenUserResponseType, UserResponseType } from '@/src/types/userType';
 
 interface SignupRequestBody {
   email: string;
@@ -13,12 +13,6 @@ interface KakaoSignupRequestBody {
   token: string;
 }
 
-interface KakaoSignupResponseType {
-  user: UserResponseType;
-  refreshToken: string;
-  accessToken: string;
-}
-
 // 일반 회원가입
 export async function createUser(
   signupBody: SignupRequestBody
@@ -30,7 +24,7 @@ export async function createUser(
 // 카카오 회원가입
 export async function createKakaoUser(
   signupBody: KakaoSignupRequestBody
-): Promise<KakaoSignupResponseType> {
+): Promise<TokenUserResponseType> {
   const res = await apiClient.post('/oauth/sign-up/kakao', signupBody);
   return res.data;
 }

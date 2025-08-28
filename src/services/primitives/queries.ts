@@ -1,1 +1,3 @@
-export const queries = {};
+export const queries = {
+  user: () => ['user'],
+};
