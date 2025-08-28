@@ -2,6 +2,7 @@ import { Activity } from '@/src/types/activityType';
 import Image from 'next/image';
 import DropdownList from './DrowdownList';
 import { useEffect, useRef, useState } from 'react';
+import { useCurrentUser } from '@/src/hooks/useCurrentUser';
 
 interface Props {
   activity: Activity;
@@ -27,6 +28,23 @@ export default function ActivityInfo({ activity }: Props) {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  const { data: currentUser, isLoading, isError, error } = useCurrentUser();
+
+  // 디버깅용 코드
+  // 현재 브라우저 저장소에 토큰 저장이 안되어 401에러 나오는 중입니다.
+  useEffect(() => {
+    if (isLoading) console.log('사용자 정보를 불러오는 중...');
+    if (isError) {
+      if ((error as any).response?.status === 401) {
+        console.log('로그인이 필요합니다.');
+      } else {
+        console.log('사용자 정보를 불러오는 데 실패했습니다');
+      }
+    }
+  }, [isError, isLoading, error]);
+
+  const isOwner = currentUser?.id === activity.id;
 
   return (
     <>
@@ -56,22 +74,24 @@ export default function ActivityInfo({ activity }: Props) {
             </span>
           </div>
         </div>
-        <div className='relative inline-block' ref={dropdownRef}>
-          <button aria-label='더보기' onClick={handleClickButton}>
-            <Image
-              src='/images/icons/MoreIcon.svg'
-              alt=''
-              width={28}
-              height={28}
-            />
-          </button>
+        {isOwner && (
+          <div className='relative inline-block' ref={dropdownRef}>
+            <button aria-label='더보기' onClick={handleClickButton}>
+              <Image
+                src='/images/icons/MoreIcon.svg'
+                alt=''
+                width={28}
+                height={28}
+              />
+            </button>
 
-          {isOpen && (
-            <div className='absolute right-7 top-0 z-10'>
-              <DropdownList activityId={activity.id} />
-            </div>
-          )}
-        </div>
+            {isOpen && (
+              <div className='absolute right-7 top-0 z-10'>
+                <DropdownList activityId={activity.id} />
+              </div>
+            )}
+          </div>
+        )}
       </section>
     </>
   );

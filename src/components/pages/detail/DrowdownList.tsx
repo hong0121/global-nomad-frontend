@@ -2,10 +2,11 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+
 import { deleteActivityById } from '@/src/services/pages/myExperiences/api';
 import ConfirmModal from '../../primitives/modal/ConfirmModal';
 import AlertModal from '../../primitives/modal/AlertModal';
-import { useMutation } from '@tanstack/react-query';
 
 interface Props {
   activityId: number;
