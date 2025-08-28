@@ -1,8 +1,8 @@
 'use client';
 
-import { deleteActivityById } from '@/src/services/pages/detail/activity';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { deleteActivityById } from '@/src/services/pages/myExperiences/api';
 import ConfirmModal from '../../primitives/modal/ConfirmModal';
 import AlertModal from '../../primitives/modal/AlertModal';
 import { useMutation } from '@tanstack/react-query';
@@ -67,7 +67,7 @@ export default function DropdownList({ activityId }: Props) {
 
   // 체험 수정하기 페이지로 이동
   const handleUpdate = () => {
-    router.push('/myCreateExperiences');
+    router.push('/myUpdateExperiences');
   };
 
   return (
