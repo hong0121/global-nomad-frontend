@@ -11,6 +11,9 @@ export default function LoggingOutGnb() {
       <div className='flex items-center gap-5'>
         <button className='relative' onClick={() => setIsModalVisible(true)}>
           <BellIcon />
+          {isModalVisible && (
+            <NotificationModal setVisible={setIsModalVisible} />
+          )}
         </button>
         <span className='w-[1px] h-[14px] bg-gray-100' />
         <div className='relative'>
@@ -25,11 +28,6 @@ export default function LoggingOutGnb() {
           </button>
         </div>
       </div>
-      <NotificationModal
-        visible={isModalVisible}
-        setVisible={setIsModalVisible}
-        className='absolute top-10 gnb:top-10 right-11 gnb:left-[82.5%]'
-      />
     </div>
   );
 }
