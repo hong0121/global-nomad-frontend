@@ -10,8 +10,7 @@ export default function MyExperienceCard({ data }: { data: IActivity }) {
       <div className='flex flex-col gap-2.5 lg:gap-3'>
         <h1 className='text-16 lg:text-18 font-bold'>{data.title}</h1>
         <div className='flex gap-0.5'>
-          <StarIcon width='14' height='14' className='block lg:hidden' />
-          <StarIcon width='16' height='16' className='hidden lg:block' />
+          <StarIcon className='w-3.5 h-3.5 lg:w-4 lg:h-4' />
           <span className='text-13 lg:text-16 text-gray-500'>
             {data.rating}
           </span>
