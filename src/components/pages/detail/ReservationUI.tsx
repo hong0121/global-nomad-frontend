@@ -1,13 +1,13 @@
 'use client';
 
-import Calendar from './Calendar';
 import { useCalendar } from '@/src/hooks/useCalendar';
 import { IActivity, ISchedule } from '@/src/types/scheduleType';
 import { useEffect, useState } from 'react';
-import PersonStepper from './PersonStepper';
-import DateButton from './DateButton';
 import { format } from 'date-fns';
 import Button from '@/src/components/primitives/Button';
+import DateButton from './DateSelector/DateButton';
+import PersonStepper from './DateSelector/PersonStepper';
+import Calendar from './DateSelector/Calendar';
 
 export default function ReservationUI({ activity }: { activity: IActivity }) {
   const { dateSelector } = useCalendar();

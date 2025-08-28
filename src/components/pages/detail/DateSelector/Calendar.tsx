@@ -23,7 +23,7 @@ export default function Calendar() {
   };
 
   return (
-    <article className='w-sm'>
+    <article className='w-full'>
       <span className='text-16 font-bold'>날짜</span>
       <div className='w-full flex justify-between items-center'>
         <div className='space-x-2'>
