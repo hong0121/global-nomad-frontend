@@ -44,7 +44,7 @@ export default function ActivityInfo({ activity }: Props) {
     }
   }, [isError, isLoading, error]);
 
-  const isOwner = currentUser?.id === activity.id;
+  const isOwner = currentUser?.id === activity.userId;
 
   return (
     <>
