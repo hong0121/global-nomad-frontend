@@ -9,12 +9,14 @@ export default function LoggingOutGnb() {
   return (
     <div className='relative'>
       <div className='flex items-center gap-5'>
-        <button className='relative' onClick={() => setIsModalVisible(true)}>
-          <BellIcon />
+        <div className='relative'>
+          <button onClick={() => setIsModalVisible(!isModalVisible)}>
+            <BellIcon />
+          </button>
           {isModalVisible && (
             <NotificationModal setVisible={setIsModalVisible} />
           )}
-        </button>
+        </div>
         <span className='w-[1px] h-[14px] bg-gray-100' />
         <div className='relative'>
           <button className='flex items-center gap-[10px]'>
