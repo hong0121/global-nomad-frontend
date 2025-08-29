@@ -3,13 +3,23 @@
 import { addMonths, format } from 'date-fns';
 import ArrowLeft from '@/public/images/icons/ArrowLeft.svg';
 import ArrowRight from '@/public/images/icons/ArrowRight.svg';
-import { useCalendar } from '@/src/hooks/useCalendar';
 import { useCallback } from 'react';
 import CalendarDay from '@/src/components/primitives/CalendarDay';
+import { ISchedule } from '@/src/types/scheduleType';
+import { useReservationStore } from '@/src/store/ReservationStore';
+import { availableDateWithDaysArray } from '@/src/utils/mergeTwoDateArray';
+import { useCalendar } from '@/src/hooks/useCalendar';
 
-export default function Calendar() {
-  const { daysArray, dateSelector, displayController } = useCalendar();
+export default function Calendar({
+  availableDate,
+}: {
+  availableDate: ISchedule[];
+}) {
+  const { dateSelector } = useReservationStore();
+  const { daysArray: plainDaysArray, displayController } = useCalendar();
   const yoil = ['일', '월', '화', '수', '목', '금', '토'];
+
+  const daysArray = availableDateWithDaysArray(availableDate, plainDaysArray);
 
   const dateSetter = useCallback((date: Date) => {
     dateSelector.setSelectedDate(date);
@@ -54,10 +64,11 @@ export default function Calendar() {
         {daysArray.map((day, i) => (
           <CalendarDay
             key={i}
-            date={day}
+            date={day.date}
+            isAvailable={day.times ? true : false}
             currentDate={displayController.dateToDisplay}
-            dateCallback={dateSetter}
             selected={dateSelector.selectedDate}
+            dateCallback={dateSetter}
           />
         ))}
       </div>
