@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 
 import { deleteActivityById } from '@/src/services/pages/myExperiences/api';
@@ -26,9 +27,14 @@ export default function DropdownList({ activityId }: Props) {
       setConfirmOpen(false);
       setAlertOpen(true);
     },
-    onError: (error: any) => {
-      const status = error.response?.status;
+    onError: (error: unknown) => {
+      let status: number | undefined;
       let message = '삭제에 실패했습니다.';
+
+      // AxiosError 타입인지 체크
+      if (axios.isAxiosError(error)) {
+        status = error.response?.status;
+      }
 
       if (status === 400)
         message = '신청 예약이 있는 체험은 삭제할 수 없습니다.';
