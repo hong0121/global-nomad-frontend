@@ -3,32 +3,14 @@ import Image from 'next/image';
 import DropdownList from './DrowdownList';
 import { useEffect, useRef, useState } from 'react';
 import { useCurrentUser } from '@/src/hooks/useCurrentUser';
+import { useDropdown } from '@/src/hooks/pages/detail/useDropdown';
 
 interface Props {
   activity: Activity;
 }
 
 export default function ActivityInfo({ activity }: Props) {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const handleClickButton = () => {
-    setIsOpen((pre) => !pre);
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
+  const { isOpen, toggleDropdown, dropdownRef } = useDropdown();
   const { data: currentUser, isLoading, isError, error } = useCurrentUser();
 
   // 디버깅용 코드
@@ -76,7 +58,7 @@ export default function ActivityInfo({ activity }: Props) {
         </div>
         {isOwner && (
           <div className='relative inline-block' ref={dropdownRef}>
-            <button aria-label='더보기' onClick={handleClickButton}>
+            <button aria-label='더보기' onClick={toggleDropdown}>
               <Image
                 src='/images/icons/MoreIcon.svg'
                 alt=''
