@@ -2,9 +2,7 @@ import { Activity } from '@/src/types/activityType';
 import Image from 'next/image';
 import DropdownList from './DrowdownList';
 import { useDropdown } from '@/src/hooks/pages/detail/useDropdown';
-import { useQueryClient } from '@tanstack/react-query';
-import { UserResponseType } from '@/src/types/userType';
-import { queries } from '@/src/services/primitives/queries';
+import useCurrentUser from '@/src/hooks/useCurrentUser';
 
 interface Props {
   activity: Activity;
@@ -12,10 +10,7 @@ interface Props {
 
 export default function ActivityInfo({ activity }: Props) {
   const { isOpen, toggleDropdown, dropdownRef } = useDropdown();
-  const queryClient = useQueryClient();
-  const currentUser = queryClient.getQueryData<UserResponseType>(
-    queries.user()
-  );
+  const currentUser = useCurrentUser();
 
   // 유저가 만든 체험 여부 확인
   const isOwner = currentUser?.id === activity.userId;
