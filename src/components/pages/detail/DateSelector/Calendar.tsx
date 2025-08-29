@@ -15,11 +15,14 @@ export default function Calendar({
 }: {
   availableDate: ISchedule[];
 }) {
-  const { dateSelector } = useReservationStore();
-  const { daysArray: plainDaysArray, displayController } = useCalendar();
+  const { dateSelector, displayController } = useReservationStore();
+  const { daysArray } = useCalendar();
   const yoil = ['일', '월', '화', '수', '목', '금', '토'];
 
-  const daysArray = availableDateWithDaysArray(availableDate, plainDaysArray);
+  const daysArrayWithAvailableDate = availableDateWithDaysArray(
+    availableDate,
+    daysArray
+  );
 
   const dateSetter = useCallback((date: Date) => {
     dateSelector.setSelectedDate(date);
@@ -61,7 +64,7 @@ export default function Calendar({
             {yoil}
           </div>
         ))}
-        {daysArray.map((day, i) => (
+        {daysArrayWithAvailableDate.map((day, i) => (
           <CalendarDay
             key={i}
             date={day.date}

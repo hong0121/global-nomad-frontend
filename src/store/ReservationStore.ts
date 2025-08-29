@@ -5,6 +5,10 @@ interface IReservationStore {
     selectedDate: Date;
     setSelectedDate: (date: Date) => void;
   };
+  displayController: {
+    dateToDisplay: Date;
+    setDateToDisplay: (date: Date | ((prevDate: Date) => Date)) => void;
+  };
   personSelector: {
     person: number;
     incrementPerson: () => void;
@@ -22,6 +26,19 @@ export const useReservationStore = create<IReservationStore>()((set) => ({
     setSelectedDate: (by) =>
       set((state) => ({
         dateSelector: { ...state.dateSelector, selectedDate: by },
+      })),
+  },
+  displayController: {
+    dateToDisplay: new Date(),
+    setDateToDisplay: (dateOrUpdater) =>
+      set((state) => ({
+        displayController: {
+          ...state.displayController,
+          dateToDisplay:
+            typeof dateOrUpdater === 'function'
+              ? dateOrUpdater(state.displayController.dateToDisplay)
+              : dateOrUpdater,
+        },
       })),
   },
   personSelector: {
