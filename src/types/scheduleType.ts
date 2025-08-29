@@ -40,7 +40,7 @@ export interface IActivity {
   address: string;
   bannerImageUrl: string;
   subImages: ISubImage[];
-  schedules: IAvailableReservationSchedule[];
+  schedules: ISchedule[];
   reviewCount: number;
   rating: number;
   createdAt: string;

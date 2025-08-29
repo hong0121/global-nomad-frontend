@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   /* typography */
@@ -49,6 +49,7 @@
   /* breakpoint */
   --breakpoint-md: 744px; /* 744px~ tablet */
   --breakpoint-lg: 1200px; /* 1200px~ web */
+  --breakpoint-gnb: 1580px;
 }
 
 @layer base {

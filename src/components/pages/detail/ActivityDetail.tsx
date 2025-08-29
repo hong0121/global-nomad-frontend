@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { REVIEWS_PER_PAGE } from '@/src/constant/pagination';
 import { Review, ReviewResponse } from '@/src/types/reviewType';
 import { Activity } from '@/src/types/activityType';
+import { format } from 'date-fns';
 
 interface Props {
   activity: Activity;
@@ -117,9 +118,10 @@ export default function ActivityDetail({ activity, reviewData }: Props) {
             <h3 className='inline-block text-14 font-semibold mb-2 md:text-16 md:font-bold'>
               {review.user.nickname}{' '}
               <span className='text-gray-300 text-12 font-semibold md:text-14 md:font-medium'>
-                {new Date(review.createdAt)
-                  .toLocaleDateString()
-                  .replace(/\.$/, '')}
+                {format(
+                  review.updatedAt ? review.updatedAt : review.createdAt,
+                  'yyyy. M. dd'
+                )}
               </span>
             </h3>
             <div className='flex md:mb-2.5'>

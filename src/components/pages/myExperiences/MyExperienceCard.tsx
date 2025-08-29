@@ -1,0 +1,40 @@
+'use client';
+
+import { IActivity } from '@/src/types/scheduleType';
+import StarIcon from '@/public/images/icons/StarFilled.svg';
+import ExperienceButton from './ExperienceButton';
+
+export default function MyExperienceCard({ data }: { data: IActivity }) {
+  return (
+    <div className='p-6 flex justify-between rounded-3xl shadow'>
+      <div className='flex flex-col gap-2.5 lg:gap-3'>
+        <h1 className='text-16 lg:text-18 font-bold'>{data.title}</h1>
+        <div className='flex gap-0.5'>
+          <StarIcon className='w-3.5 h-3.5 lg:w-4 lg:h-4' />
+          <span className='text-13 lg:text-16 text-gray-500'>
+            {data.rating}
+          </span>
+          <span className='text-13 lg:text-16 text-gray-500'>
+            ({data.reviewCount})
+          </span>
+        </div>
+        <h2 className='text-16 lg:text-18 font-bold'>
+          &#8361; {data.price.toLocaleString()} <span>&#47; 인</span>
+        </h2>
+        <div className='flex gap-2'>
+          <ExperienceButton size='sm' variant='outline'>
+            수정하기
+          </ExperienceButton>
+          <ExperienceButton size='sm' variant='outline' alert={true}>
+            삭제하기
+          </ExperienceButton>
+        </div>
+      </div>
+      <img
+        src={data.subImages[0].imageUrl}
+        alt='행사 이미지 URL'
+        className='h-[82px] lg:h-[142px] aspect-square rounded-3xl object-cover'
+      />
+    </div>
+  );
+}
