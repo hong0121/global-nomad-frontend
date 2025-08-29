@@ -17,7 +17,8 @@ export default function useKakaoLoginUser() {
       await kakaoLoginUser(data),
     onSuccess: async (data: TokenUserResponseType) => {
       queryClient.setQueryData(queries.user(), data.user); // 리액트 쿼리 데이터 캐싱
-      await setTokenAction(data); // 토큰 쿠키 설정
+      localStorage.setItem('accessToken', data.accessToken); // 액세스 토큰 로컬스토리지 저장
+      await setTokenAction(data.refreshToken); // 리프레시 토큰 쿠키 설정
       router.replace('/');
     },
     onError: () => {
