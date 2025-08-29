@@ -4,50 +4,92 @@ import { IActivity } from '@/src/types/scheduleType';
 import Button from '@/src/components/primitives/Button';
 import PersonStepper from './DateSelector/PersonStepper';
 import Calendar from './DateSelector/Calendar';
-import { useReservationStore } from '@/src/store/ReservationStore';
 import TimeSelectorButtons from './DateSelector/TimeSelector';
+import { useState } from 'react';
+import { useBreakPoint } from '@/src/hooks/useBreakPoint';
+import BackIcon from '@/public/images/icons/BackIcon.svg';
 
-export default function ReservationUI({ activity }: { activity: IActivity }) {
-  const { personSelector, timeSelector } = useReservationStore();
+export default function ResponsiveReservationUI({
+  activity,
+  setIsPopupVisible,
+}: {
+  activity: IActivity;
+  setIsPopupVisible: (state: boolean) => void;
+}) {
+  const [page, setPage] = useState(1);
+  const { isLg, isMd } = useBreakPoint();
 
   const handleReserveClick = () => {
-    console.log({
-      scheduleId: timeSelector.timeId!,
-      headCount: personSelector.person,
-    });
+    setIsPopupVisible(false);
   };
 
-  return (
-    <section className='w-fit p-[30px] rounded-2xl shadow space-y-6'>
-      <div className='flex items-center gap-1'>
-        <h2 className='text-24 font-bold'>
-          &#8361; {activity.price.toLocaleString()}
-        </h2>
-        <span className='text-20 text-[#79747E]'>&#47; 1명</span>
-      </div>
-      <Calendar availableDate={activity.schedules} />
-      <div className='flex justify-between items-center'>
-        <h3 className='text-16 font-bold'>참여 인원 수</h3>
-        <PersonStepper />
-      </div>
-      <div className='flex flex-col gap-3.5'>
-        <h3 className='text-16 font-bold'>예약 가능한 시간</h3>
-        <TimeSelectorButtons schedules={activity.schedules} />
-      </div>
-      {timeSelector.timeId && (
-        <div className='flex justify-between items-center'>
-          <div className='text-20 flex gap-2'>
-            <h3 className='text-[#79747e]'>총 합계</h3>
-            <h4 className='font-bold'>
-              &#8361;{' '}
-              {(activity.price * personSelector.person).toLocaleString()}
-            </h4>
-          </div>
-          <Button variant='primary' size='lg' onClick={handleReserveClick}>
-            예약하기
+  if (!isLg && !isMd) {
+    return (
+      <>
+        <section className='w-full px-6 pt-6 rounded-2xl space-y-6'>
+          {page === 1 ? (
+            <article>
+              <Calendar availableDate={activity.schedules} />
+              <div className='flex flex-col gap-3.5'>
+                <h3 className='text-16 font-bold'>예약 가능한 시간</h3>
+                <TimeSelectorButtons
+                  schedules={activity.schedules}
+                  onClickCapture={() => setPage(2)}
+                />
+              </div>
+            </article>
+          ) : (
+            <article className='flex flex-col gap-5'>
+              <div className='flex items-center gap-2'>
+                <button onClick={() => setPage(1)}>
+                  <BackIcon />
+                </button>
+                <h2 className='text-18 font-bold'>인원</h2>
+              </div>
+              <p>예약할 인원을 선택해주세요.</p>
+              <div className='flex justify-between items-center'>
+                <h3 className='text-16 font-bold'>참여 인원 수</h3>
+                <PersonStepper />
+              </div>
+            </article>
+          )}
+        </section>
+        <div className='px-7 pt-10 pb-4'>
+          <Button variant='primary' size='lg' full onClick={handleReserveClick}>
+            확인
           </Button>
         </div>
-      )}
-    </section>
-  );
+      </>
+    );
+  } else if (!isLg && isMd) {
+    return (
+      <>
+        <section className='w-full px-7 pt-6 grid grid-cols-[auto_301px] rounded-2xl gap-6'>
+          <Calendar availableDate={activity.schedules} />
+          <div className='px-6 py-7 space-y-9 shadow-lg rounded-xl'>
+            <div className='flex flex-col gap-3.5'>
+              <h3 className='text-16 font-bold'>예약 가능한 시간</h3>
+              <TimeSelectorButtons schedules={activity.schedules} />
+            </div>
+            <div className='w-full flex flex-col gap-5'>
+              <h3 className='text-16 font-bold'>참여 인원 수</h3>
+              <PersonStepper />
+            </div>
+          </div>
+        </section>
+        <section>
+          <div className='px-7 pt-10 pb-4'>
+            <Button
+              variant='primary'
+              size='lg'
+              full
+              onClick={handleReserveClick}
+            >
+              확인
+            </Button>
+          </div>
+        </section>
+      </>
+    );
+  }
 }

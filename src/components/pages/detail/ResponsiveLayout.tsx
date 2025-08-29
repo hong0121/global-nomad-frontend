@@ -10,6 +10,7 @@ import ReservationUI from './ReservationUI';
 import PopupWrapper from '../../primitives/popup/PopupWrapper';
 import ActivityFooter from './ActivityFooter';
 import { useEffect, useState } from 'react';
+import ResponsiveReservationUI from './ResponsiveReservationUI';
 
 interface Props {
   activity: Activity;
@@ -56,9 +57,11 @@ export default function ResponsiveLayout({ activity, reviewData }: Props) {
           <PopupWrapper
             isVisible={!isLg && isPopupVisible}
             setIsVisible={setIsPopupVisible}
-            className='bottom-[108px]'
           >
-            <ReservationUI activity={activity} />
+            <ResponsiveReservationUI
+              activity={activity}
+              setIsPopupVisible={setIsPopupVisible}
+            />
           </PopupWrapper>
           {/* 예약 컴포넌트 들어갈 자리 */}
         </div>
