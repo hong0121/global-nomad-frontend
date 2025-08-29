@@ -21,8 +21,9 @@ export default function ResponsiveLayout({ activity, reviewData }: Props) {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   useEffect(() => {
-    document.body.style.overflow = isPopupVisible ? 'hidden' : 'scroll';
-  }, [isPopupVisible]);
+    document.body.style.overflow =
+      isPopupVisible && !isLg ? 'hidden' : 'scroll';
+  }, [isPopupVisible, isLg]);
 
   return (
     <div className='mt-12'>
