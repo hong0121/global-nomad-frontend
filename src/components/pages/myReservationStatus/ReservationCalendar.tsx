@@ -5,14 +5,17 @@ import { addMonths, format } from 'date-fns';
 import LeftArrowIcon from '@/public/images/icons/ArrowLeft.svg';
 import RightArrowIcon from '@/public/images/icons/ArrowRight.svg';
 import ReservationDay from './ReservationDay';
-import { IReservedSchedule, IScheduleCount } from '@/src/types/scheduleType';
+import { IReservedSchedule } from '@/src/types/scheduleType';
+import { mergeScheduleWithDays } from '@/src/utils/mergeTwoDateArray';
+import { getDaysArray } from '@/src/utils/getDaysArray';
 
 export default function ReservationCalendar({
   schedule,
 }: {
   schedule: IReservedSchedule[];
 }) {
-  const { daysArray, dateSelector, displayController } = useCalendar();
+  const { displayController } = useCalendar();
+  const daysArray = getDaysArray(new Date());
   const yoils = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
   const handleLeftClick = () => {
@@ -24,24 +27,6 @@ export default function ReservationCalendar({
 
   const displayYear = format(displayController.dateToDisplay, 'yyyy');
   const displayMonth = format(displayController.dateToDisplay, 'M');
-
-  const mergeScheduleWithDays = (
-    schedule: IReservedSchedule[],
-    days: Date[]
-  ) => {
-    const scheduleMap = new Map<string, IScheduleCount>();
-
-    schedule.forEach((item) => {
-      scheduleMap.set(item.date, item.reservations);
-    });
-
-    return days.map((day) => {
-      return {
-        schedule: scheduleMap.get(format(day, 'yyyy-MM-dd')) ?? null,
-        date: day,
-      };
-    });
-  };
 
   const mappedScheduleToDate = mergeScheduleWithDays(schedule, daysArray);
 
