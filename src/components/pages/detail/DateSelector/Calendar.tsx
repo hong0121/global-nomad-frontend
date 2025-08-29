@@ -3,7 +3,6 @@
 import { addMonths, format } from 'date-fns';
 import ArrowLeft from '@/public/images/icons/ArrowLeft.svg';
 import ArrowRight from '@/public/images/icons/ArrowRight.svg';
-import { useCallback } from 'react';
 import CalendarDay from '@/src/components/primitives/CalendarDay';
 import { ISchedule } from '@/src/types/scheduleType';
 import { useReservationStore } from '@/src/store/ReservationStore';
@@ -23,10 +22,6 @@ export default function Calendar({
     availableDate,
     daysArray
   );
-
-  const dateSetter = useCallback((date: Date) => {
-    dateSelector.setSelectedDate(date);
-  }, []);
 
   const handleLeftClick = () => {
     displayController.setDateToDisplay((prev) => addMonths(prev, -1));
@@ -71,7 +66,6 @@ export default function Calendar({
             isAvailable={day.times ? true : false}
             currentDate={displayController.dateToDisplay}
             selected={dateSelector.selectedDate}
-            dateCallback={dateSetter}
           />
         ))}
       </div>

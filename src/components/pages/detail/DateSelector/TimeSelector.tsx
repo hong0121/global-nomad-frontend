@@ -11,13 +11,7 @@ export default function TimeSelectorButtons({
 }) {
   const { dateSelector, timeSelector } = useReservationStore();
   const [availableTimeInSelectedDate, setAvailableTimeInSelectedDate] =
-    useState<ISchedule[] | null>(
-      () =>
-        schedules.filter(
-          (schedule) =>
-            schedule.date !== format(dateSelector.selectedDate, 'yyyy-MM-dd')
-        ) ?? null
-    );
+    useState<ISchedule[] | null>(null);
 
   useEffect(() => {
     setAvailableTimeInSelectedDate(
@@ -35,7 +29,6 @@ export default function TimeSelectorButtons({
           key={time.id}
           selectedValue={timeSelector.timeId}
           value={time.id}
-          callback={timeSelector.setTimeId}
         >
           {time.startTime} &tilde; {time.endTime}
         </TimeButton>
@@ -48,13 +41,12 @@ function TimeButton({
   children,
   value,
   selectedValue,
-  callback,
 }: {
   children: React.ReactNode;
   value: number;
   selectedValue: number | null;
-  callback: (time: number) => void;
 }) {
+  const { timeSelector } = useReservationStore();
   return (
     <label
       className={cn(
@@ -67,7 +59,7 @@ function TimeButton({
         name='time'
         className='sr-only'
         value={value}
-        onChange={() => callback(value)}
+        onChange={() => timeSelector.setTimeId(value)}
       />
       {children}
     </label>

@@ -1,4 +1,4 @@
-import { cn } from '@/src/utils/cn';
+import { useReservationStore } from '@/src/store/ReservationStore';
 import { dateToCalendarDate } from '@/src/utils/dateParser';
 import { format } from 'date-fns';
 
@@ -7,16 +7,15 @@ export default function CalendarDay({
   currentDate,
   selected,
   isAvailable,
-  dateCallback,
 }: {
-  date: Date;
+  date: string;
   currentDate: Date;
   selected: Date;
   isAvailable: boolean;
-  dateCallback: (selected: Date) => void;
 }) {
   const currentMonth = format(currentDate, 'MM');
-  const calendarDate = dateToCalendarDate(date);
+  const calendarDate = dateToCalendarDate(new Date(date));
+  const { dateSelector } = useReservationStore();
 
   const availableDateClasses =
     isAvailable &&
@@ -34,7 +33,7 @@ export default function CalendarDay({
   return (
     <button
       className={`w-[46px] h-[46px] rounded-full text-center hover:bg-gray-100 ${yoilClasses} ${prevNextMonthClasses} ${selectedClasses} ${availableDateClasses}`}
-      onClick={() => dateCallback(date)}
+      onClick={() => dateSelector.setSelectedDate(new Date(date))}
     >
       {calendarDate.day}
     </button>

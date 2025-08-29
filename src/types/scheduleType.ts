@@ -10,7 +10,7 @@ export interface IScheduleCount {
 }
 
 export interface IAvailableReservationSchedule {
-  date: Date;
+  date: string;
   times:
     | {
         endTime: string;
