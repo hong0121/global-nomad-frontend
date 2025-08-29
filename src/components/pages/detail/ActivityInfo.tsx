@@ -1,9 +1,10 @@
 import { Activity } from '@/src/types/activityType';
 import Image from 'next/image';
 import DropdownList from './DrowdownList';
-import { useEffect, useRef, useState } from 'react';
-import { useCurrentUser } from '@/src/hooks/useCurrentUser';
 import { useDropdown } from '@/src/hooks/pages/detail/useDropdown';
+import { useQueryClient } from '@tanstack/react-query';
+import { UserResponseType } from '@/src/types/userType';
+import { queries } from '@/src/services/primitives/queries';
 
 interface Props {
   activity: Activity;
@@ -11,21 +12,12 @@ interface Props {
 
 export default function ActivityInfo({ activity }: Props) {
   const { isOpen, toggleDropdown, dropdownRef } = useDropdown();
-  const { data: currentUser, isLoading, isError, error } = useCurrentUser();
+  const queryClient = useQueryClient();
+  const currentUser = queryClient.getQueryData<UserResponseType>(
+    queries.user()
+  );
 
-  // 디버깅용 코드
-  // 현재 브라우저 저장소에 토큰 저장이 안되어 401에러 나오는 중입니다.
-  useEffect(() => {
-    if (isLoading) console.log('사용자 정보를 불러오는 중...');
-    if (isError) {
-      if ((error as any).response?.status === 401) {
-        console.log('로그인이 필요합니다.');
-      } else {
-        console.log('사용자 정보를 불러오는 데 실패했습니다');
-      }
-    }
-  }, [isError, isLoading, error]);
-
+  // 유저가 만든 체험 여부 확인
   const isOwner = currentUser?.id === activity.userId;
 
   return (
