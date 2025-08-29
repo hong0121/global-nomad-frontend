@@ -10,12 +10,14 @@ export interface IScheduleCount {
 }
 
 export interface IAvailableReservationSchedule {
-  date: string;
-  times: {
-    endTime: string;
-    startTime: string;
-    id: number;
-  }[];
+  date: Date;
+  times:
+    | {
+        endTime: string;
+        startTime: string;
+        id: number;
+      }[]
+    | null;
 }
 
 export interface ISubImage {
@@ -45,4 +47,9 @@ export interface IActivity {
   rating: number;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface IReservation {
+  scheduleId: number;
+  headCount: number;
 }

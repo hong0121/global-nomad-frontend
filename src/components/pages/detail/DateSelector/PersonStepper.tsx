@@ -1,36 +1,25 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useReservationStore } from '@/src/store/ReservationStore';
 
-export default function PersonStepper({
-  callback,
-}: {
-  callback: (person: number) => void;
-}) {
-  const [person, setPerson] = useState<number>(1);
+export default function PersonStepper() {
+  const { personSelector } = useReservationStore();
   const handleMinusClick = () => {
-    setPerson((prev) => {
-      if (prev <= 1) return 1;
-      else return prev - 1;
-    });
+    if (personSelector.person <= 1) return;
+    else personSelector.decrementPerson();
   };
   const handlePlusClick = () => {
-    setPerson((prev) => {
-      if (prev >= 30) return 30;
-      else return prev + 1;
-    });
+    if (personSelector.person >= 30) return;
+    else personSelector.incrementPerson();
   };
 
-  useEffect(() => {
-    callback(person);
-  }, [person, callback]);
   return (
     <div className='w-[140px] px-[9px] border border-[#EEEEEE] rounded-3xl flex justify-around'>
       <button className='w-[40px] h-[40px]' onClick={handleMinusClick}>
         -
       </button>
       <span className='text-16 font-bold w-[40px] h-[40px] grid place-items-center'>
-        {person}
+        {personSelector.person}
       </span>
       <button className='w-[40px] h-[40px]' onClick={handlePlusClick}>
         +
