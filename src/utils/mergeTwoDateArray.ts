@@ -1,6 +1,5 @@
 import { format } from 'date-fns';
 import {
-  IAvailableReservationSchedule,
   IReservedSchedule,
   ISchedule,
   IScheduleCount,
@@ -28,7 +27,7 @@ export function availableDateWithDaysArray(
   availableDate: ISchedule[],
   dateArray: Date[]
 ) {
-  return dateArray.map((day): IAvailableReservationSchedule => {
+  return dateArray.map((day) => {
     const availableTime = availableDate.filter(
       (date) => format(day, 'yyyy-MM-dd') === date.date
     );

@@ -27,32 +27,31 @@ export default function ResponsiveReservationUI({
     return (
       <>
         <section className='w-full px-6 pt-6 rounded-2xl space-y-6'>
-          {page === 1 ? (
-            <article>
-              <Calendar availableDate={activity.schedules} />
-              <div className='flex flex-col gap-3.5'>
-                <h3 className='text-16 font-bold'>예약 가능한 시간</h3>
-                <TimeSelectorButtons
-                  schedules={activity.schedules}
-                  onClickCapture={() => setPage(2)}
-                />
-              </div>
-            </article>
-          ) : (
-            <article className='flex flex-col gap-5'>
-              <div className='flex items-center gap-2'>
-                <button onClick={() => setPage(1)}>
-                  <BackIcon />
-                </button>
-                <h2 className='text-18 font-bold'>인원</h2>
-              </div>
-              <p>예약할 인원을 선택해주세요.</p>
-              <div className='flex justify-between items-center'>
-                <h3 className='text-16 font-bold'>참여 인원 수</h3>
-                <PersonStepper />
-              </div>
-            </article>
-          )}
+          <article className={`${page === 1 ? 'block' : 'hidden'}`}>
+            <Calendar availableDate={activity.schedules} />
+            <div className='flex flex-col gap-3.5'>
+              <h3 className='text-16 font-bold'>예약 가능한 시간</h3>
+              <TimeSelectorButtons
+                schedules={activity.schedules}
+                onClickCapture={() => setPage(2)}
+              />
+            </div>
+          </article>
+          <article
+            className={`flex flex-col gap-5 ${page === 2 ? 'block' : 'hidden'}`}
+          >
+            <div className='flex items-center gap-2'>
+              <button onClick={() => setPage(1)}>
+                <BackIcon />
+              </button>
+              <h2 className='text-18 font-bold'>인원</h2>
+            </div>
+            <p>예약할 인원을 선택해주세요.</p>
+            <div className='flex justify-between items-center'>
+              <h3 className='text-16 font-bold'>참여 인원 수</h3>
+              <PersonStepper />
+            </div>
+          </article>
         </section>
         <div className='px-7 pt-10 pb-4'>
           <Button variant='primary' size='lg' full onClick={handleReserveClick}>

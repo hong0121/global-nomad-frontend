@@ -1,6 +1,5 @@
 'use client';
 
-import { useCalendar } from '@/src/hooks/useCalendar';
 import { addMonths, format } from 'date-fns';
 import LeftArrowIcon from '@/public/images/icons/ArrowLeft.svg';
 import RightArrowIcon from '@/public/images/icons/ArrowRight.svg';
@@ -8,13 +7,14 @@ import ReservationDay from './ReservationDay';
 import { IReservedSchedule } from '@/src/types/scheduleType';
 import { mergeScheduleWithDays } from '@/src/utils/mergeTwoDateArray';
 import { getDaysArray } from '@/src/utils/getDaysArray';
+import { useReservationStore } from '@/src/store/ReservationStore';
 
 export default function ReservationCalendar({
   schedule,
 }: {
   schedule: IReservedSchedule[];
 }) {
-  const { displayController } = useCalendar();
+  const { displayController } = useReservationStore();
   const daysArray = getDaysArray(new Date());
   const yoils = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 

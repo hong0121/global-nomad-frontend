@@ -62,7 +62,7 @@ export default function Calendar({
         {daysArrayWithAvailableDate.map((day, i) => (
           <CalendarDay
             key={i}
-            date={day.date}
+            date={format(day.date, 'yyyy-MM-dd')}
             isAvailable={day.times ? true : false}
             currentDate={displayController.dateToDisplay}
             selected={dateSelector.selectedDate}
