@@ -6,6 +6,10 @@ import ActivityInfo from '@/src/components/pages/detail/ActivityInfo';
 import { useBreakPoint } from '@/src/hooks/useBreakPoint';
 import { Activity } from '@/src/types/activityType';
 import { ReviewResponse } from '@/src/types/reviewType';
+import ReservationUI from './ReservationUI';
+import PopupWrapper from '../../primitives/popup/PopupWrapper';
+import ActivityFooter from './ActivityFooter';
+import { useEffect, useState } from 'react';
 
 interface Props {
   activity: Activity;
@@ -14,9 +18,14 @@ interface Props {
 
 export default function ResponsiveLayout({ activity, reviewData }: Props) {
   const { isLg } = useBreakPoint();
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = isPopupVisible ? 'hidden' : 'scroll';
+  }, [isPopupVisible]);
 
   return (
-    <div>
+    <div className='mt-12'>
       {isLg ? (
         // 데스크탑
         <div className='flex justify-center gap-5 mx-0'>
@@ -26,17 +35,32 @@ export default function ResponsiveLayout({ activity, reviewData }: Props) {
           </div>
           <div className='max-w-[410px] w-full'>
             <ActivityInfo activity={activity} />
+            <ReservationUI activity={activity} />
             {/* 예약 컴포넌트 들어갈 자리 */}
           </div>
         </div>
       ) : (
-        <>
+        <div
+          className={`mt-12 px-5 ${isPopupVisible ? 'overflow-hidden' : 'overflow-auto'}`}
+        >
           {/* 테블릿 / 모바일 */}
           <ActivityImage activity={activity} />
           <ActivityInfo activity={activity} />
           <ActivityDetail activity={activity} reviewData={reviewData} />
+          <ActivityFooter
+            activity={activity}
+            isPopupVisible={isPopupVisible}
+            setIsPopupVisible={setIsPopupVisible}
+          />
+          <PopupWrapper
+            isVisible={!isLg && isPopupVisible}
+            setIsVisible={setIsPopupVisible}
+            className='bottom-[108px]'
+          >
+            <ReservationUI activity={activity} />
+          </PopupWrapper>
           {/* 예약 컴포넌트 들어갈 자리 */}
-        </>
+        </div>
       )}
     </div>
   );
