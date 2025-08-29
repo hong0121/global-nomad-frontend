@@ -17,6 +17,7 @@ export default function RootLayout({
     <html lang='ko'>
       <body className={pretendard.className}>
         <QueryProvider>{children}</QueryProvider>
+        <div id='portal' />
       </body>
     </html>
   );
