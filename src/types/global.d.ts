@@ -5,6 +5,9 @@ declare global {
 
   namespace kakao.maps {
     class Map {
+      getCenter() {
+        throw new Error('Method not implemented.');
+      }
       constructor(container: HTMLElement, options: any);
       setCenter(latlng: LatLng): void;
       destroy(): void;
