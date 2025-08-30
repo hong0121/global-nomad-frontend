@@ -1,11 +1,20 @@
 import { Activity } from '@/src/types/activityType';
 import Image from 'next/image';
+import DropdownList from './DrowdownList';
+import { useDropdown } from '@/src/hooks/pages/detail/useDropdown';
+import useCurrentUser from '@/src/hooks/useCurrentUser';
 
 interface Props {
   activity: Activity;
 }
 
 export default function ActivityInfo({ activity }: Props) {
+  const { isOpen, toggleDropdown, dropdownRef } = useDropdown();
+  const currentUser = useCurrentUser();
+
+  // 유저가 만든 체험 여부 확인
+  const isOwner = currentUser?.id === activity.userId;
+
   return (
     <>
       <section className='flex items-start justify-between pt-5 md:pt-6 pb-5 md:pb-6 border-b border-gray-100 lg:border-none'>
@@ -34,14 +43,24 @@ export default function ActivityInfo({ activity }: Props) {
             </span>
           </div>
         </div>
-        <button aria-label='더보기'>
-          <Image
-            src='/images/icons/MoreIcon.svg'
-            alt=''
-            width={28}
-            height={28}
-          />
-        </button>
+        {isOwner && (
+          <div className='relative inline-block' ref={dropdownRef}>
+            <button aria-label='더보기' onClick={toggleDropdown}>
+              <Image
+                src='/images/icons/MoreIcon.svg'
+                alt=''
+                width={28}
+                height={28}
+              />
+            </button>
+
+            {isOpen && (
+              <div className='absolute right-7 top-0 z-10'>
+                <DropdownList activityId={activity.id} />
+              </div>
+            )}
+          </div>
+        )}
       </section>
     </>
   );

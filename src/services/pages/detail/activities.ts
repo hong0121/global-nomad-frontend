@@ -1,13 +1,9 @@
-import { Activity } from '@/src/types/activityType';
+import { IActivity } from '@/src/types/scheduleType';
 import { apiClient } from '../../primitives/apiClient';
 
-/**
- * @param activityId 체험 ID
- * @returns Activity 객체
- */
-
-// 특정 activityId의 체험 상세 조회
-export async function getActivityById(activityId: number): Promise<Activity> {
+export async function getActivityDetail(
+  activityId: number
+): Promise<IActivity> {
   try {
     const res = await apiClient.get(`/activities/${activityId}`);
     return res.data;
