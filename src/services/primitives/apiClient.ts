@@ -2,6 +2,8 @@ import { queries } from '@/src/services/primitives/queries';
 import { getQueryClient } from '@/src/utils/getQueryClient';
 import axios from 'axios';
 
+const PUBLIC_PATHS = ['/', '/detail', '/login', '/signup'];
+
 export const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
@@ -24,6 +26,7 @@ apiClient.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     const status = error?.status || error?.response?.status;
+    const currentPath = window.location.pathname;
 
     // 401 에러 - 액세스 토큰 만료시
     if (status === 401 && !originalRequest._retry) {
@@ -49,8 +52,14 @@ apiClient.interceptors.response.use(
         const queryClient = getQueryClient();
         queryClient.removeQueries({ queryKey: queries.user() });
 
-        // 3. 로그인 페이지로 이동
-        window.location.href = '/login';
+        const isPublicPath = PUBLIC_PATHS.includes(currentPath);
+
+        if (!isPublicPath) {
+          // 3. 인증 필요 O - 로그인 페이지 이동
+          window.location.href = '/login';
+        }
+        // 3. 인증 필요 X - 현재 페이지 유지
+
         return Promise.reject(error);
       }
     }
