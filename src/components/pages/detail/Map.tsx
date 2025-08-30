@@ -10,8 +10,8 @@ interface Props {
 
 export default function ActivityMap({ activity }: Props) {
   const mapRef = useRef<HTMLDivElement | null>(null);
-  const mapInstanceRef = useRef<any | null>(null);
-  const markerCoordsRef = useRef<any | null>(null);
+  const mapInstanceRef = useRef<kakao.maps.Map | null>(null);
+  const markerCoordsRef = useRef<kakao.maps.LatLng | null>(null);
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
 
   const fallbackCoords = { lat: 37.5665, lng: 126.978 };
@@ -74,12 +74,9 @@ export default function ActivityMap({ activity }: Props) {
     // 주소 검색
     const geocoder = new window.kakao.maps.services.Geocoder();
 
-    geocoder.addressSearch(activity.address, (result: any[], status: any) => {
-      if (
-        status === window.kakao.maps.services.Status.OK &&
-        result.length > 0
-      ) {
-        const coords = new window.kakao.maps.LatLng(
+    geocoder.addressSearch(activity.address, (result, status) => {
+      if (status === 'OK' && result.length > 0) {
+        const coords = new kakao.maps.LatLng(
           parseFloat(result[0].y),
           parseFloat(result[0].x)
         );
