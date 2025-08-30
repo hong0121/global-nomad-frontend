@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import RatingText from './RatingText';
+import Map from './Map';
 import { useState } from 'react';
 import { REVIEWS_PER_PAGE } from '@/src/constants/pagination';
 import { Review, ReviewResponse } from '@/src/types/reviewType';
@@ -80,7 +81,7 @@ export default function ActivityDetail({ activity, reviewData }: Props) {
       <section className='pt-5 pb-5 border-b border-gray-100 md:pt-7.5 md:pb-10 lg:pt-10 lg:pb-pb-10'>
         <h2 className='text-16 font-bold mb-2 md:text-18'>오시는 길</h2>
         <p className='text-14 font-medium mb-2'>{activity.address}</p>
-        <div>----카카오지도 들어갈 자리----</div>
+        <Map activity={activity} />
       </section>
 
       {/* 체험 후기 */}
