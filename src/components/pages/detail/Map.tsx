@@ -11,6 +11,7 @@ interface Props {
 export default function ActivityMap({ activity }: Props) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const mapInstanceRef = useRef<any | null>(null);
+  const markerCoordsRef = useRef<any | null>(null);
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
 
   const fallbackCoords = { lat: 37.5665, lng: 126.978 };
@@ -74,8 +75,6 @@ export default function ActivityMap({ activity }: Props) {
     const geocoder = new window.kakao.maps.services.Geocoder();
 
     geocoder.addressSearch(activity.address, (result: any[], status: any) => {
-      console.log('Address search:', { status, result });
-
       if (
         status === window.kakao.maps.services.Status.OK &&
         result.length > 0
@@ -84,6 +83,8 @@ export default function ActivityMap({ activity }: Props) {
           parseFloat(result[0].y),
           parseFloat(result[0].x)
         );
+
+        markerCoordsRef.current = coords;
 
         map.setCenter(coords);
 
@@ -95,6 +96,7 @@ export default function ActivityMap({ activity }: Props) {
         // 지도 리사이즈
         setTimeout(() => {
           window.kakao.maps.event.trigger(map, 'resize');
+          map.setCenter(coords);
         }, 100);
       }
     });
@@ -105,6 +107,10 @@ export default function ActivityMap({ activity }: Props) {
     const handleResize = () => {
       if (mapInstanceRef.current && window.kakao?.maps?.event) {
         window.kakao.maps.event.trigger(mapInstanceRef.current, 'resize');
+
+        if (markerCoordsRef.current) {
+          mapInstanceRef.current.setCenter(markerCoordsRef.current);
+        }
       }
     };
 
