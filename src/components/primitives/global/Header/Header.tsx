@@ -1,12 +1,24 @@
 'use client';
 import LoggingInGnb from '@/src/components/primitives/global/Header/LoggingInGnb';
 import LoggingOutGnb from '@/src/components/primitives/global/Header/LoggingOutGnb';
+import { queries } from '@/src/services/primitives/queries';
+import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Header() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    setAccessToken(localStorage.getItem('accessToken'));
+    setHasMounted(true);
+  }, []);
+
+  const { data: userInfo } = useQuery(queries.userOptions(accessToken));
+
+  if (!hasMounted) return null;
 
   return (
     <header className='absolute top-0 left-0 right-0'>
@@ -30,7 +42,7 @@ export default function Header() {
           </Link>
         </h1>
 
-        <nav>{isLogin ? <LoggingOutGnb /> : <LoggingInGnb />}</nav>
+        <nav>{!userInfo ? <LoggingOutGnb /> : <LoggingInGnb />}</nav>
       </div>
     </header>
   );
