@@ -1,4 +1,5 @@
 import { queries } from '@/src/services/primitives/queries';
+import { deleteTokenAction } from '@/src/services/primitives/tokenAction';
 import { getQueryClient } from '@/src/utils/getQueryClient';
 import axios from 'axios';
 
@@ -48,17 +49,20 @@ apiClient.interceptors.response.use(
         // 1. accessToken 로컬스토리지에서 삭제
         localStorage.removeItem('accessToken');
 
-        // 2. 리액트 쿼리 유저 정보 초기화
+        // 2. refreshToken 쿠키에서 삭제
+        deleteTokenAction();
+
+        // 3. 리액트 쿼리 유저 정보 초기화
         const queryClient = getQueryClient();
         queryClient.removeQueries({ queryKey: queries.user() });
 
         const isPublicPath = PUBLIC_PATHS.includes(currentPath);
 
         if (!isPublicPath) {
-          // 3. 인증 필요 O - 로그인 페이지 이동
+          // 4. 인증 필요 O - 로그인 페이지 이동
           window.location.href = '/login';
         }
-        // 3. 인증 필요 X - 현재 페이지 유지
+        // 4. 인증 필요 X - 현재 페이지 유지
 
         return Promise.reject(error);
       }
