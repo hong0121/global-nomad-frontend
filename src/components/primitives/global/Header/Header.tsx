@@ -30,7 +30,7 @@ export default function Header() {
           </Link>
         </h1>
 
-        <nav>{!userInfo ? <LoggingOutGnb /> : <LoggingInGnb />}</nav>
+        <nav>{!!userInfo ? <LoggingInGnb /> : <LoggingOutGnb />}</nav>
       </div>
     </header>
   );
