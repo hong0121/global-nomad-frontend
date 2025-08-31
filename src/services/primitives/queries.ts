@@ -3,7 +3,7 @@ import { queryOptions } from '@tanstack/react-query';
 
 export const queries = {
   user: () => ['user'],
-  userOptions: (accessToken: string | null) =>
+  userOptions: (accessToken: string | null | undefined) =>
     queryOptions({
       queryKey: [...queries.user()],
       queryFn: () => getUserInfo(),
