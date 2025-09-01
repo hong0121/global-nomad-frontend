@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import RatingText from './RatingText';
 import { useState } from 'react';
-import { REVIEWS_PER_PAGE } from '@/src/constant/pagination';
+import { REVIEWS_PER_PAGE } from '@/src/constants/pagination';
 import { Review, ReviewResponse } from '@/src/types/reviewType';
 import { Activity } from '@/src/types/activityType';
 import { format } from 'date-fns';
