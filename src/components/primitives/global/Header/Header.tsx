@@ -1,12 +1,12 @@
 'use client';
 import LoggingInGnb from '@/src/components/primitives/global/Header/LoggingInGnb';
 import LoggingOutGnb from '@/src/components/primitives/global/Header/LoggingOutGnb';
+import useCurrentUser from '@/src/hooks/useCurrentUser';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
 
 export default function Header() {
-  const [isLogin, setIsLogin] = useState(false);
+  const userInfo = useCurrentUser();
 
   return (
     <header className='absolute top-0 left-0 right-0'>
@@ -30,7 +30,7 @@ export default function Header() {
           </Link>
         </h1>
 
-        <nav>{isLogin ? <LoggingOutGnb /> : <LoggingInGnb />}</nav>
+        <nav>{!!userInfo ? <LoggingInGnb /> : <LoggingOutGnb />}</nav>
       </div>
     </header>
   );

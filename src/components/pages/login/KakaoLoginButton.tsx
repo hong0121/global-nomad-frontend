@@ -1,14 +1,20 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Button from '@/src/components/primitives/Button';
 import { KAKAO_AUTH_URL_LOGIN } from '@/src/constants/social';
 import KakaoIcon from '@/public/images/icons/KakaoIcon.svg';
 
 export default function KakaoLoginButton() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectPath = searchParams.get('redirect_path');
 
-  const handleClick = () => router.replace(KAKAO_AUTH_URL_LOGIN);
+  const linkUrl = redirectPath
+    ? `${KAKAO_AUTH_URL_LOGIN}&state=${redirectPath}`
+    : KAKAO_AUTH_URL_LOGIN;
+
+  const handleClick = () => router.replace(linkUrl);
 
   return (
     <>
