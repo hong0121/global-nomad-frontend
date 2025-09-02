@@ -25,7 +25,7 @@ export default function PopupWrapper({
             />
             <div
               className={cn(
-                'fixed bottom-0 left-0 w-full bg-white rounded-t-xl z-[2]',
+                'fixed bottom-0 left-0 w-full bg-white rounded-t-xl z-[2] max-h-full overflow-scroll',
                 className
               )}
             >

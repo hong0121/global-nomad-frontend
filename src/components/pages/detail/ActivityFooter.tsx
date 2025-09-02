@@ -25,7 +25,7 @@ export default function ActivityFooter({
   };
 
   return (
-    <nav className='fixed bottom-0 left-0 w-full space-y-3 px-6 py-4 bg-white border-t border-[#e6e6e6]'>
+    <div className='fixed bottom-0 left-0 w-full space-y-3 px-6 py-4 bg-white border-t border-[#e6e6e6]'>
       <div className='w-full flex justify-between'>
         <h1 className='text-18 font-bold'>
           {activity.price.toLocaleString()}
@@ -43,6 +43,6 @@ export default function ActivityFooter({
       <Button variant='primary' full onClick={handleReserveClick}>
         예약하기
       </Button>
-    </nav>
+    </div>
   );
 }
