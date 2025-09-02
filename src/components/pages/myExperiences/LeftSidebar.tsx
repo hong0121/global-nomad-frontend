@@ -18,7 +18,7 @@ export default function LeftSidebar() {
   const { setPage } = useContext(PageContext);
 
   return (
-    <aside className='shadow w-[290px] h-fit px-3.5 py-6 m-auto flex flex-col items-center rounded-2xl'>
+    <aside className='shadow w-[290px] h-fit px-3.5 py-6 m-auto sm:m-0 flex flex-col items-center rounded-2xl'>
       <div className='relative'>
         <Image src={DefaultImgIcon} alt='기본 아바타' />
         <button className='absolute bottom-0 right-0 w-[30px] h-[30px] rounded-full bg-gray-300'>
