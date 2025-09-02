@@ -5,7 +5,7 @@ import AlertModal from '@/src/components/primitives/modal/AlertModal';
 import { createUser } from '@/src/services/pages/signup/api';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 interface FormDataType {
@@ -26,8 +26,6 @@ const alertInit = {
 export default function SignupForm() {
   const router = useRouter();
   const [alertModal, setAlertModal] = useState(alertInit);
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [alertMsg, setAlertMsg] = useState('');
   const {
     register,
     handleSubmit,
