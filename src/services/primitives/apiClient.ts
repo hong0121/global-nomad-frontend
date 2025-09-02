@@ -1,9 +1,17 @@
 import { queries } from '@/src/services/primitives/queries';
 import { deleteTokenAction } from '@/src/services/primitives/tokenAction';
+import { useTokenStore } from '@/src/store/useTokenStore';
 import { getQueryClient } from '@/src/utils/getQueryClient';
 import axios from 'axios';
 
-const PUBLIC_PATHS = ['/', '/detail', '/login', '/signup'];
+const PUBLIC_PATH_PATTERNS = [
+  /^\/$/,
+  /^\/detail\/\d+$/,
+  /^\/login$/,
+  /^\/login\/social\/kakao$/,
+  /^\/signup$/,
+  /^\/signup\/social\/kakao$/,
+];
 
 export const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -11,7 +19,8 @@ export const apiClient = axios.create({
 
 // request - 토큰 주입
 apiClient.interceptors.request.use((config) => {
-  const accessToken = localStorage.getItem('accessToken');
+  const accessToken = useTokenStore.getState().accessToken;
+
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
@@ -37,17 +46,18 @@ apiClient.interceptors.response.use(
       try {
         // 1. 토큰 갱신 라우터 핸들러 호출
         const { data } = await axios.post('/api/refreshToken');
+        const { accessToken } = data;
 
-        // 2. 새로운 액세스 토큰 저장
-        localStorage.setItem('accessToken', data.newAccessToken);
+        // 2. 새로운 액세스 토큰 zustand로 로컬스토리지에 저장
+        useTokenStore.getState().setAccessToken(accessToken);
 
         // 3. 다시 api 요청
-        originalRequest.headers.Authorization = `Bearer ${data.newAccessToken}`;
+        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return apiClient(originalRequest);
       } catch (error) {
-        // 리프레시 토큰 만료시,
-        // 1. accessToken 로컬스토리지에서 삭제
-        localStorage.removeItem('accessToken');
+        // 리프레시 토큰 만료시, 로그아웃 처리
+        // 1. accessToken을 zustand로 로컬스토리지에서 삭제
+        useTokenStore.getState().deleteAccessToken();
 
         // 2. refreshToken 쿠키에서 삭제
         deleteTokenAction();
@@ -56,7 +66,9 @@ apiClient.interceptors.response.use(
         const queryClient = getQueryClient();
         queryClient.removeQueries({ queryKey: queries.user() });
 
-        const isPublicPath = PUBLIC_PATHS.includes(currentPath);
+        const isPublicPath = PUBLIC_PATH_PATTERNS.some((regex) =>
+          regex.test(currentPath)
+        );
 
         if (!isPublicPath) {
           // 4. 인증 필요 O - 로그인 페이지 이동

@@ -25,6 +25,7 @@ export async function POST() {
     // 3. 리프레시 토큰으로 토큰 재발급 요청
     const { data } = await axios.post<TokenReissueResponse>(
       `${process.env.NEXT_PUBLIC_API_URL}/auth/tokens`,
+      { refreshToken },
       {
         headers: {
           Authorization: `Bearer ${refreshToken}`,
@@ -36,7 +37,7 @@ export async function POST() {
     await setTokenAction(data.refreshToken);
 
     // 5. 토큰 반환
-    return NextResponse.json({ data });
+    return NextResponse.json({ ...data });
   } catch (error) {
     const err = error as AxiosError;
     const status = err.response?.status || 500;

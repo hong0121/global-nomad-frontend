@@ -1,9 +1,10 @@
 'use client';
 import LoadingSpinner from '@/src/components/primitives/LoadingSpinner';
 import { queries } from '@/src/services/primitives/queries';
+import { useTokenStore } from '@/src/store/useTokenStore';
 import { useQuery } from '@tanstack/react-query';
 import { usePathname, useRouter } from 'next/navigation';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 interface Props {
   children: ReactNode;
@@ -12,35 +13,33 @@ interface Props {
 export default function AuthProvicder({ children }: Props) {
   const pathname = usePathname();
   const router = useRouter();
-  const [accessToken, setAccessToken] = useState<string | null | undefined>(
-    undefined
-  );
+  const accessToken = useTokenStore((state) => state.accessToken);
+
   // 리액트쿼리는 액세스 토큰이 있고, 유효한 액세스 토큰을 넘겨주었을 때에만 페칭을 시작함.
-  const { isFetched, data: userInfo } = useQuery({
+  const { isLoading, data: userInfo } = useQuery({
     ...queries.userOptions(accessToken),
+    retry: false,
   });
-
-  const isLoggingIn = !!userInfo;
-
-  const AUTH_PATHS = ['/login', '/signup'];
-  const PUBLIC_PATH_PATTERNS = [/^\/$/, /^\/detail\/\d+$/];
-
-  const isAuthPath = AUTH_PATHS.includes(pathname);
-  const isPublicPath = PUBLIC_PATH_PATTERNS.some((regex) =>
-    regex.test(pathname)
-  );
-
-  useEffect(() => {
-    // 클라이언트에서만 localStorage 접근 가능
-    setAccessToken(localStorage.getItem('accessToken'));
-  }, []);
 
   // 리다이렉트 분기
   useEffect(() => {
-    // accessToken 가져오기 전이라면 retrn
-    if (accessToken === undefined) return;
-    // accessToken에 값이 null이 아니고, 첫 데이터 가져오는 중이라면 return
-    if (accessToken !== null && !isFetched) return;
+    // accessToken이 undefined 이거나 리액트 쿼리 페칭중이라면 return
+    if (accessToken === undefined || isLoading) return;
+
+    const isLoggingIn = !!userInfo;
+
+    const AUTH_PATHS = [
+      '/login',
+      '/signup',
+      '/login/social/kakao',
+      '/signup/social/kakao',
+    ];
+    const PUBLIC_PATH_PATTERNS = [/^\/$/, /^\/detail\/\d+$/];
+
+    const isAuthPath = AUTH_PATHS.includes(pathname);
+    const isPublicPath = PUBLIC_PATH_PATTERNS.some((regex) =>
+      regex.test(pathname)
+    );
 
     // 로그인 상태일때
     if (isLoggingIn) {
@@ -58,10 +57,10 @@ export default function AuthProvicder({ children }: Props) {
         router.replace(`/login?redirect_path=${pathname}`);
       }
     }
-  }, [pathname, router, isLoggingIn, accessToken, isFetched]);
+  }, [pathname, router, accessToken, isLoading, userInfo]);
 
-  // 유저 정보 api 요청시에는 로딩 보여주기.
-  if (accessToken === undefined || (accessToken !== null && !isFetched))
+  // // accessToken이 undefined 이거나 리액트 쿼리 페칭중이라면 로딩 보여주기.
+  if (accessToken === undefined || isLoading)
     return (
       <div className='flex items-center justify-center w-screen h-screen'>
         <LoadingSpinner />
