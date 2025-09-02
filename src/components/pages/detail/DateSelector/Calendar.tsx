@@ -3,17 +3,25 @@
 import { addMonths, format } from 'date-fns';
 import ArrowLeft from '@/public/images/icons/ArrowLeft.svg';
 import ArrowRight from '@/public/images/icons/ArrowRight.svg';
-import { useCalendar } from '@/src/hooks/useCalendar';
-import { useCallback } from 'react';
 import CalendarDay from '@/src/components/primitives/CalendarDay';
+import { ISchedule } from '@/src/types/scheduleType';
+import { useReservationStore } from '@/src/store/ReservationStore';
+import { availableDateWithDaysArray } from '@/src/utils/mergeTwoDateArray';
+import { useCalendar } from '@/src/hooks/useCalendar';
 
-export default function Calendar() {
-  const { daysArray, dateSelector, displayController } = useCalendar();
+export default function Calendar({
+  availableDate,
+}: {
+  availableDate: ISchedule[];
+}) {
+  const { dateSelector, displayController } = useReservationStore();
+  const { daysArray } = useCalendar();
   const yoil = ['일', '월', '화', '수', '목', '금', '토'];
 
-  const dateSetter = useCallback((date: Date) => {
-    dateSelector.setSelectedDate(date);
-  }, []);
+  const daysArrayWithAvailableDate = availableDateWithDaysArray(
+    availableDate,
+    daysArray
+  );
 
   const handleLeftClick = () => {
     displayController.setDateToDisplay((prev) => addMonths(prev, -1));
@@ -23,8 +31,8 @@ export default function Calendar() {
   };
 
   return (
-    <article className='w-sm'>
-      <span className='text-16 font-bold'>날짜</span>
+    <article className='w-full'>
+      <span className='hidden lg:block text-16 font-bold'>날짜</span>
       <div className='w-full flex justify-between items-center'>
         <div className='space-x-2'>
           <span>{format(displayController.dateToDisplay, 'MMMM')}</span>
@@ -51,12 +59,12 @@ export default function Calendar() {
             {yoil}
           </div>
         ))}
-        {daysArray.map((day, i) => (
+        {daysArrayWithAvailableDate.map((day, i) => (
           <CalendarDay
             key={i}
-            date={day}
+            date={format(day.date, 'yyyy-MM-dd')}
+            isAvailable={day.times ? true : false}
             currentDate={displayController.dateToDisplay}
-            dateCallback={dateSetter}
             selected={dateSelector.selectedDate}
           />
         ))}
