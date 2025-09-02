@@ -48,7 +48,7 @@ export default function LoginForm() {
           placeholder='이메일을 입력해 주세요'
           errorMessage={errors.email?.message}
           {...register('email', {
-            required: '이메일을 입력해 주세요',
+            required: '이메일을 입력해 주세요.',
             pattern: {
               value: EMAIL_REGEXP,
               message: '이메일 형식으로 작성해주세요.',
@@ -64,10 +64,10 @@ export default function LoginForm() {
           placeholder='비밀번호를 입력해 주세요'
           errorMessage={errors.password?.message}
           {...register('password', {
-            required: '비밀번호를 입력해 주세요',
+            required: '비밀번호를 입력해 주세요.',
             minLength: {
               value: 8,
-              message: '8자 이상 작성해 주세요.',
+              message: '8자 이상 입력해주세요.',
             },
             setValueAs: (v) => v.trim(),
           })}
