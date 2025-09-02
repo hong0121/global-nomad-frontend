@@ -75,7 +75,7 @@ export default function LoginForm() {
         <Button
           size='lg'
           full
-          className='mt-[10px]'
+          className='mt-2 md:mt-[10px]'
           disabled={!isValid || isSubmitting}
         >
           로그인하기
