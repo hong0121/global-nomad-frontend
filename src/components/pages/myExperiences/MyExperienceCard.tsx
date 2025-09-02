@@ -5,8 +5,9 @@ import StarIcon from '@/public/images/icons/StarFilled.svg';
 import ExperienceButton from './ExperienceButton';
 
 export default function MyExperienceCard({ data }: { data: IActivity }) {
+  // TODO: 카드 클릭하면 체험 관리 페이지로 가게
   return (
-    <div className='p-6 flex justify-between rounded-3xl shadow'>
+    <div className='w-full p-6 flex justify-between rounded-3xl shadow'>
       <div className='flex flex-col gap-2.5 lg:gap-3'>
         <h1 className='text-16 lg:text-18 font-bold'>{data.title}</h1>
         <div className='flex gap-0.5'>
