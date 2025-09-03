@@ -34,13 +34,13 @@ export default function ReservationCalendar({
     <section className='w-[375px] md:w-[476px] lg:w-[640px] rounded-2xl shadow space-y-6'>
       <div className='w-full py-6 flex justify-center items-center gap-8'>
         <button onClick={handleLeftClick}>
-          <LeftArrowIcon />
+          <LeftArrowIcon className='w-6 h-6' />
         </button>
         <span className='text-20 font-bold'>
           {displayYear}년 {displayMonth}월
         </span>
         <button onClick={handleRightClick}>
-          <RightArrowIcon />
+          <RightArrowIcon className='w-6 h-6' />
         </button>
       </div>
       <div className='grid grid-cols-7 place-items-center'>
