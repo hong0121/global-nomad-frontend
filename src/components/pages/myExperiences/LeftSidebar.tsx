@@ -14,8 +14,6 @@ import ProfilePicture from './ProfilePicture';
 export default function LeftSidebar() {
   const pathname = usePathname();
   const { setPage } = useContext(PageContext);
-
-  // TODO: 버튼마다 필요한 데이터 객체로 만들어서 배열 렌더링하기
   return (
     <aside className='shadow w-[290px] h-fit px-3.5 py-6 m-auto sm:m-0 flex flex-col items-center rounded-2xl'>
       <ProfilePicture />
