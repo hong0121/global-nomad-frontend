@@ -1,22 +1,37 @@
 'use client';
 
-import { forwardRef, InputHTMLAttributes } from 'react';
+import { forwardRef, InputHTMLAttributes, TextareaHTMLAttributes } from 'react';
+import { cn } from '@/src/utils/cn';
 import PasswordInput from './PasswordInput';
 import Input from './Input';
-import { cn } from '@/src/utils/cn';
+import TextareaInput from './TextareaInput';
 
 interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   errorMessage?: string;
   isPassword?: boolean;
+  isTextarea?: boolean;
   variant?: 'default' | 'experience' | 'auth';
 }
 
-const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
-  ({ label, errorMessage, isPassword, variant = 'default', ...props }, ref) => {
+const FormInput = forwardRef<
+  HTMLInputElement | HTMLTextAreaElement,
+  FormInputProps
+>(
+  (
+    {
+      label,
+      errorMessage,
+      isPassword,
+      isTextarea,
+      variant = 'default',
+      ...props
+    },
+    ref
+  ) => {
     const variantLabelStyles = cn({
-      'font-bold text-base text-gray-950': variant === 'default',
-      'font-medium text-base text-gray-950': variant === 'experience',
+      'font-bold text-medium text-gray-950': variant === 'default',
+      'font-bold text-base text-gray-950': variant === 'experience',
       'font-medium text-lg text-text-gray-950': variant === 'auth',
     });
 
@@ -28,15 +43,21 @@ const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
     return (
       <div className='flex flex-col gap-2.5'>
         <label className={variantLabelStyles}>{label}</label>
-        {isPassword ? (
+        {isTextarea ? (
+          <TextareaInput
+            ref={ref as React.Ref<HTMLTextAreaElement>}
+            {...(props as TextareaHTMLAttributes<HTMLTextAreaElement>)}
+            className={cn(baseBorder, focusBorder, errorBorder)}
+          />
+        ) : isPassword ? (
           <PasswordInput
-            ref={ref}
+            ref={ref as React.Ref<HTMLInputElement>}
             {...props}
             className={cn(baseBorder, focusBorder, errorBorder)}
           />
         ) : (
           <Input
-            ref={ref}
+            ref={ref as React.Ref<HTMLInputElement>}
             {...props}
             className={cn(baseBorder, focusBorder, errorBorder)}
           />
