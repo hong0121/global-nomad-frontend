@@ -4,90 +4,73 @@ import UserIcon from '@/public/images/icons/UserIcon.svg';
 import ListIcon from '@/public/images/icons/ListIcon.svg';
 import SettingIcon from '@/public/images/icons/SettingIcon.svg';
 import CalendarIcon from '@/public/images/icons/CalendarIcon.svg';
-import Link from 'next/link';
 import { cn } from '@/src/utils/cn';
 import { usePathname } from 'next/navigation';
-import { useContext } from 'react';
-import { PageContext } from '@/src/app/(global)/(mypage)/(sidebar)/pageContext';
 import ProfilePicture from './ProfilePicture';
+import SidebarTabs from '../sidebar/Tabs';
+
+interface ISidebarButtons {
+  href: string;
+  text: string;
+  icon: (className: string) => React.ReactNode;
+}
 
 export default function LeftSidebar() {
   const pathname = usePathname();
-  const { setPage } = useContext(PageContext);
+
+  const buttonsStyle = {
+    buttonClass:
+      'w-full h-[54px] flex gap-2 items-center py-3 pl-5 text-gray-600 rounded-2xl transition-colors hover:bg-primary-100',
+    buttonActiveClass: 'text-gray-950 bg-primary-100',
+    iconClass: 'fill-gray-600',
+    iconActiveClass: 'fill-primary-500',
+  };
+  const buttons: ISidebarButtons[] = [
+    {
+      href: '/myInfo',
+      text: '내 정보',
+      icon: (className) => <UserIcon className={className} />,
+    },
+    {
+      href: '/myReservation',
+      text: '예약 내역',
+      icon: (className) => <ListIcon className={className} />,
+    },
+    {
+      href: '/myExperiences',
+      text: '내 체험 관리',
+      icon: (className) => <SettingIcon className={className} />,
+    },
+    {
+      href: '/myReservationStatus',
+      text: '예약 현황',
+      icon: (className) => <CalendarIcon className={className} />,
+    },
+  ];
+
   return (
     <aside className='shadow w-[290px] h-fit px-3.5 py-6 m-auto sm:m-0 flex flex-col items-center rounded-2xl'>
       <ProfilePicture />
-      <ul className='w-full mt-6'>
-        <li onClick={() => setPage && setPage(2)}>
-          <Link
-            href={'/myInfo'}
-            className={cn(
-              'w-full h-[54px] flex gap-2 items-center py-3 pl-5 text-gray-600 rounded-2xl transition-colors hover:bg-primary-100',
-              pathname === '/myInfo' && 'text-gray-950 bg-primary-100'
-            )}
-          >
-            <UserIcon
-              className={cn(
-                'fill-gray-600',
-                pathname === '/myInfo' && 'fill-primary-500'
+      <SidebarTabs.Root defaultValue='/myInfo'>
+        <SidebarTabs.List className='w-full mt-6 space-y-2'>
+          {buttons.map((button, i) => (
+            <SidebarTabs.Item
+              value={button.href}
+              key={i}
+              className={buttonsStyle.buttonClass}
+              selectedClassName={buttonsStyle.buttonActiveClass}
+            >
+              {button.icon(
+                cn(
+                  buttonsStyle.iconClass,
+                  button.href === pathname && buttonsStyle.iconActiveClass
+                )
               )}
-            />
-            내 정보
-          </Link>
-        </li>
-        <li onClick={() => setPage && setPage(2)}>
-          <Link
-            href={'/myReservation'}
-            className={cn(
-              'w-full h-[54px] flex gap-2 items-center py-3 pl-5 text-gray-600 rounded-2xl transition-colors hover:bg-primary-100',
-              pathname === '/myReservation' && 'text-gray-950 bg-primary-100'
-            )}
-          >
-            <ListIcon
-              className={cn(
-                'fill-gray-600',
-                pathname === '/myReservation' && 'fill-primary-500'
-              )}
-            />
-            예약 내역
-          </Link>
-        </li>
-        <li onClick={() => setPage && setPage(2)}>
-          <Link
-            href={'/myExperiences'}
-            className={cn(
-              'w-full h-[54px] flex gap-2 items-center py-3 pl-5 text-gray-600 rounded-2xl transition-colors hover:bg-primary-100',
-              pathname === '/myExperiences' && 'text-gray-950 bg-primary-100'
-            )}
-          >
-            <SettingIcon
-              className={cn(
-                'fill-gray-600',
-                pathname === '/myExperiences' && 'fill-primary-500'
-              )}
-            />
-            내 체험 관리
-          </Link>
-        </li>
-        <li onClick={() => setPage && setPage(2)}>
-          <Link
-            href={'/myReservationStatus'}
-            className={cn(
-              'w-full h-[54px] flex gap-2 items-center py-3 pl-5 text-gray-600 rounded-2xl transition-colors hover:bg-primary-100',
-              pathname === '/myReservationStatus' &&
-                'text-gray-950 bg-primary-100'
-            )}
-          >
-            <CalendarIcon
-              className={cn(
-                'fill-gray-600',
-                pathname === '/myReservationStatus' && 'fill-primary-500'
-              )}
-            />
-            예약 현황
-          </Link>
-        </li>
-      </ul>
+              {button.text}
+            </SidebarTabs.Item>
+          ))}
+        </SidebarTabs.List>
+      </SidebarTabs.Root>
     </aside>
   );
 }
