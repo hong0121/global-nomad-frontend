@@ -1,8 +1,5 @@
 'use client';
 
-import Image from 'next/image';
-import DefaultImgIcon from '@/public/images/Default_Profile.png';
-import EditIcon from '@/public/images/icons/EditIcon.svg';
 import UserIcon from '@/public/images/icons/UserIcon.svg';
 import ListIcon from '@/public/images/icons/ListIcon.svg';
 import SettingIcon from '@/public/images/icons/SettingIcon.svg';
@@ -12,19 +9,16 @@ import { cn } from '@/src/utils/cn';
 import { usePathname } from 'next/navigation';
 import { useContext } from 'react';
 import { PageContext } from '@/src/app/(global)/(mypage)/(sidebar)/pageContext';
+import ProfilePicture from './ProfilePicture';
 
 export default function LeftSidebar() {
   const pathname = usePathname();
   const { setPage } = useContext(PageContext);
 
+  // TODO: 버튼마다 필요한 데이터 객체로 만들어서 배열 렌더링하기
   return (
     <aside className='shadow w-[290px] h-fit px-3.5 py-6 m-auto sm:m-0 flex flex-col items-center rounded-2xl'>
-      <div className='relative'>
-        <Image src={DefaultImgIcon} alt='기본 아바타' />
-        <button className='absolute bottom-0 right-0 w-[30px] h-[30px] rounded-full bg-gray-300'>
-          <EditIcon className='m-auto fill-white' />
-        </button>
-      </div>
+      <ProfilePicture />
       <ul className='w-full mt-6'>
         <li onClick={() => setPage && setPage(2)}>
           <Link
