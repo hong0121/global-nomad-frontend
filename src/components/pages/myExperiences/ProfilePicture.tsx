@@ -22,17 +22,17 @@ export default function ProfilePicture() {
     formData.append('image', e.target.files[0]);
     const { profileImageUrl } = await postAvatar(formData);
     patchMyInfo({ profileImageUrl }).then(() => {
-      queryClient.invalidateQueries({ queryKey: ['user'] });
+      queryClient.invalidateQueries({ queryKey: queries.user() });
     });
   };
 
   return (
-    <div className='relative w-[120px] h-[120px]'>
+    <div className='relative h-[120px] md:h-[70px] lg:h-[120px] aspect-square'>
       {userData && userData.profileImageUrl ? (
         <img
           src={userData.profileImageUrl}
           alt={`${userData.nickname}의 아바타`}
-          className='rounded-full'
+          className='w-full h-full rounded-full object-cover'
         />
       ) : (
         <Image src={'/images/Default_Profile.png'} alt='기본 아바타' fill />
