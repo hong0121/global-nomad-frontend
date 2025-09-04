@@ -4,7 +4,7 @@ import AuthFormHelper from '@/src/components/primitives/auth/AuthFormHelper';
 
 export default function LoginPage() {
   return (
-    <div className='max-w-[640px] mx-auto my-[30px]'>
+    <>
       <LoginForm />
       <KakaoLoginButton />
       <AuthFormHelper
@@ -12,6 +12,6 @@ export default function LoginPage() {
         linkText='회원가입하기'
         linkUrl='/signup'
       />
-    </div>
+    </>
   );
 }
