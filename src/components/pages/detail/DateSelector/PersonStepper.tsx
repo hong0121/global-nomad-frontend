@@ -14,7 +14,7 @@ export default function PersonStepper() {
   };
 
   return (
-    <div className='w-[144px] md:w-full lg:w-[140px] px-[9px] border border-[#EEEEEE] rounded-[12px] lg:rounded-3xl flex justify-around'>
+    <div className='w-[144px] md:w-full lg:w-[140px] px-[9px] border border-[#EEEEEE] rounded-xl lg:rounded-3xl flex justify-around'>
       <button className='w-[40px] h-[40px]' onClick={handleMinusClick}>
         -
       </button>

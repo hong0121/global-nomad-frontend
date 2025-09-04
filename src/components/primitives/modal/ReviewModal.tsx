@@ -83,7 +83,7 @@ export default function ReviewModal({
           onChange={(e) => setContent(e.target.value)}
           maxLength={maxLength}
           placeholder='체험에서 느낀 경험을 자유롭게 남겨주세요'
-          className='text-start border border-gray-100 rounded-[12px] p-5 resize-none w-full h-[179px] overflow-y-auto text-14-body md:text-16-body font-medium shadow-[0_4px_24px_0_#9CB4CA33] mb-2 focus:outline-none'
+          className='text-start border border-gray-100 rounded-xl p-5 resize-none w-full h-[179px] overflow-y-auto text-14-body md:text-16-body font-medium shadow-[0_4px_24px_0_#9CB4CA33] mb-2 focus:outline-none'
         />
         <span className='block w-full text-end mb-5 md:mb-[30px] text-gray-600 text-13'>
           {content.length}/{maxLength}

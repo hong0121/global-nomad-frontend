@@ -65,7 +65,7 @@ export default function ResponsiveReservationUI({
       <>
         <section className='w-full px-7 pt-6 grid grid-cols-[auto_301px] rounded-2xl gap-6'>
           <Calendar availableDate={activity.schedules} />
-          <div className='px-6 py-7 space-y-9 shadow-lg rounded-[12px]'>
+          <div className='px-6 py-7 space-y-9 shadow-lg rounded-xl'>
             <div className='flex flex-col gap-3.5'>
               <h3 className='text-16 font-bold'>예약 가능한 시간</h3>
               <TimeSelectorButtons schedules={activity.schedules} />

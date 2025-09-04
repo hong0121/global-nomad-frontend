@@ -18,7 +18,7 @@ const ButtonVariant = {
 };
 
 const ButtonSize = {
-  sm: 'h-[41px] p-3 rounded-[12px] text-14 md:h-12 md:p-[14px] md:text-16 md:rounded-[14px] lg:h-[54px] lg:p-[17px] lg:rounded-2xl',
+  sm: 'h-[41px] p-3 rounded-xl text-14 md:h-12 md:p-[14px] md:text-16 md:rounded-[14px] lg:h-[54px] lg:p-[17px] lg:rounded-2xl',
   md: 'h-12 p-[14px] text-16 rounded-[14px] lg:h-[54px] lg:p-[17px] lg:rounded-2xl',
   lg: 'h-[54px] p-[17px] rounded-2xl',
 };

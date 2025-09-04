@@ -57,7 +57,7 @@ function TimeButton({
   return (
     <label
       className={cn(
-        'w-full px-4 py-4 rounded-[12px] text-16 text-center border border-gray-300 transition-colors cursor-pointer',
+        'w-full px-4 py-4 rounded-xl text-16 text-center border border-gray-300 transition-colors cursor-pointer',
         selectedValue === value && 'bg-primary-100 border-primary-500'
       )}
     >
