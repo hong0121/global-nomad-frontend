@@ -1,4 +1,3 @@
-import MyReservationCancel from '@/src/components/pages/myReservation/MyReservationCancel';
 import ReservationStatusBadge from '@/src/components/pages/myReservation/ReservationStatusBadge';
 import { MyReservationItem } from '@/src/types/myReservationType';
 import { cn } from '@/src/utils/cn';
@@ -8,9 +7,10 @@ import Link from 'next/link';
 
 interface Props {
   reservation: MyReservationItem;
+  onCancel: (reservationId: number) => void;
 }
 
-export default function MyReservationCard({ reservation }: Props) {
+export default function MyReservationCard({ reservation, onCancel }: Props) {
   const {
     activity,
     scheduleId,
@@ -28,18 +28,14 @@ export default function MyReservationCard({ reservation }: Props) {
     updatedAt,
   } = reservation;
 
+  const hasButtonUI = status === 'pending' || status === 'completed';
+
   return (
     <>
       <div className='px-2 pb-3 text-16 text-gray-800 font-bold lg:hidden'>
         {format(reservation.date, 'yyyy. MM. dd')}
       </div>
-      <div
-        className={cn(
-          'relative',
-          (status === 'pending' || status === 'completed') &&
-            'pb-[50px] lg:pb-[0]'
-        )}
-      >
+      <div className={cn('relative', hasButtonUI && 'pb-[50px] lg:pb-[0]')}>
         <div
           className={`pr-[98px] rounded-3xl shadow-[0px_4px_24px_rgba(156,180,202,0.2)] md:pr-[116px] lg:pr-[155px]`}
         >
@@ -75,7 +71,12 @@ export default function MyReservationCard({ reservation }: Props) {
                 예약 변경
               </button> */}
               {status === 'pending' && (
-                <MyReservationCancel reservationId={id} />
+                <button
+                  className='grow-1 h-full py-[6px] px-[10px] bg-gray-50 rounded-[8px]'
+                  onClick={() => onCancel(id)}
+                >
+                  예약 취소
+                </button>
               )}
               {status === 'completed' && (
                 <button className='grow-1 h-full py-[6px] px-[10px] bg-primary-500 text-white rounded-[8px]'>
@@ -84,7 +85,12 @@ export default function MyReservationCard({ reservation }: Props) {
               )}
             </div>
           </div>
-          <div className='absolute top-0 right-0 bottom-[50px] w-[136px] h-auto rounded-r-3xl overflow-hidden lg:w-[181px] lg:bottom-0'>
+          <div
+            className={cn(
+              'absolute top-0 right-0 bottom-0 w-[136px] h-auto rounded-r-3xl overflow-hidden lg:w-[181px]',
+              hasButtonUI && 'bottom-[50px]'
+            )}
+          >
             <Image
               width={181}
               height={181}
