@@ -60,9 +60,12 @@ export default function ActivityDetail({ activity, reviewData }: Props) {
   // 페이지네이션
   const [currentPage, setCurrentPage] = useState(1);
   const reviewsPerPage = REVIEWS_PER_PAGE;
+  // const totalPages = Math.ceil(reviewData.reviews.length / reviewsPerPage);
+  // 임시 데이터
   const totalPages = Math.ceil(mockreviewData.reviews.length / reviewsPerPage);
 
   const currentReviews = mockreviewData.reviews.slice(
+    // const currentReviews = reviewData.reviews.slice(
     (currentPage - 1) * reviewsPerPage,
     currentPage * reviewsPerPage
   );
@@ -110,8 +113,10 @@ export default function ActivityDetail({ activity, reviewData }: Props) {
           </div>
         </div>
 
-        {/* 리뷰 목록 (현재 임시 데이터) */}
+        {/* 리뷰 목록 */}
+        {/* 임시 데이터 */}
         {currentReviews.map((review: Review) => (
+          // {reviewData.reviews.map((review: Review) => (
           <article
             key={review.id}
             className='w-full rounded-3xl p-5 shadow-[0px_4px_24px_0px_#dde6ef] mb-10 not-even:md:mb-5'
@@ -141,25 +146,28 @@ export default function ActivityDetail({ activity, reviewData }: Props) {
         ))}
 
         {/* 임시 페이지네이션 UI */}
-        <div className='flex justify-center gap-2 w-full mt-10 mb-20'>
-          <button
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage((prev) => prev - 1)}
-          >
-            이전
-          </button>
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button key={i + 1} onClick={() => setCurrentPage(i + 1)}>
-              {i + 1}
+        {mockreviewData.reviews.length > REVIEWS_PER_PAGE && (
+          // {reviewData.reviews.length > REVIEWS_PER_PAGE && (
+          <div className='flex justify-center gap-2 w-full mt-10 mb-20'>
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((prev) => prev - 1)}
+            >
+              이전
             </button>
-          ))}
-          <button
-            disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage((prev) => prev + 1)}
-          >
-            다음
-          </button>
-        </div>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button key={i + 1} onClick={() => setCurrentPage(i + 1)}>
+                {i + 1}
+              </button>
+            ))}
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage((prev) => prev + 1)}
+            >
+              다음
+            </button>
+          </div>
+        )}
       </section>
     </>
   );
