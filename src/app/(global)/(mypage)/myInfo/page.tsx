@@ -1,17 +1,17 @@
 'use client';
 
-import LeftSidebar from '@/src/components/pages/myExperiences/LeftSidebar';
 import { useState } from 'react';
 import UserIcon from '@/public/images/icons/UserIcon.svg';
 import ListIcon from '@/public/images/icons/ListIcon.svg';
 import SettingIcon from '@/public/images/icons/SettingIcon.svg';
 import CalendarIcon from '@/public/images/icons/CalendarIcon.svg';
-import MyInfoPage from './myInfo/page';
-import MyReservationPage from './myReservation/page';
-import MyExperiencesPage from './myExperiences/page';
-import MyReservationStatusPage from './myReservationStatus/page';
 import { cn } from '@/src/utils/cn';
 import { TabContext } from './pageContext';
+import LeftSidebar from '@/src/components/pages/sidebar/LeftSidebar';
+import MyExperiencesPage from './_components/myExperiences';
+import MyInfoPage from './_components/myInfo';
+import MyReservationPage from './_components/myReservation';
+import MyReservationStatusPage from './_components/myReservationStatus';
 
 export interface ISidebarButtons {
   href: string;

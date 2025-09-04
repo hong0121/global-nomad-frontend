@@ -3,8 +3,7 @@
 import { cn } from '@/src/utils/cn';
 import ProfilePicture from './ProfilePicture';
 import SidebarTabs from '../sidebar/Tabs';
-import { ISidebarButtons } from '@/src/app/(global)/(mypage)/(sidebar)/layout';
-import { SIDEBAR_WIDTH } from '@/src/constants/myExperiences';
+import { ISidebarButtons } from '@/src/app/(global)/(mypage)/myInfo/page';
 
 export default function LeftSidebar({
   currentTab,
@@ -25,7 +24,7 @@ export default function LeftSidebar({
 
   return (
     <aside
-      className={`shadow-[0px_4px_24px_rgba(156,180,202,0.2)] min-w-[${SIDEBAR_WIDTH}] px-3.5 py-6 flex flex-col items-center rounded-[16px]`}
+      className={`shadow-[0px_4px_24px_rgba(156,180,202,0.2)] min-w-[290px] px-3.5 py-6 flex flex-col items-center rounded-[16px]`}
     >
       <ProfilePicture />
       <SidebarTabs.Root defaultValue={currentTab}>
