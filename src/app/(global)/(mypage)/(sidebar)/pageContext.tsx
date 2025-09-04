@@ -1,11 +1,11 @@
 import { createContext } from 'react';
 
-interface IPageContext {
-  page: number;
-  setPage: (page: number) => void;
+interface ITabContext {
+  tab: string | null;
+  setTab: (tab: string | null) => void;
 }
 
-export const PageContext = createContext<IPageContext>({
-  page: 1,
-  setPage: () => {},
+export const TabContext = createContext<ITabContext>({
+  tab: null,
+  setTab: () => {},
 });

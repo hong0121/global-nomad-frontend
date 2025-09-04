@@ -1,16 +1,15 @@
 'use client';
 
-import { cn } from '@/src/utils/cn';
 import { createContext, useContext, useState } from 'react';
 
 interface ITabsControl {
-  value: string;
-  setValue: (value: string) => void;
+  value: string | null;
+  setValue: (value: string | null) => void;
   className: string;
 }
 
 const TabsContext = createContext<ITabsControl>({
-  value: '',
+  value: null,
   setValue: () => {},
   className: '',
 });
@@ -21,10 +20,10 @@ function Root({
   className = '',
 }: {
   children: React.ReactNode;
-  defaultValue: string;
+  defaultValue: string | null;
   className?: string;
 }) {
-  const [value, setValue] = useState<string>(defaultValue);
+  const [value, setValue] = useState<string | null>(defaultValue);
 
   return (
     <TabsContext.Provider value={{ value, setValue, className }}>
@@ -46,20 +45,23 @@ function List({
 function Item({
   children,
   className,
-  selectedClassName,
   value,
+  onClick,
 }: {
   children: React.ReactNode;
   className?: string;
-  selectedClassName?: string;
   value: string;
+  onClick: (tab: string) => void;
 }) {
-  const { value: selectedValue, setValue } = useContext(TabsContext);
+  const { setValue } = useContext(TabsContext);
   return (
-    <li className={cn(className, value === selectedValue && selectedClassName)}>
+    <li className={className}>
       <button
         className='w-full h-full flex items-center gap-2'
-        onClick={() => setValue(value)}
+        onClick={() => {
+          onClick(value);
+          setValue(value);
+        }}
       >
         {children}
       </button>

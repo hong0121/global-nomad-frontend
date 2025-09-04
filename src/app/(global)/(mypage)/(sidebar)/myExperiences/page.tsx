@@ -8,21 +8,20 @@ import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import BackIcon from '@/public/images/icons/BackIcon.svg';
 import { useContext } from 'react';
-import { PageContext } from '../pageContext';
+import { TabContext } from '../pageContext';
 
 export default function MyExperiencesPage() {
   const { data, isPending } = useQuery({
     queryKey: ['myExperiences'],
     queryFn: getMyExperiences,
   });
-
-  const { setPage } = useContext(PageContext);
+  const { setTab } = useContext(TabContext);
 
   return (
-    <section className='flex flex-col items-center gap-8 p-4 md:p-0'>
+    <section className='flex flex-col items-center gap-8'>
       <div className='w-full flex flex-col md:flex-row gap-4 md:justify-between'>
         <div className='flex gap-4 items-center'>
-          <button onClick={() => setPage(1)} className='block md:hidden'>
+          <button onClick={() => setTab(null)} className='block md:hidden'>
             <BackIcon />
           </button>
           <div className='space-y-2.5'>
