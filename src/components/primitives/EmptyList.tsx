@@ -8,7 +8,7 @@ interface Props {
 
 export default function EmptyList({ message, children }: Props) {
   return (
-    <div className='flex flex-col justify-center items-center gap-[30px]'>
+    <div className='flex flex-col justify-center items-center gap-[30px] py-11 md:py-[60px]'>
       <Image
         src='/images/Empty.svg'
         width={122}
