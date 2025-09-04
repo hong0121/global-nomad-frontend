@@ -73,7 +73,7 @@ export default function MyReservationList({
               page.reservations.map((reservation) => (
                 <li
                   key={reservation.id}
-                  className='pt-5 pb-[30px] border-t border-t-gray-50 lg:mb-6 lg:pb-0 lg:pt-0 lg:border-b-0'
+                  className='pt-5 pb-[30px] border-t border-t-gray-50 lg:mb-6 lg:pb-0 lg:pt-0 lg:border-t-0'
                 >
                   <MyReservationCard
                     reservation={reservation}

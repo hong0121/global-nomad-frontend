@@ -65,11 +65,6 @@ export default function MyReservationCard({ reservation, onCancel }: Props) {
               </div>
             </Link>
             <div className='absolute bottom-0 left-0 right-0 flex gap-3 h-[37px] px-[9px] text-14 text-gray-600 font-medium md:px-0 lg:left-auto lg:right-10 lg:bottom-[30px] lg:h-[29px] lg:z-[1] lg:gap-2'>
-              {/* 
-              - 예약 변경 API가 없음.
-              <button className='grow-1 h-full py-[6px] px-[10px] border border-gray-50 bg-white rounded-[8px]'>
-                예약 변경
-              </button> */}
               {status === 'pending' && (
                 <button
                   className='grow-1 h-full py-[6px] px-[10px] bg-gray-50 rounded-[8px]'
@@ -88,7 +83,7 @@ export default function MyReservationCard({ reservation, onCancel }: Props) {
           <div
             className={cn(
               'absolute top-0 right-0 bottom-0 w-[136px] h-auto rounded-r-3xl overflow-hidden lg:w-[181px]',
-              hasButtonUI && 'bottom-[50px]'
+              hasButtonUI && 'bottom-[50px] lg:bottom-0'
             )}
           >
             <Image
