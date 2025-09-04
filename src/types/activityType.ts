@@ -26,3 +26,14 @@ export interface Activity {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface IMyReservations {
+  cursorId: number;
+  totalCount: number;
+  activities: Activity[];
+}
+
+export interface IReservation {
+  scheduleId: number;
+  headCount: number;
+}

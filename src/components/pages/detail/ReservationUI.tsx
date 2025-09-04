@@ -6,12 +6,13 @@ import PersonStepper from './DateSelector/PersonStepper';
 import Calendar from './DateSelector/Calendar';
 import { useReservationStore } from '@/src/store/ReservationStore';
 import TimeSelectorButtons from './DateSelector/TimeSelector';
+import { createReservation } from '@/src/services/pages/detail/postReservation';
 
 export default function ReservationUI({ activity }: { activity: IActivity }) {
   const { personSelector, timeSelector } = useReservationStore();
 
-  const handleReserveClick = () => {
-    console.log({
+  const handleReserveClick = async () => {
+    const data = await createReservation(activity.id, {
       scheduleId: timeSelector.timeId!,
       headCount: personSelector.person,
     });
