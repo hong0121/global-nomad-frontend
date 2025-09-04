@@ -10,8 +10,8 @@ import { TabContext } from './pageContext';
 import LeftSidebar from '@/src/components/pages/sidebar/LeftSidebar';
 import MyExperiencesPage from './_components/myExperiences';
 import MyInfoPage from './_components/myInfo';
-import MyReservationPage from './_components/myReservation';
 import MyReservationStatusPage from './_components/myReservationStatus';
+import MyReservation from '@/src/components/pages/myReservation/MyReservation';
 
 export interface ISidebarButtons {
   href: string;
@@ -49,7 +49,7 @@ export default function MypageLayout() {
       <section className='w-full px-4 py-2 mt-24 overflow-hidden'>
         <div
           className={cn(
-            'w-[calc(100%+290px+1rem)] sm:w-full sm:max-w-[980px] sm:translate-x-0 flex justify-start sm:justify-between gap-4 mx-auto',
+            'w-[calc(100%+290px+1rem)] sm:w-full sm:max-w-[980px] sm:translate-x-0 flex justify-start items-start sm:justify-between gap-4 mx-auto',
             tab ? '-translate-x-[calc(290px+1rem)] gap-4' : 'w-fit'
           )}
         >
@@ -70,7 +70,7 @@ function Tabs({ page }: { page: string | null }) {
     case 'myInfo':
       return <MyInfoPage />;
     case 'myReservation':
-      return <MyReservationPage />;
+      return <MyReservation />;
     case 'myExperiences':
       return <MyExperiencesPage />;
     case 'myReservationStatus':
