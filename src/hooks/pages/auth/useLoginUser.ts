@@ -30,10 +30,8 @@ export default function useLoginUser() {
       }
     },
     onError: (error) => {
-      const err = error as AxiosError<{ message: string }>;
-      if (err?.response?.status === 400 || err?.response?.status === 404) {
-        alert('로그인 정보를 다시 확인해주세요.');
-      }
+      const err = error as AxiosError;
+      console.log(err);
     },
   });
 }

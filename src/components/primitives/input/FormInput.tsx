@@ -16,8 +16,8 @@ const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
   ({ label, errorMessage, isPassword, variant = 'default', ...props }, ref) => {
     const variantLabelStyles = cn({
       'font-bold text-base text-gray-950': variant === 'default',
-      'font-medium text-base text-gray-950': variant === 'experience',
-      'font-medium text-lg text-text-gray-950': variant === 'auth',
+      'font-medium text-base text-gray-950':
+        variant === 'experience' || variant === 'auth',
     });
 
     const baseBorder = 'border border-gray-100';
