@@ -12,9 +12,12 @@ const nextConfig: NextConfig = {
   },
   images: {
     remotePatterns: [
-      new URL(
-        'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/**'
-      ),
+      {
+        protocol: 'https',
+        hostname: 'sprint-fe-project.s3.ap-northeast-2.amazonaws.com',
+        port: '',
+        pathname: '/**', // 모든 경로 허용
+      },
     ],
   },
 };
