@@ -1,3 +1,4 @@
+import MyReservationCancel from '@/src/components/pages/myReservation/MyReservationCancel';
 import ReservationStatusBadge from '@/src/components/pages/myReservation/ReservationStatusBadge';
 import { MyReservationItem } from '@/src/types/myReservationType';
 import { cn } from '@/src/utils/cn';
@@ -74,9 +75,7 @@ export default function MyReservationCard({ reservation }: Props) {
                 예약 변경
               </button> */}
               {status === 'pending' && (
-                <button className='grow-1 h-full py-[6px] px-[10px] bg-gray-50 rounded-[8px]'>
-                  예약 취소
-                </button>
+                <MyReservationCancel reservationId={id} />
               )}
               {status === 'completed' && (
                 <button className='grow-1 h-full py-[6px] px-[10px] bg-primary-500 text-white rounded-[8px]'>

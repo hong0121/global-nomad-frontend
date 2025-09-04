@@ -31,3 +31,20 @@ export interface MyReservationListResponse {
   reservations: MyReservationItem[];
   totalCount: number;
 }
+
+export interface CancelMyReservationResponse {
+  id: number;
+  teamId: string;
+  userId: number;
+  activityId: number;
+  scheduleId: number;
+  status: ReservationStatus;
+  reviewSubmitted: boolean;
+  totalPrice: number;
+  headCount: number;
+  date: string;
+  startTime: string;
+  endTime: string;
+  createdAt: string;
+  updatedAt: string;
+}

@@ -11,13 +11,14 @@ export const queries = {
       queryFn: () => getUserInfo(),
       enabled: !!accessToken,
     }),
-  myReservationList: (status: ReservationStatus | null) => [
+  myReservationList: () => ['myReservationList'],
+  myReservationLists: (status: ReservationStatus | null) => [
     'myReservationList',
     status ?? 'all',
   ],
   myReservationListOptions: (status: ReservationStatus | null) =>
     infiniteQueryOptions({
-      queryKey: [...queries.myReservationList(status)],
+      queryKey: [...queries.myReservationLists(status)],
       queryFn: ({ pageParam }) => getMyReservationList({ pageParam, status }),
       initialPageParam: 0,
       getNextPageParam: (lastPage) => lastPage.cursorId,
