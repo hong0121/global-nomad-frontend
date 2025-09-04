@@ -3,7 +3,7 @@
 import MyReservationFilter from '@/src/components/pages/myReservation/MyReservationFilter';
 import MyReservationList from '@/src/components/pages/myReservation/MyReservationList';
 import LoadingSpinner from '@/src/components/primitives/LoadingSpinner';
-import { getMyReservationList } from '@/src/services/pages/myReservation/api';
+import { queries } from '@/src/services/primitives/queries';
 import { ReservationStatus } from '@/src/types/myReservationType';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useState } from 'react';
@@ -17,12 +17,7 @@ export default function MyReservationListArea() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfiniteQuery({
-    queryKey: ['myReservationList', status],
-    queryFn: ({ pageParam }) => getMyReservationList({ pageParam, status }),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.cursorId,
-  });
+  } = useInfiniteQuery({ ...queries.myReservationListOptions(status) });
 
   const pagesData = myReservationList?.pages ?? [];
 
