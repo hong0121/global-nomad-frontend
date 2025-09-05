@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 interface TokenState {
   accessToken: null | string | undefined;
@@ -18,6 +18,7 @@ export const useTokenStore = create<TokenState>()(
     },
     {
       name: 'accessToken',
+      storage: createJSONStorage(() => sessionStorage),
       onRehydrateStorage: () => (state) => {
         if (state?.accessToken === undefined) {
           state?.setAccessToken(null);
