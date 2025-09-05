@@ -1,5 +1,6 @@
 import Button from '@/src/components/primitives/Button';
 import Image from 'next/image';
+import { createPortal } from 'react-dom';
 
 type ConfirmModalProps = {
   isOpen: boolean;
@@ -16,7 +17,7 @@ export default function ConfirmModal({
 }: ConfirmModalProps) {
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div className='fixed inset-0 flex items-center justify-center z-50'>
       <div
         className='absolute inset-0 bg-black opacity-50'
@@ -52,6 +53,7 @@ export default function ConfirmModal({
           </Button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.getElementById('portal') as HTMLElement
   );
 }

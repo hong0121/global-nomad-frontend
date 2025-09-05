@@ -6,6 +6,7 @@ import { submitReview } from '@/src/services/pages/createReview/api';
 import StarRating from '@/src/components/primitives/StarRating';
 import Button from '@/src/components/primitives/Button';
 import { MyReservationItem } from '@/src/types/myReservationType';
+import { createPortal } from 'react-dom';
 
 type ReviewModalProps = {
   isOpen: boolean;
@@ -49,7 +50,7 @@ export default function ReviewModal({
     }
   };
 
-  return (
+  return createPortal(
     <div className='fixed inset-0 flex items-center justify-center z-50'>
       <div className='fixed inset-0 bg-black opacity-50 ' onClick={onClose} />
       <div className='relative flex flex-col justify-center items-center w-[322px] h-[493px] bg-white rounded-[30px] p-6 shadow-[0_4px_24px_0_#9CB4CA33] md:w-[385px] md:h-[549px] z-10'>
@@ -92,6 +93,7 @@ export default function ReviewModal({
           작성하기
         </Button>
       </div>
-    </div>
+    </div>,
+    document.getElementById('portal') as HTMLHtmlElement
   );
 }
