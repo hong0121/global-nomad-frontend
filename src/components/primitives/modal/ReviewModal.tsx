@@ -44,6 +44,9 @@ export default function ReviewModal({
 
     try {
       await submitReview(reservation.id, { rating, content });
+
+      setContent('');
+      setRating(0);
       onSuccess('체험 후기가 등록되었습니다.');
     } catch (err) {
       const error = err as AxiosError<{ message?: string }>;
@@ -68,8 +71,16 @@ export default function ReviewModal({
           break;
       }
 
+      setContent('');
+      setRating(0);
       onError(message);
     }
+  };
+
+  const handleClose = () => {
+    setContent('');
+    setRating(0);
+    onClose();
   };
 
   return createPortal(
@@ -77,14 +88,13 @@ export default function ReviewModal({
       <div className='fixed inset-0 flex items-center justify-center z-50'>
         <div className='fixed inset-0 bg-black opacity-50 ' onClick={onClose} />
         <div className='relative flex flex-col justify-center items-center w-[322px] h-[493px] bg-white rounded-[30px] p-6 shadow-[0_4px_24px_0_#9CB4CA33] md:w-[385px] md:h-[549px] z-10'>
-          <button>
+          <button onClick={handleClose}>
             <Image
               src='/images/icons/DeleteIcon.svg'
               alt='리뷰모달 닫기'
               width={24}
               height={24}
               className='absolute top-5 right-6'
-              onClick={onClose}
             />
           </button>
           <p className='text-black text-14 font-bold mb-1.5 md:text-16'>
