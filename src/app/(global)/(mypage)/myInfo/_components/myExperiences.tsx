@@ -15,13 +15,16 @@ export default function MyExperiencesPage() {
     queryKey: ['myExperiences'],
     queryFn: getMyExperiences,
   });
-  const { setTab } = useContext(TabContext);
+  const { setIsTabOpen } = useContext(TabContext);
 
   return (
     <section className='flex flex-col items-center gap-8'>
       <div className='w-full flex flex-col md:flex-row gap-4 md:justify-between'>
         <div className='flex gap-4 items-center'>
-          <button onClick={() => setTab(null)} className='block md:hidden'>
+          <button
+            onClick={() => setIsTabOpen(false)}
+            className='block md:hidden'
+          >
             <BackIcon />
           </button>
           <div className='space-y-2.5'>

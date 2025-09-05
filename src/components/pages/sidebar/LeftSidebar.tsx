@@ -24,7 +24,7 @@ export default function LeftSidebar({
 
   return (
     <aside
-      className={`shadow-[0px_4px_24px_rgba(156,180,202,0.2)] min-w-[290px] px-3.5 py-6 flex flex-col items-center rounded-xl`}
+      className={`px-3.5 py-6 flex flex-col items-center rounded-xl shadow-[0px_4px_24px_rgba(156,180,202,0.2)]`}
     >
       <ProfilePicture />
       <SidebarTabs.Root defaultValue={currentTab}>

@@ -1,11 +1,15 @@
 import { createContext } from 'react';
 
 interface ITabContext {
-  tab: string | null;
-  setTab: (tab: string | null) => void;
+  tab: string;
+  setTab: (tab: string) => void;
+  isTabOpen: boolean;
+  setIsTabOpen: (isOpen: boolean) => void;
 }
 
 export const TabContext = createContext<ITabContext>({
-  tab: null,
+  tab: '',
   setTab: () => {},
+  isTabOpen: false,
+  setIsTabOpen: () => {},
 });

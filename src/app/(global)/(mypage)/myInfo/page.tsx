@@ -43,20 +43,31 @@ const buttons: ISidebarButtons[] = [
 ];
 
 export default function MypageLayout() {
-  const [tab, setTab] = useState<string | null>(null);
+  const [tab, setTab] = useState<string>(buttons[0].href);
+  const [isTabOpen, setIsTabOpen] = useState(false);
+
+  const handleTabClick = (page: string) => {
+    setTab(page);
+    setIsTabOpen(true);
+  };
+
   return (
-    <TabContext.Provider value={{ tab, setTab }}>
-      <section className='w-full px-4 py-2 mt-24 overflow-hidden'>
+    <TabContext.Provider value={{ tab, setTab, isTabOpen, setIsTabOpen }}>
+      <section className='w-full pt-[85px] pb-[64px] overflow-hidden md:pt-[120px] md:pb-[54px]'>
         <div
           className={cn(
-            'w-[calc(100%+290px+1rem)] sm:w-full sm:max-w-[980px] sm:translate-x-0 flex justify-start items-start sm:justify-between gap-4 mx-auto',
-            tab ? '-translate-x-[calc(290px+1rem)] gap-4' : 'w-fit'
+            'flex w-[200vw] transition-all md:w-[calc(100%-60px)] md:gap-[30px] md:max-w-[980px] md:mx-auto lg:gap-[50px]',
+            isTabOpen && '-translate-x-1/2 md:translate-x-0'
           )}
         >
-          <LeftSidebar currentTab={tab} setTab={setTab} buttons={buttons} />
-          <article
-            className={cn('w-full max-w-[640px]', tab ? 'min-w-fit' : 'hidden')}
-          >
+          <div className='w-screen px-6 shrink-0 md:w-[178px] md:px-0 lg:w-[290px]'>
+            <LeftSidebar
+              currentTab={tab}
+              setTab={handleTabClick}
+              buttons={buttons}
+            />
+          </div>
+          <article className='w-screen px-6 shrink-0 md:w-auto md:shrink-1 md:px-0 md:grow-1'>
             <Tabs page={tab} />
           </article>
         </div>
