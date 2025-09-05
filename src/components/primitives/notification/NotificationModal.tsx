@@ -9,9 +9,7 @@ export default function NotificationModal({
 }) {
   return (
     <div
-      className={
-        'w-[231px] h-48 pt-4 pb-2 z-[2] absolute top-10 -translate-x-1/2 bg-white rounded-2xl shadow'
-      }
+      className={'w-[231px] h-48 pt-4 pb-2 z-[2] bg-white rounded-2xl shadow'}
     >
       <div className='px-6 pb-3.5 flex justify-between border-b border-gray-100'>
         <h2 className='text-16 font-bold'>알림 6개</h2>
