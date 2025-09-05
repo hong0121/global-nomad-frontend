@@ -14,6 +14,7 @@ import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import ReviewModal from '../../primitives/modal/ReviewModal';
+import AlertModal from '../../primitives/modal/AlertModal';
 
 interface Props {
   pagesData: MyReservationListResponse[];
@@ -35,6 +36,8 @@ export default function MyReservationList({
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
   const [selectedReservation, setSelectedReservation] =
     useState<MyReservationItem | null>(null);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
   const isEmpty = pagesData[0].totalCount === 0;
   const { loadMoreRef } = useInfiniteScroll(
@@ -70,6 +73,12 @@ export default function MyReservationList({
   const handleOpenReviewModal = (reservation: MyReservationItem) => {
     setSelectedReservation(reservation);
     setReviewModalOpen(true);
+  };
+
+  const handleReviewError = (message: string) => {
+    setReviewModalOpen(false);
+    setAlertMessage(message);
+    setAlertOpen(true);
   };
 
   return (
@@ -113,6 +122,12 @@ export default function MyReservationList({
             isOpen={reviewModalOpen}
             reservation={selectedReservation}
             onClose={() => setReviewModalOpen(false)}
+            onError={handleReviewError}
+          />
+          <AlertModal
+            isOpen={alertOpen}
+            message={alertMessage}
+            onClose={() => setAlertOpen(false)}
           />
         </>
       )}

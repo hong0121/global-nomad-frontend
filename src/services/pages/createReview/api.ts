@@ -18,5 +18,6 @@ export async function submitReview(
   } catch (err) {
     if (err instanceof Error)
       console.error('리뷰 등록에 실패했습니다.', err.message);
+    throw err;
   }
 }
