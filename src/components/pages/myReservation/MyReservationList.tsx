@@ -75,6 +75,12 @@ export default function MyReservationList({
     setReviewModalOpen(true);
   };
 
+  const handleReviewSuccess = (message: string) => {
+    setReviewModalOpen(false);
+    setAlertMessage(message);
+    setAlertOpen(true);
+  };
+
   const handleReviewError = (message: string) => {
     setReviewModalOpen(false);
     setAlertMessage(message);
@@ -122,6 +128,7 @@ export default function MyReservationList({
             isOpen={reviewModalOpen}
             reservation={selectedReservation}
             onClose={() => setReviewModalOpen(false)}
+            onSuccess={handleReviewSuccess}
             onError={handleReviewError}
           />
           <AlertModal

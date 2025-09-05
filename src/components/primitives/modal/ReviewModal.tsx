@@ -13,6 +13,7 @@ type ReviewModalProps = {
   isOpen: boolean;
   reservation: MyReservationItem | null;
   onClose: () => void;
+  onSuccess: (message: string) => void;
   onError: (message: string) => void;
 };
 
@@ -20,6 +21,7 @@ export default function ReviewModal({
   isOpen,
   reservation,
   onClose,
+  onSuccess,
   onError,
 }: ReviewModalProps) {
   const [rating, setRating] = useState(0);
@@ -42,7 +44,7 @@ export default function ReviewModal({
 
     try {
       await submitReview(reservation.id, { rating, content });
-      onClose();
+      onSuccess('체험 후기가 등록되었습니다.');
     } catch (err) {
       const error = err as AxiosError<{ message?: string }>;
       const status = error.response?.status;
