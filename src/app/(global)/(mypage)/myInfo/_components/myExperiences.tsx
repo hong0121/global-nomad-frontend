@@ -3,19 +3,20 @@
 import MyExperienceCard from '@/src/components/pages/myExperiences/MyExperienceCard';
 import Button from '@/src/components/primitives/Button';
 import LoadingSpinner from '@/src/components/primitives/LoadingSpinner';
-import { getMyExperiences } from '@/src/services/pages/myExperiences/api';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import BackIcon from '@/public/images/icons/BackIcon.svg';
 import { useContext } from 'react';
 import { TabContext } from '../pageContext';
+import { queries } from '@/src/services/primitives/queries';
+import { useTokenStore } from '@/src/store/useTokenStore';
 
 export default function MyExperiencesPage() {
-  const { data, isPending } = useQuery({
-    queryKey: ['myExperiences'],
-    queryFn: getMyExperiences,
-  });
   const { setIsTabOpen } = useContext(TabContext);
+  const { accessToken } = useTokenStore();
+  const { data, isPending } = useQuery(
+    queries.myExperiencesOptions(accessToken)
+  );
 
   return (
     <section className='flex flex-col items-center gap-8'>
