@@ -5,6 +5,7 @@
 import AlertModal from '@/src/components/primitives/modal/AlertModal';
 import ConfirmModal from '@/src/components/primitives/modal/ConfirmModal';
 import ReviewModal from '@/src/components/primitives/modal/ReviewModal';
+import { ReservationResponse } from '@/src/types/reservationType';
 import { useState } from 'react';
 
 export default function ModalTestPage() {
@@ -13,13 +14,31 @@ export default function ModalTestPage() {
   const [reviewOpen, setReviewOpen] = useState(false);
 
   // 임시 체험 내용
-  const dummyReservation = {
-    id: 1,
-    activity: { title: '요가 클래스' },
-    date: '2025-09-01',
-    startTime: '10:00',
-    endTime: '12:00',
-    headCount: 3,
+  const dummyReservation: ReservationResponse = {
+    cursorId: 1,
+    reservations: [
+      {
+        id: 1,
+        teamId: 'A101',
+        userId: 11,
+        activity: {
+          bannerImageUrl: 'https://picsum.photos/200/300',
+          title: '도예 원데이 클래스',
+          id: 1001,
+        },
+        scheduleId: 501,
+        status: 'confirmed',
+        reviewSubmitted: false,
+        totalPrice: 60000,
+        headCount: 2,
+        date: '2025-09-10',
+        startTime: '14:00',
+        endTime: '16:00',
+        createdAt: '2025-09-01T09:12:00.000Z',
+        updatedAt: '2025-09-01T09:12:00.000Z',
+      },
+    ],
+    totalCount: 1,
   };
 
   return (
@@ -62,7 +81,7 @@ export default function ModalTestPage() {
 
       <ReviewModal
         isOpen={reviewOpen}
-        reservation={dummyReservation}
+        reservation={dummyReservation.reservations[0]}
         onClose={() => setReviewOpen(false)}
       />
     </div>

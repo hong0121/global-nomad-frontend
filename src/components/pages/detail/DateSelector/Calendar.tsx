@@ -43,13 +43,13 @@ export default function Calendar({
             onClick={handleLeftClick}
             className='w-[46px] h-[46px] flex justify-center items-center rounded-lg hover:bg-gray-50'
           >
-            <ArrowLeft />
+            <ArrowLeft className='w-6 h-6' />
           </button>
           <button
             onClick={handleRightClick}
             className='w-[46px] h-[46px] flex justify-center items-center rounded-lg hover:bg-gray-50'
           >
-            <ArrowRight />
+            <ArrowRight className='w-6 h-6' />
           </button>
         </div>
       </div>
