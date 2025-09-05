@@ -30,9 +30,9 @@ const FormInput = forwardRef<
     ref
   ) => {
     const variantLabelStyles = cn({
-      'font-bold text-medium text-gray-950': variant === 'default',
-      'font-bold text-base text-gray-950': variant === 'experience',
-      'font-medium text-lg text-text-gray-950': variant === 'auth',
+      'font-bold text-base text-gray-950': variant === 'default',
+      'font-medium text-base text-gray-950':
+        variant === 'experience' || variant === 'auth',
     });
 
     const baseBorder = 'border border-gray-100';

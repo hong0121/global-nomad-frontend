@@ -51,7 +51,7 @@ export default function KakaoSignupClient() {
   }, [code, router]);
 
   return (
-    <div className='flex flex-col items-center justify-center max-w-[640px] gap-4 min-h-screen mx-auto'>
+    <div className='flex flex-col items-center justify-center gap-4'>
       <LoadingSpinner className='w-[40px] h-[40px] border-8' />
       <p>카카오 회원가입중...</p>
     </div>
