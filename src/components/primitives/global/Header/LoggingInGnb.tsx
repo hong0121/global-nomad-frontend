@@ -2,7 +2,7 @@ import Image from 'next/image';
 import BellIcon from '@/public/images/icons/Bell.svg';
 import { useState } from 'react';
 import NotificationModal from '../../notification/NotificationModal';
-import UserMenuDropdown from './\bUserMenuDropdown';
+import UserMenuDropdown from './UserMenuDropdown';
 
 export default function LoggingInGnb() {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -24,7 +24,7 @@ export default function LoggingInGnb() {
               />
 
               <div
-                className='absolute top-full left-1/2 -translate-x-1/2 mt-2 z-20'
+                className='absolute top-full left-1/2 -translate-x-1/2 mt-2 z-20 rounded-2xl shadow-[0_4px_24px_0_#9CB4CA33]'
                 onClick={(e) => e.stopPropagation()}
               >
                 <NotificationModal setVisible={setIsModalVisible} />
@@ -56,7 +56,7 @@ export default function LoggingInGnb() {
               />
 
               <div
-                className='absolute top-full right-[-4px] md:right-[-10px] mt-2 z-20'
+                className='absolute top-full right-[-4px] md:right-[-10px] mt-2 z-20 shadow-[0_4px_24px_0_#9CB4CA33]'
                 onClick={(e) => e.stopPropagation()}
               >
                 <UserMenuDropdown setVisible={setIsUserMenuOpen} />
