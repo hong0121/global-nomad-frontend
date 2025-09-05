@@ -19,6 +19,7 @@ export default function AuthProvicder({ children }: Props) {
   const { isLoading, data: userInfo } = useQuery({
     ...queries.userOptions(accessToken),
     retry: false,
+    staleTime: Infinity,
   });
 
   // 리다이렉트 분기

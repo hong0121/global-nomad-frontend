@@ -10,8 +10,8 @@ import { TabContext } from './pageContext';
 import LeftSidebar from '@/src/components/pages/sidebar/LeftSidebar';
 import MyExperiencesPage from './_components/myExperiences';
 import MyInfoPage from './_components/myInfo';
-import MyReservationPage from './_components/myReservation';
 import MyReservationStatusPage from './_components/myReservationStatus';
+import MyReservation from '@/src/components/pages/myReservation/MyReservation';
 
 export interface ISidebarButtons {
   href: string;
@@ -43,19 +43,35 @@ const buttons: ISidebarButtons[] = [
 ];
 
 export default function MypageLayout() {
-  const [tab, setTab] = useState<string | null>(null);
+  const [tab, setTab] = useState<string>(buttons[0].href);
+  const [isTabOpen, setIsTabOpen] = useState(false);
+
+  const handleTabClick = (page: string) => {
+    setTab(page);
+    setIsTabOpen(true);
+  };
+
   return (
-    <TabContext.Provider value={{ tab, setTab }}>
-      <section className='w-full px-4 py-2 mt-24 overflow-hidden'>
+    <TabContext.Provider value={{ tab, setTab, isTabOpen, setIsTabOpen }}>
+      <section className='w-full pt-[85px] pb-[64px] overflow-hidden md:pt-[120px] md:pb-[54px] h-full'>
         <div
           className={cn(
-            'w-[calc(100%+290px+1rem)] sm:w-full sm:max-w-[980px] sm:translate-x-0 flex justify-start sm:justify-between gap-4 mx-auto',
-            tab ? '-translate-x-[calc(290px+1rem)] gap-4' : 'w-fit'
+            'flex w-[200vw] transition-all md:w-[calc(100%-60px)] md:gap-[30px] md:max-w-[980px] md:mx-auto lg:gap-[50px] h-[480px]',
+            isTabOpen && '-translate-x-1/2 md:translate-x-0 h-auto'
           )}
         >
-          <LeftSidebar currentTab={tab} setTab={setTab} buttons={buttons} />
+          <div className='w-screen px-6 shrink-0 md:w-[178px] md:px-0 lg:w-[290px]'>
+            <LeftSidebar
+              currentTab={tab}
+              setTab={handleTabClick}
+              buttons={buttons}
+            />
+          </div>
           <article
-            className={cn('w-full max-w-[640px]', tab ? 'min-w-fit' : 'hidden')}
+            className={cn(
+              'w-screen px-6 shrink-0 md:w-auto md:shrink-1 md:px-0 md:grow-1',
+              isTabOpen && 'h-100%'
+            )}
           >
             <Tabs page={tab} />
           </article>
@@ -70,7 +86,7 @@ function Tabs({ page }: { page: string | null }) {
     case 'myInfo':
       return <MyInfoPage />;
     case 'myReservation':
-      return <MyReservationPage />;
+      return <MyReservation />;
     case 'myExperiences':
       return <MyExperiencesPage />;
     case 'myReservationStatus':
