@@ -1,9 +1,9 @@
 'use client';
 
 import AvailableTimeSlots from '@/src/components/pages/myCreateExperiences/AvailableTimeSlots';
-import Dropdown from '@/src/components/pages/myCreateExperiences/Dropdown';
 import UploadBannerImage from '@/src/components/pages/myCreateExperiences/UploadBannerImage';
 import Button from '@/src/components/primitives/Button';
+import Dropdown from '@/src/components/primitives/Dropdown';
 import FormInput from '@/src/components/primitives/input/FormInput';
 import { useReservationStore } from '@/src/store/ReservationStore';
 import { useTimeSlotStore } from '@/src/store/TimeSlotStore';
