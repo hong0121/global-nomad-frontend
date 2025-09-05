@@ -1,5 +1,6 @@
 import ReservationStatusBadge from '@/src/components/pages/myReservation/ReservationStatusBadge';
 import { MyReservationItem } from '@/src/types/myReservationType';
+import { Reservation } from '@/src/types/reservationType';
 import { cn } from '@/src/utils/cn';
 import { format } from 'date-fns';
 import Image from 'next/image';
@@ -8,9 +9,14 @@ import Link from 'next/link';
 interface Props {
   reservation: MyReservationItem;
   onCancel: (reservationId: number) => void;
+  onWriteReview: (reservation: MyReservationItem) => void;
 }
 
-export default function MyReservationCard({ reservation, onCancel }: Props) {
+export default function MyReservationCard({
+  reservation,
+  onCancel,
+  onWriteReview,
+}: Props) {
   const {
     activity,
     scheduleId,
@@ -74,7 +80,10 @@ export default function MyReservationCard({ reservation, onCancel }: Props) {
                 </button>
               )}
               {status === 'completed' && (
-                <button className='grow-1 h-full py-[6px] px-[10px] bg-primary-500 text-white rounded-[8px]'>
+                <button
+                  className='grow-1 h-full py-[6px] px-[10px] bg-primary-500 text-white rounded-[8px]'
+                  onClick={() => onWriteReview(reservation)}
+                >
                   후기 작성
                 </button>
               )}

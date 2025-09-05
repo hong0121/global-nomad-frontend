@@ -5,11 +5,15 @@ import ConfirmModal from '@/src/components/primitives/modal/ConfirmModal';
 import useInfiniteScroll from '@/src/hooks/useInfiniteScroll';
 import { cancelMyReservation } from '@/src/services/pages/myReservation/api';
 import { queries } from '@/src/services/primitives/queries';
-import { MyReservationListResponse } from '@/src/types/myReservationType';
+import {
+  MyReservationItem,
+  MyReservationListResponse,
+} from '@/src/types/myReservationType';
 import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
+import ReviewModal from '../../primitives/modal/ReviewModal';
 
 interface Props {
   pagesData: MyReservationListResponse[];
@@ -28,6 +32,10 @@ export default function MyReservationList({
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState(false);
   const [reservationId, setReservationId] = useState<number | null>(null);
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
+  const [selectedReservation, setSelectedReservation] =
+    useState<MyReservationItem | null>(null);
+
   const isEmpty = pagesData[0].totalCount === 0;
   const { loadMoreRef } = useInfiniteScroll(
     fetchNextPage,
@@ -59,6 +67,11 @@ export default function MyReservationList({
     }
   }, [reservationId]);
 
+  const handleOpenReviewModal = (reservation: MyReservationItem) => {
+    setSelectedReservation(reservation);
+    setReviewModalOpen(true);
+  };
+
   return (
     <div>
       {isEmpty ? (
@@ -83,6 +96,7 @@ export default function MyReservationList({
                   <MyReservationCard
                     reservation={reservation}
                     onCancel={handleOpenCancelModal}
+                    onWriteReview={handleOpenReviewModal}
                   />
                 </li>
               ))
@@ -94,6 +108,11 @@ export default function MyReservationList({
             message={`예약을 취소하시겠어요?`}
             onConfirm={handleCancleReservation}
             onCancel={() => setModalOpen(false)}
+          />
+          <ReviewModal
+            isOpen={reviewModalOpen}
+            reservation={selectedReservation}
+            onClose={() => setReviewModalOpen(false)}
           />
         </>
       )}

@@ -5,11 +5,11 @@ import { formatDate } from '@/src/utils/formatDate';
 import { submitReview } from '@/src/services/pages/createReview/api';
 import StarRating from '@/src/components/primitives/StarRating';
 import Button from '@/src/components/primitives/Button';
-import { Reservation } from '@/src/types/reservationType';
+import { MyReservationItem } from '@/src/types/myReservationType';
 
 type ReviewModalProps = {
   isOpen: boolean;
-  reservation: Reservation | null;
+  reservation: MyReservationItem | null;
   onClose: () => void;
 };
 
@@ -51,8 +51,8 @@ export default function ReviewModal({
 
   return (
     <div className='fixed inset-0 flex items-center justify-center z-50'>
-      <div className='absolute inset-0 bg-black opacity-50' onClick={onClose} />
-      <div className='relative flex flex-col justify-center items-center w-[322px] h-[493px] bg-white rounded-[30px] p-6 shadow-[0_4px_24px_0_#9CB4CA33] md:w-[385px] md:h-[549px]'>
+      <div className='fixed inset-0 bg-black opacity-50 ' onClick={onClose} />
+      <div className='relative flex flex-col justify-center items-center w-[322px] h-[493px] bg-white rounded-[30px] p-6 shadow-[0_4px_24px_0_#9CB4CA33] md:w-[385px] md:h-[549px] z-10'>
         <button>
           <Image
             src='/images/icons/DeleteIcon.svg'
