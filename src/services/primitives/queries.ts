@@ -2,6 +2,7 @@ import { getMyReservationList } from '@/src/services/pages/myReservation/api';
 import getUserInfo from '@/src/services/primitives/getUserInfo';
 import { ReservationStatus } from '@/src/types/myReservationType';
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
+import { getMyExperiences } from '../pages/myExperiences/api';
 
 export const queries = {
   user: () => ['user'],
@@ -22,5 +23,12 @@ export const queries = {
       queryFn: ({ pageParam }) => getMyReservationList({ pageParam, status }),
       initialPageParam: 0,
       getNextPageParam: (lastPage) => lastPage.cursorId,
+    }),
+  myExperiences: () => ['myExperiences'],
+  myExperiencesOptions: (accessToken: string | null | undefined) =>
+    queryOptions({
+      queryKey: [...queries.myExperiences()],
+      queryFn: () => getMyExperiences(),
+      enabled: !!accessToken,
     }),
 };

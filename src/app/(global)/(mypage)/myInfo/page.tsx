@@ -10,7 +10,7 @@ import { TabContext } from './pageContext';
 import LeftSidebar from '@/src/components/pages/sidebar/LeftSidebar';
 import MyExperiencesPage from './_components/myExperiences';
 import MyInfoPage from './_components/myInfo';
-import MyReservationStatusPage from './_components/myReservationStatus';
+import MyReservationStatusPage from '@/src/components/pages/myReservationStatus/myReservationStatus';
 import MyReservation from '@/src/components/pages/myReservation/MyReservation';
 
 export interface ISidebarButtons {
