@@ -2,6 +2,7 @@ import MyReservationCard from '@/src/components/pages/myReservation/MyReservatio
 import Button from '@/src/components/primitives/Button';
 import EmptyList from '@/src/components/primitives/EmptyList';
 import ConfirmModal from '@/src/components/primitives/modal/ConfirmModal';
+import useInfiniteScroll from '@/src/hooks/useInfiniteScroll';
 import { cancelMyReservation } from '@/src/services/pages/myReservation/api';
 import { queries } from '@/src/services/primitives/queries';
 import { MyReservationListResponse } from '@/src/types/myReservationType';
@@ -28,6 +29,10 @@ export default function MyReservationList({
   const [modalOpen, setModalOpen] = useState(false);
   const [reservationId, setReservationId] = useState<number | null>(null);
   const isEmpty = pagesData[0].totalCount === 0;
+  const { loadMoreRef } = useInfiniteScroll(
+    fetchNextPage,
+    hasNextPage && !isFetchingNextPage
+  );
 
   const handleOpenCancelModal = (reservationId: number) => {
     setModalOpen(true);
@@ -83,6 +88,7 @@ export default function MyReservationList({
               ))
             )}
           </ul>
+          <div ref={loadMoreRef} />
           <ConfirmModal
             isOpen={modalOpen}
             message={`예약을 취소하시겠어요?`}
