@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react';
 import { Activity } from '@/src/types/activityType';
 import useMapLoader from '@/src/hooks/pages/detail/useMapLoader';
-import { useBreakPoint } from '@/src/hooks/useBreakPoint';
 import {
   createLatLng,
   getMapOptions,
@@ -19,8 +18,8 @@ export default function ActivityMap({ activity }: Props) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const mapInstanceRef = useRef<kakao.maps.Map | null>(null);
   const markerCoordsRef = useRef<kakao.maps.LatLng | null>(null);
+
   const isLoaded = useMapLoader();
-  const { isMd, isLg } = useBreakPoint();
 
   const fallbackCoords = { lat: 37.5665, lng: 126.978 };
 
@@ -63,7 +62,7 @@ export default function ActivityMap({ activity }: Props) {
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [isMd, isLg]);
+  }, []);
 
   // clean up
   useEffect(() => {
