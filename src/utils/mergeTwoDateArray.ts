@@ -6,21 +6,30 @@ import {
 } from '../types/scheduleType';
 
 export function mergeScheduleWithDays(
-  schedule: IReservedSchedule[],
+  schedule: IReservedSchedule[] | null,
   days: Date[]
 ) {
   const scheduleMap = new Map<string, IScheduleCount>();
 
-  schedule.forEach((item) => {
-    scheduleMap.set(item.date, item.reservations);
-  });
+  if (!schedule) {
+    return days.map((day) => {
+      return {
+        schedule: null,
+        date: day,
+      };
+    });
+  } else {
+    schedule.forEach((item) => {
+      scheduleMap.set(item.date, item.reservations);
+    });
 
-  return days.map((day) => {
-    return {
-      schedule: scheduleMap.get(format(day, 'yyyy-MM-dd')) ?? null,
-      date: day,
-    };
-  });
+    return days.map((day) => {
+      return {
+        schedule: scheduleMap.get(format(day, 'yyyy-MM-dd')) ?? null,
+        date: day,
+      };
+    });
+  }
 }
 
 export function availableDateWithDaysArray(

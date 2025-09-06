@@ -12,7 +12,7 @@ import { useReservationStore } from '@/src/store/ReservationStore';
 export default function ReservationCalendar({
   schedule,
 }: {
-  schedule: IReservedSchedule[];
+  schedule: IReservedSchedule[] | null;
 }) {
   const { displayController } = useReservationStore();
   const daysArray = getDaysArray(new Date());
