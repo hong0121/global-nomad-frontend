@@ -28,12 +28,13 @@ export async function getMyExperiences(): Promise<IMyReservations> {
 
 // 내 체험 별로 예약 달력 가져오기
 export async function getMyReservationStatus(
+  activityId: number,
   year: string,
   month: string
 ): Promise<IReservedSchedule> {
   try {
     const res = await apiClient.get(
-      `/my-activities/{activityId}/reservation-dashboard`,
+      `/my-activities/${activityId}/reservation-dashboard`,
       { params: { year, month } }
     );
     return res.data;
