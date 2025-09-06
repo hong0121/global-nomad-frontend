@@ -11,7 +11,6 @@ interface DropdownProps {
   error?: string;
 }
 
-// NOTE: 파일 위치 이동함
 export default function Dropdown({
   label,
   items,
