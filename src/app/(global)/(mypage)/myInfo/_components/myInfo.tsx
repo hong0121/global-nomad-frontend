@@ -14,8 +14,8 @@ import getUserInfo from '@/src/services/primitives/getUserInfo';
 type MyInfoFormData = {
   nickname: string;
   email: string;
-  password: string;
-  checkpassword: string;
+  password?: string;
+  checkpassword?: string;
 };
 
 export default function MyInfoPage() {
@@ -49,13 +49,22 @@ export default function MyInfoPage() {
   const isButtonDisabled =
     !watchedFields.nickname ||
     !watchedFields.email ||
-    !watchedFields.password ||
-    !watchedFields.checkpassword ||
     watchedFields.password !== watchedFields.checkpassword;
 
   const onSubmit = async (data: MyInfoFormData) => {
+    const payload = {
+      ...data,
+      ...(data.password ? { password: data.password } : {}),
+    };
+
     try {
-      await patchMyInfo(data);
+      await patchMyInfo(payload);
+      reset({
+        nickname: data.nickname,
+        email: data.email,
+        password: '',
+        checkpassword: '',
+      });
       setAlertMessage('내 정보가 저장되었습니다!');
       setAlertOpen(true);
     } catch (err) {
@@ -84,7 +93,13 @@ export default function MyInfoPage() {
           variant='experience'
           placeholder='닉네임을 입력하세요'
           errorMessage={errors.nickname?.message}
-          {...register('nickname', { required: '필수 입력 항목입니다.' })}
+          {...register('nickname', {
+            required: '필수 입력 항목입니다.',
+            maxLength: {
+              value: 10,
+              message: '닉네임은 10자 이하로 작성해주세요.',
+            },
+          })}
         />
         <FormInput
           label='이메일'
@@ -106,7 +121,6 @@ export default function MyInfoPage() {
           placeholder='8자 이상 입력해 주세요'
           errorMessage={errors.password?.message}
           {...register('password', {
-            required: '필수 입력 항목입니다.',
             minLength: { value: 8, message: '8자 이상 입력해주세요.' },
           })}
         />
@@ -117,7 +131,6 @@ export default function MyInfoPage() {
           placeholder='비밀번호를 한 번 더 입력해 주세요'
           errorMessage={errors.checkpassword?.message}
           {...register('checkpassword', {
-            required: '필수 입력 항목입니다.',
             minLength: { value: 8, message: '8자 이상 입력해주세요.' },
             validate: (value) =>
               value === watch('password') || '비밀번호가 일치하지 않습니다.',
