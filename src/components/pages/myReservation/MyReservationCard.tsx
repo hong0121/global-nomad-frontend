@@ -81,10 +81,11 @@ export default function MyReservationCard({
               )}
               {status === 'completed' && (
                 <button
-                  className='grow-1 h-full py-[6px] px-[10px] bg-primary-500 text-white rounded-[8px]'
+                  className='grow-1 h-full py-[6px] px-[10px] bg-primary-500 text-white rounded-[8px] disabled:bg-primary-100 disabled:text-primary-500'
+                  disabled={reviewSubmitted}
                   onClick={() => onWriteReview(reservation)}
                 >
-                  후기 작성
+                  {reviewSubmitted ? '후기 작성 완료!' : '후기 작성'}
                 </button>
               )}
             </div>
