@@ -25,6 +25,7 @@ export default function MyInfoPage() {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm<MyInfoFormData>({ mode: 'onBlur' });
 
@@ -43,6 +44,14 @@ export default function MyInfoPage() {
       });
     }
   }, [userInfo, reset]);
+
+  const watchedFields = watch();
+  const isButtonDisabled =
+    !watchedFields.nickname ||
+    !watchedFields.email ||
+    !watchedFields.password ||
+    !watchedFields.checkpassword ||
+    watchedFields.password !== watchedFields.checkpassword;
 
   const onSubmit = async (data: MyInfoFormData) => {
     try {
@@ -110,10 +119,17 @@ export default function MyInfoPage() {
           {...register('checkpassword', {
             required: '필수 입력 항목입니다.',
             minLength: { value: 8, message: '8자 이상 입력해주세요.' },
+            validate: (value) =>
+              value === watch('password') || '비밀번호가 일치하지 않습니다.',
           })}
         />
         <div className='w-full flex justify-center'>
-          <Button type='submit' className='w-30' variant='primary'>
+          <Button
+            type='submit'
+            className='w-30'
+            variant='primary'
+            disabled={isButtonDisabled}
+          >
             저장하기
           </Button>
         </div>
