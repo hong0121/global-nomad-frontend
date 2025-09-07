@@ -55,13 +55,16 @@ export default function MyInfoPage() {
 
   return (
     <section>
-      <div className='mb-7.5'>
+      <div className='mb-7.5 md:mb-8.5'>
         <h1 className='font-bold text-18 mb-2.5'>내 정보</h1>
         <p className='text-14 font-medium text-gray-500'>
           닉네임과 비밀번호를 수정하실 수 있습니다.
         </p>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4.5'>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className='flex flex-col gap-4.5 md:gap-6'
+      >
         <FormInput
           label='닉네임'
           variant='experience'
