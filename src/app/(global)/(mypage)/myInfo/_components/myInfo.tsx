@@ -1,13 +1,15 @@
 'use client';
 
-import Button from '@/src/components/primitives/Button';
-import FormInput from '@/src/components/primitives/input/FormInput';
-import AlertModal from '@/src/components/primitives/modal/AlertModal';
-import { patchMyInfo } from '@/src/services/pages/users/api';
-import getUserInfo from '@/src/services/primitives/getUserInfo';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+
+import { patchMyInfo } from '@/src/services/pages/users/api';
+import Button from '@/src/components/primitives/Button';
+import FormInput from '@/src/components/primitives/input/FormInput';
+import AlertModal from '@/src/components/primitives/modal/AlertModal';
+import BackBtn from '@/src/components/primitives/mypage/BackBtn';
+import getUserInfo from '@/src/services/primitives/getUserInfo';
 
 type MyInfoFormData = {
   nickname: string;
@@ -55,11 +57,14 @@ export default function MyInfoPage() {
 
   return (
     <section>
-      <div className='mb-7.5 md:mb-8.5'>
-        <h1 className='font-bold text-18 mb-2.5'>내 정보</h1>
-        <p className='text-14 font-medium text-gray-500'>
-          닉네임과 비밀번호를 수정하실 수 있습니다.
-        </p>
+      <div className='flex items-center gap-4 mb-7.5 md:mb-8.5'>
+        <BackBtn />
+        <div>
+          <h1 className='font-bold text-18 mb-2.5'>내 정보</h1>
+          <p className='text-14 font-medium text-gray-500'>
+            닉네임과 비밀번호를 수정하실 수 있습니다
+          </p>
+        </div>
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
