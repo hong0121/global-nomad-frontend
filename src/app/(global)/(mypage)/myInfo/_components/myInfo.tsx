@@ -70,7 +70,7 @@ export default function MyInfoPage() {
   };
 
   return (
-    <section>
+    <>
       <div className='flex items-center gap-4 mb-7.5 md:mb-8.5'>
         <BackBtn />
         <div>
@@ -143,6 +143,6 @@ export default function MyInfoPage() {
         message={alertMessage}
         onClose={() => setAlertOpen(false)}
       />
-    </section>
+    </>
   );
 }
