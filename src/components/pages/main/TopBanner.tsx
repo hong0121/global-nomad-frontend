@@ -4,7 +4,7 @@ export default function TopBanner() {
   return (
     <div
       className={cn(
-        'relative flex flex-col items-center justify-end gap-2 pb-9 text-white text-center aspect-[327/181] bg-[url(/images/MainTopBanner.jpg)] bg-cover rounded-xl overflow-hidden shadow-[0px_1.45px_8.69px_rgba(156,180,202,0.2)] md:gap-3 md:pb-[72px] md:aspect-[684/375] md:rounded-[18px] lg:gap-[19px] lg:pb-[10px] lg:spect-[1120/500] lg:rounded-3xl',
+        'relative flex flex-col items-center justify-end gap-2 pb-9 text-white text-center aspect-[327/181] bg-[url(/images/MainTopBanner.jpg)] bg-cover rounded-xl overflow-hidden shadow-[0px_1.45px_8.69px_rgba(156,180,202,0.2)] md:gap-3 md:pb-[72px] md:aspect-[684/375] md:rounded-[18px] lg:gap-[19px] lg:pb-[101px] lg:spect-[1120/500] lg:rounded-3xl',
         'after:content-[""] after:absolute after:inset-0 after:bg-linear-to-t after:from-black after:to-transparent after:opacity-50'
       )}
     >
