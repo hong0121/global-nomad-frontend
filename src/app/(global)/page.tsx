@@ -1,3 +1,4 @@
+import AllExperiencesSection from '@/src/components/pages/main/AllExperiencesSection';
 import PopularExperiencesSection from '@/src/components/pages/main/PopularExperiencesSection';
 import SearchBar from '@/src/components/pages/main/SearchBar';
 import TopBanner from '@/src/components/pages/main/TopBanner';
@@ -9,6 +10,7 @@ export default function MainPage() {
         <TopBanner />
         <SearchBar />
         <PopularExperiencesSection />
+        <AllExperiencesSection />
       </div>
     </div>
   );
