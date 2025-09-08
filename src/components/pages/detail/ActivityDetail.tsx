@@ -6,6 +6,7 @@ import { REVIEWS_PER_PAGE } from '@/src/constants/pagination';
 import { ReviewResponse } from '@/src/types/reviewType';
 import { Activity } from '@/src/types/activityType';
 import ReviewList from './ReviewList';
+import Pagination from '../../primitives/Pagination';
 
 interface Props {
   activity: Activity;
@@ -67,28 +68,13 @@ export default function ActivityDetail({ activity, reviewData }: Props) {
         {/* 리뷰 목록 */}
         <ReviewList reviews={currentReviews} />
 
-        {/* 임시 페이지네이션 UI  */}
-        {reviewData.reviews.length > REVIEWS_PER_PAGE && (
-          <div className='flex justify-center gap-2 w-full mt-10 mb-20'>
-            <button
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage((prev) => prev - 1)}
-            >
-              이전
-            </button>
-            {Array.from({ length: totalPages }, (_, i) => (
-              <button key={i + 1} onClick={() => setCurrentPage(i + 1)}>
-                {i + 1}
-              </button>
-            ))}
-            <button
-              disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage((prev) => prev + 1)}
-            >
-              다음
-            </button>
-          </div>
-        )}
+        {/* 페이지네이션 */}
+        <Pagination
+          currentPage={currentPage}
+          totalItems={reviewData.reviews.length}
+          itemsPerPage={REVIEWS_PER_PAGE}
+          onPageChange={setCurrentPage}
+        />
       </section>
     </>
   );
