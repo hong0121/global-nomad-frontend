@@ -25,9 +25,8 @@ export default function MyInfoPage() {
     register,
     handleSubmit,
     reset,
-    watch,
-    formState: { errors },
-  } = useForm<MyInfoFormData>({ mode: 'onBlur' });
+    formState: { errors, isValid },
+  } = useForm<MyInfoFormData>({ mode: 'onChange' });
 
   const { data: userInfo } = useQuery({
     queryKey: ['userInfo'],
@@ -38,18 +37,11 @@ export default function MyInfoPage() {
     if (userInfo) {
       reset({
         nickname: userInfo.nickname,
-        email: userInfo.email,
         password: '',
         checkpassword: '',
       });
     }
   }, [userInfo, reset]);
-
-  const watchedFields = watch();
-  const isButtonDisabled =
-    !watchedFields.nickname ||
-    !watchedFields.email ||
-    watchedFields.password !== watchedFields.checkpassword;
 
   const onSubmit = async (data: MyInfoFormData) => {
     const payload = {
@@ -61,7 +53,6 @@ export default function MyInfoPage() {
       await patchMyInfo(payload);
       reset({
         nickname: data.nickname,
-        email: data.email,
         password: '',
         checkpassword: '',
       });
@@ -105,14 +96,8 @@ export default function MyInfoPage() {
           label='이메일'
           variant='experience'
           placeholder='이메일을 입력하세요'
-          errorMessage={errors.email?.message}
-          {...register('email', {
-            required: '필수 입력 항목입니다.',
-            pattern: {
-              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: '올바른 이메일 형식이 아닙니다.',
-            },
-          })}
+          defaultValue={userInfo?.email}
+          readOnly
         />
         <FormInput
           label='새 비밀번호'
@@ -132,8 +117,8 @@ export default function MyInfoPage() {
           errorMessage={errors.checkpassword?.message}
           {...register('checkpassword', {
             minLength: { value: 8, message: '8자 이상 입력해주세요.' },
-            validate: (value) =>
-              value === watch('password') || '비밀번호가 일치하지 않습니다.',
+            validate: (value, formValues) =>
+              value === formValues.password || '비밀번호가 일치하지 않습니다.',
           })}
         />
         <div className='w-full flex justify-center'>
@@ -141,7 +126,7 @@ export default function MyInfoPage() {
             type='submit'
             className='w-30'
             variant='primary'
-            disabled={isButtonDisabled}
+            disabled={!isValid}
           >
             저장하기
           </Button>
