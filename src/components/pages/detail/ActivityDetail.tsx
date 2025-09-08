@@ -44,13 +44,13 @@ export default function ActivityDetail({ activity, reviewData }: Props) {
         <h2 className='inline-block text-16 font-bold mb-2 md:text-18 lg:mb-[9px]'>
           체험 후기{' '}
           <span className='text-gray-500 text-14 font-semibold'>
-            {activity.reviewCount}개
+            {activity.reviewCount.toLocaleString()}개
           </span>
         </h2>
 
         <div className='flex flex-col items-center w-full mb-7.5'>
           <p className='text-24 font-semibold mb-1 md:text-32 md:font-bold'>
-            {activity.rating}
+            {activity.rating.toFixed(1)}
           </p>
           <p className='text-14 font-bold mb-1.5 md:text-16'>
             <RatingText rating={activity.rating} />
@@ -60,7 +60,7 @@ export default function ActivityDetail({ activity, reviewData }: Props) {
               <Image src='/images/icons/StarFilled.svg' alt='체험별점' fill />
             </div>
             <span className='text-gray-500 text-14 font-medium'>
-              {activity.reviewCount}개의 후기
+              {activity.reviewCount.toLocaleString()}개의 후기
             </span>
           </div>
         </div>

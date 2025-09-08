@@ -1,8 +1,8 @@
-import { Activity } from '@/src/types/activityType';
 import Image from 'next/image';
 import DropdownList from './DrowdownList';
 import { useDropdown } from '@/src/hooks/pages/detail/useDropdown';
 import useCurrentUser from '@/src/hooks/useCurrentUser';
+import { Activity } from '@/src/types/activityType';
 
 interface Props {
   activity: Activity;
@@ -31,7 +31,8 @@ export default function ActivityInfo({ activity }: Props) {
               <Image src='/images/icons/StarFilled.svg' alt='체험별점' fill />
             </div>
             <span className='text-gray-700 text-14 font-medium'>
-              {activity.rating}({activity.reviewCount})
+              {activity.rating.toFixed(1)} (
+              {activity.reviewCount.toLocaleString()})
             </span>
           </div>
           <div className='flex gap-0.5 lg:mb-4'>
