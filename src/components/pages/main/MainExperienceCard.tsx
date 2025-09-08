@@ -64,7 +64,7 @@ export default function MainExperienceCard() {
           {rating}
           <span className='text-gray-400 md:ml-[2px]'>({reviewCount})</span>
         </div>
-        <div className='flex items-center gap-[2px] mt-[10px] md:mt-[18px]'>
+        <div className='flex items-center flex-wrap gap-[2px] mt-[10px] md:mt-[18px]'>
           <strong className='text-[15px] font-bold md:text-18'>
             &#8361; {price.toLocaleString()}
           </strong>
