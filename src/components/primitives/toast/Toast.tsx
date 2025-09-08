@@ -22,17 +22,10 @@ const ToastIcon = {
 };
 
 const ToastStyle = {
-  info: 'bg-primary-500 text-white',
-  warning: 'bg-[#ffeb3b]',
-  success: 'bg-[#5ab55e] text-white',
-  failed: 'bg-[#f54712] text-white',
-};
-
-const ToastBarBg = {
-  info: 'bg-[#ffeb3b]',
-  warning: 'bg-primary-500',
-  success: 'bg-[#ffeb3b]',
-  failed: 'bg-[#ffeb3b]',
+  info: 'bg-primary-100',
+  warning: 'bg-gray-500 text-white',
+  success: 'bg-primary-500 text-white',
+  failed: 'bg-red-500 text-white',
 };
 
 export default function Toast({ toast, order }: Props) {
@@ -75,7 +68,7 @@ export default function Toast({ toast, order }: Props) {
       onClick={handleDeleteToast}
     >
       <span
-        className={`absolute top-0 left-0 right-0 h-[2px] block animate-toastBar origin-left ${ToastBarBg[type]}`}
+        className='absolute top-0 left-0 right-0 h-[2px] block animate-toastBar origin-left bg-[#ffeb3b]'
         style={{ animationDuration: `${delay}ms` }}
       />
       {`${type && ToastIcon[type]} ${message}`}
