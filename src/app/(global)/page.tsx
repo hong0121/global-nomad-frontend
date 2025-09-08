@@ -1,3 +1,4 @@
+import PopularExperiencesSection from '@/src/components/pages/main/PopularExperiencesSection';
 import SearchBar from '@/src/components/pages/main/SearchBar';
 import TopBanner from '@/src/components/pages/main/TopBanner';
 
@@ -7,6 +8,7 @@ export default function MainPage() {
       <div className='px-6 md:px-0 md:w-[calc(100%-60px)] md:max-w-[1120px] md:mx-auto'>
         <TopBanner />
         <SearchBar />
+        <PopularExperiencesSection />
       </div>
     </div>
   );
