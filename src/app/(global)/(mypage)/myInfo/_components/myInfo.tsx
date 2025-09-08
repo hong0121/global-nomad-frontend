@@ -115,7 +115,7 @@ export default function MyInfoPage() {
           })}
         />
         <FormInput
-          label='비밀번호'
+          label='새 비밀번호'
           isPassword={true}
           variant='experience'
           placeholder='8자 이상 입력해 주세요'
