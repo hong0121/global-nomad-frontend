@@ -32,7 +32,7 @@ export default function SignupForm() {
     getValues,
     trigger,
     formState: { errors, isSubmitting, isValid },
-  } = useForm<FormDataType>({ mode: 'onBlur' });
+  } = useForm<FormDataType>({ mode: 'onChange' });
 
   const handleSubmitForm = async (formData: FormDataType) => {
     const { email, nickname, password } = formData;
