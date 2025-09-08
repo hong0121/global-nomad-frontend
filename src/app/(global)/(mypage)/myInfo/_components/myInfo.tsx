@@ -95,6 +95,7 @@ export default function MyInfoPage() {
               value: 10,
               message: '닉네임은 10자 이하로 작성해주세요.',
             },
+            pattern: { value: /^\S*$/, message: '공백 없이 입력해주세요.' },
           })}
         />
         <FormInput
@@ -112,6 +113,7 @@ export default function MyInfoPage() {
           errorMessage={errors.password?.message}
           {...register('password', {
             minLength: { value: 8, message: '8자 이상 입력해주세요.' },
+            pattern: { value: /^\S*$/, message: '공백 없이 입력해주세요.' },
           })}
         />
         <FormInput
@@ -124,6 +126,7 @@ export default function MyInfoPage() {
             minLength: { value: 8, message: '8자 이상 입력해주세요.' },
             validate: (value, formValues) =>
               value === formValues.password || '비밀번호가 일치하지 않습니다.',
+            pattern: { value: /^\S*$/, message: '공백 없이 입력해주세요.' },
           })}
         />
         <div className='w-full flex justify-center'>
