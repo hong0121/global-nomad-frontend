@@ -1,19 +1,19 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { patchMyInfo } from '@/src/services/pages/users/api';
+import { queries } from '@/src/services/primitives/queries';
 import Button from '@/src/components/primitives/Button';
 import FormInput from '@/src/components/primitives/input/FormInput';
 import AlertModal from '@/src/components/primitives/modal/AlertModal';
 import BackBtn from '@/src/components/primitives/mypage/BackBtn';
-import getUserInfo from '@/src/services/primitives/getUserInfo';
+import useCurrentUser from '@/src/hooks/useCurrentUser';
 
 type MyInfoFormData = {
   nickname: string;
-  email: string;
   password?: string;
   checkpassword?: string;
 };
@@ -28,10 +28,8 @@ export default function MyInfoPage() {
     formState: { errors, isValid },
   } = useForm<MyInfoFormData>({ mode: 'onChange' });
 
-  const { data: userInfo } = useQuery({
-    queryKey: ['userInfo'],
-    queryFn: getUserInfo,
-  });
+  const queryClient = useQueryClient();
+  const userInfo = useCurrentUser();
 
   useEffect(() => {
     if (userInfo) {
@@ -43,25 +41,32 @@ export default function MyInfoPage() {
     }
   }, [userInfo, reset]);
 
+  const mutation = useMutation({
+    mutationFn: (payload: MyInfoFormData) => patchMyInfo(payload),
+    onSuccess: (_, variables) => {
+      reset({
+        nickname: variables.nickname,
+        password: '',
+        checkpassword: '',
+      });
+
+      queryClient.invalidateQueries({ queryKey: queries.user() });
+
+      setAlertMessage('내 정보가 저장되었습니다!');
+      setAlertOpen(true);
+    },
+    onError: () => {
+      setAlertMessage('저장에 실패했습니다.');
+      setAlertOpen(true);
+    },
+  });
+
   const onSubmit = async (data: MyInfoFormData) => {
     const payload = {
       ...data,
       ...(data.password ? { password: data.password } : {}),
     };
-
-    try {
-      await patchMyInfo(payload);
-      reset({
-        nickname: data.nickname,
-        password: '',
-        checkpassword: '',
-      });
-      setAlertMessage('내 정보가 저장되었습니다!');
-      setAlertOpen(true);
-    } catch (err) {
-      setAlertMessage('저장에 실패했습니다.');
-      setAlertOpen(true);
-    }
+    mutation.mutate(payload);
   };
 
   return (
