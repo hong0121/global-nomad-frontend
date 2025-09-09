@@ -14,9 +14,7 @@ interface Props {
 }
 
 export default function ActivityDetail({ activity, reviewData }: Props) {
-  // 페이지네이션
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(reviewData.reviews.length / REVIEWS_PER_PAGE);
   const currentReviews = reviewData.reviews.slice(
     (currentPage - 1) * REVIEWS_PER_PAGE,
     currentPage * REVIEWS_PER_PAGE

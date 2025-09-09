@@ -34,7 +34,7 @@ export default function ReviewList({ reviews }: Props) {
             <span className='text-gray-300 text-12 font-semibold md:text-14 md:font-medium'>
               {format(
                 review.updatedAt ? review.updatedAt : review.createdAt,
-                'yyyy. M. dd'
+                'yyyy. M. d'
               )}
             </span>
           </h3>
