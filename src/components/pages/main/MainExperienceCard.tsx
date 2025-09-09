@@ -16,6 +16,10 @@ interface MainExperienceType {
   updatedAt: string;
 }
 
+interface Props {
+  activitie: MainExperienceType;
+}
+
 const mockData: MainExperienceType = {
   id: 5716,
   userId: 2479,
@@ -32,8 +36,9 @@ const mockData: MainExperienceType = {
   updatedAt: '2025-09-03T13:33:48.755Z',
 };
 
-export default function MainExperienceCard() {
-  const { id, title, price, bannerImageUrl, rating, reviewCount } = mockData;
+export default function MainExperienceCard({ activitie }: Props) {
+  if (!activitie) return;
+  const { id, title, price, bannerImageUrl, rating, reviewCount } = activitie;
 
   return (
     <Link
