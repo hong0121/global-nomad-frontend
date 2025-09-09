@@ -25,10 +25,9 @@ export const queries = {
       getNextPageParam: (lastPage) => lastPage.cursorId,
     }),
   myExperiences: () => ['myExperiences'],
-  myExperiencesOptions: (accessToken: string | null | undefined) =>
+  myExperiencesOptions: () =>
     queryOptions({
       queryKey: [...queries.myExperiences()],
       queryFn: () => getMyExperiences(),
-      enabled: !!accessToken,
     }),
 };

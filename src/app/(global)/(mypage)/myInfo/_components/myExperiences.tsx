@@ -9,14 +9,10 @@ import BackIcon from '@/public/images/icons/BackIcon.svg';
 import { useContext } from 'react';
 import { TabContext } from '../pageContext';
 import { queries } from '@/src/services/primitives/queries';
-import { useTokenStore } from '@/src/store/useTokenStore';
 
 export default function MyExperiencesPage() {
   const { setIsTabOpen } = useContext(TabContext);
-  const { accessToken } = useTokenStore();
-  const { data, isPending } = useQuery(
-    queries.myExperiencesOptions(accessToken)
-  );
+  const { data, isPending } = useQuery(queries.myExperiencesOptions());
 
   return (
     <section className='flex flex-col items-center gap-8'>
