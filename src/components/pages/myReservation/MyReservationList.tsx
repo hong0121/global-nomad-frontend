@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import ReviewModal from '../../primitives/modal/ReviewModal';
 import AlertModal from '../../primitives/modal/AlertModal';
+import { useToastStore } from '@/src/store/useToastStore';
 
 interface Props {
   pagesData: MyReservationListResponse[];
@@ -38,6 +39,7 @@ export default function MyReservationList({
     useState<MyReservationItem | null>(null);
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const createToast = useToastStore((state) => state.createToast);
 
   const isEmpty = pagesData[0].totalCount === 0;
   const { loadMoreRef } = useInfiniteScroll(
@@ -65,7 +67,7 @@ export default function MyReservationList({
       console.log(err);
 
       if (err.response?.status === 403) {
-        alert('취소 권한이 없습니다.');
+        createToast({ message: '취소 권한이 없습니다.', type: 'failed' });
       }
     }
   }, [reservationId]);
