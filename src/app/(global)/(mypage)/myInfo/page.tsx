@@ -56,8 +56,7 @@ export default function MypageLayout() {
       <section className='w-full pt-[85px] pb-[64px] overflow-hidden md:pt-[120px] md:pb-[54px] h-full'>
         <div
           className={cn(
-            'flex w-[200vw] transition-all md:w-[calc(100%-60px)] md:gap-[30px] md:max-w-[980px] md:mx-auto lg:gap-[50px] h-[480px]',
-            isTabOpen && '-translate-x-1/2 md:translate-x-0 h-auto'
+            'flex w-[200vw] transition-all md:w-[calc(100%-60px)] md:gap-[30px] md:max-w-[980px] md:mx-auto lg:gap-[50px] -translate-x-1/2 md:translate-x-0 h-auto'
           )}
         >
           <div className='w-screen px-6 shrink-0 md:w-[178px] md:px-0 lg:w-[290px]'>
@@ -69,8 +68,7 @@ export default function MypageLayout() {
           </div>
           <article
             className={cn(
-              'w-screen px-6 shrink-0 md:w-auto md:shrink-1 md:px-0 md:grow-1',
-              isTabOpen && 'h-100%'
+              'w-screen h-100% px-6 shrink-0 md:w-auto md:shrink-1 md:px-0 md:grow-1'
             )}
           >
             <Tabs page={tab} />
