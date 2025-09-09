@@ -18,7 +18,7 @@ export const useTokenStore = create<TokenState>()(
     },
     {
       name: 'accessToken',
-      storage: createJSONStorage(() => sessionStorage),
+      storage: createJSONStorage(() => localStorage),
       onRehydrateStorage: () => (state) => {
         if (state?.accessToken === undefined) {
           state?.setAccessToken(null);

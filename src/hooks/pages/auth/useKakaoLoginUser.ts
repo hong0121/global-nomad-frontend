@@ -4,6 +4,7 @@ import {
 } from '@/src/services/pages/login/api';
 import { queries } from '@/src/services/primitives/queries';
 import { setTokenAction } from '@/src/services/primitives/tokenAction';
+import { useToastStore } from '@/src/store/useToastStore';
 import { useTokenStore } from '@/src/store/useTokenStore';
 import { TokenUserResponseType } from '@/src/types/userType';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -15,6 +16,7 @@ export default function useKakaoLoginUser() {
   const searchParams = useSearchParams();
   const redirectPath = searchParams.get('state');
   const setAccessToken = useTokenStore((state) => state.setAccessToken);
+  const createToast = useToastStore((state) => state.createToast);
 
   return useMutation({
     mutationFn: async (data: KakaoLoginRequestBody) =>
@@ -33,7 +35,10 @@ export default function useKakaoLoginUser() {
       }
     },
     onError: () => {
-      alert('로그인에 실패하였습니다. 다시 시도 해주세요.');
+      createToast({
+        message: '로그인에 실패하였습니다. 다시 시도 해주세요.',
+        type: 'failed',
+      });
       router.replace('/login');
     },
   });

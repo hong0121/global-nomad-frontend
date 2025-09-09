@@ -1,5 +1,6 @@
 'use client';
 import LoadingSpinner from '@/src/components/primitives/LoadingSpinner';
+import ToastContainer from '@/src/components/primitives/toast/ToastContainer';
 import { queries } from '@/src/services/primitives/queries';
 import { useTokenStore } from '@/src/store/useTokenStore';
 import { useQuery } from '@tanstack/react-query';
@@ -68,5 +69,10 @@ export default function AuthProvicder({ children }: Props) {
       </div>
     );
 
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <ToastContainer />
+    </>
+  );
 }

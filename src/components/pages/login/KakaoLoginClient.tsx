@@ -2,6 +2,7 @@
 import LoadingSpinner from '@/src/components/primitives/LoadingSpinner';
 import { KAKAO_REDIRECT_URI_LOGIN } from '@/src/constants/social';
 import useKakaoLoginUser from '@/src/hooks/pages/auth/useKakaoLoginUser';
+import { useToastStore } from '@/src/store/useToastStore';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
@@ -11,10 +12,14 @@ export default function KakaoLoginClient() {
   const searchParams = useSearchParams();
   const code = searchParams.get('code');
   const kakaoLoginMutation = useKakaoLoginUser();
+  const createToast = useToastStore((state) => state.createToast);
 
   useEffect(() => {
     if (!code) {
-      alert('인가 코드가 없습니다. 다시 시도 해주세요.');
+      createToast({
+        message: '인가 코드가 없습니다. 다시 시도해주세요.',
+        type: 'failed',
+      });
       router.replace('/login');
       return;
     }
