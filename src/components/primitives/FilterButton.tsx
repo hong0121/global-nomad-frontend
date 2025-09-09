@@ -3,7 +3,6 @@
 import React from "react";
 import Image from "next/image";
 
-// 1. FilterButtonProps 타입에 icon 속성을 추가합니다. (string 타입, optional)
 interface FilterButtonProps {
   state?: "normal" | "active";
   size?: "pc/tb" | "mo";
@@ -18,7 +17,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({
   size = "pc/tb",
   showIcon = true,
   label,
-  icon, // 2. icon prop을 받아옵니다.
+  icon, 
   onClick,
 }) => {
   const isLarge = size === "pc/tb";
@@ -40,12 +39,10 @@ const FilterButton: React.FC<FilterButtonProps> = ({
       className={`${baseStyles} ${sizeStyles} ${stateStyles} font-pretendard`}
       onClick={onClick}
     >
-      {/* 3. showIcon이 true이고 icon prop이 존재할 때만 이미지를 렌더링합니다. */}
+    
       {showIcon && icon && (
         <Image
-          // 4. 하드코딩된 경로 대신 전달받은 icon prop을 사용합니다.
           src={icon}
-          // 5. alt 텍스트를 label을 사용해 동적으로 만듭니다.
           alt={`${label} 아이콘`}
           width={iconSize}
           height={iconSize}
