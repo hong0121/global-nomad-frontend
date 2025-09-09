@@ -1,6 +1,7 @@
 import { cn } from '@/src/utils/cn';
 import LeftIcon from '@/public/images/icons/ChevronLeftIcon.svg';
 import RightIcon from '@/public/images/icons/ChevronRightIcon.svg';
+import { useMemo } from 'react';
 
 interface Props {
   currentPage: number;
@@ -15,9 +16,18 @@ export default function Pagination({
   itemsPerPage,
   onPageChange,
 }: Props) {
+  const visiblePages = 5;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   if (totalPages <= 1) return null;
+
+  const pages = useMemo(() => {
+    const start =
+      Math.floor((currentPage - 1) / visiblePages) * visiblePages + 1;
+    const end = Math.min(start + visiblePages - 1, totalPages);
+
+    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+  }, [currentPage, totalPages]);
 
   return (
     <div className='flex justify-center gap-2 w-full mt-10 mb-20'>
@@ -29,18 +39,18 @@ export default function Pagination({
         <LeftIcon className='w-10 h-10' />
       </button>
 
-      {Array.from({ length: totalPages }, (_, i) => (
+      {pages.map((page) => (
         <button
-          key={i + 1}
+          key={page}
+          onClick={() => onPageChange(page)}
           className={cn(
             'w-10 h-10',
-            currentPage === i + 1
+            currentPage === page
               ? 'font-bold border-b-2 border-primary-500'
               : 'font-medium text-gray-300'
           )}
-          onClick={() => onPageChange(i + 1)}
         >
-          {i + 1}
+          {page}
         </button>
       ))}
 
