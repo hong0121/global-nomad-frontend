@@ -27,10 +27,10 @@ export default function ResponsiveLayout({ activity, reviewData }: Props) {
   }, [isPopupVisible, isLg]);
 
   return (
-    <div className='mt-12'>
+    <div>
       {isLg ? (
         // 데스크탑
-        <div className='flex justify-center gap-10 mx-0'>
+        <div className='flex justify-center gap-10 pt-22 mt-20 mx-0'>
           <div className='max-w-[670px] w-full'>
             <ActivityImage activity={activity} />
             <ActivityDetail activity={activity} reviewData={reviewData} />
@@ -38,14 +38,15 @@ export default function ResponsiveLayout({ activity, reviewData }: Props) {
           <div className='max-w-[410px] w-full'>
             <ActivityInfo activity={activity} />
             <ReservationUI activity={activity} />
-            {/* 예약 컴포넌트 들어갈 자리 */}
           </div>
         </div>
       ) : (
+        // 테블릿 / 모바일
         <div
-          className={`mt-12 px-5 ${isPopupVisible ? 'overflow-hidden' : 'overflow-auto'}`}
+          className={`mt-12 md:mt-20 pt-7.5 md:pt-[34px] px-5 ${
+            isPopupVisible ? 'overflow-hidden' : 'overflow-auto'
+          }`}
         >
-          {/* 테블릿 / 모바일 */}
           <ActivityImage activity={activity} />
           <ActivityInfo activity={activity} />
           <ActivityDetail activity={activity} reviewData={reviewData} />
@@ -63,7 +64,6 @@ export default function ResponsiveLayout({ activity, reviewData }: Props) {
               setIsPopupVisible={setIsPopupVisible}
             />
           </PopupWrapper>
-          {/* 예약 컴포넌트 들어갈 자리 */}
         </div>
       )}
     </div>

@@ -6,6 +6,7 @@ import { REVIEWS_PER_PAGE } from '@/src/constants/pagination';
 import { ReviewResponse } from '@/src/types/reviewType';
 import { Activity } from '@/src/types/activityType';
 import ReviewList from './ReviewList';
+import Pagination from '../../primitives/Pagination';
 
 interface Props {
   activity: Activity;
@@ -13,9 +14,7 @@ interface Props {
 }
 
 export default function ActivityDetail({ activity, reviewData }: Props) {
-  // 페이지네이션
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(reviewData.reviews.length / REVIEWS_PER_PAGE);
   const currentReviews = reviewData.reviews.slice(
     (currentPage - 1) * REVIEWS_PER_PAGE,
     currentPage * REVIEWS_PER_PAGE
@@ -43,13 +42,13 @@ export default function ActivityDetail({ activity, reviewData }: Props) {
         <h2 className='inline-block text-16 font-bold mb-2 md:text-18 lg:mb-[9px]'>
           체험 후기{' '}
           <span className='text-gray-500 text-14 font-semibold'>
-            {activity.reviewCount}개
+            {activity.reviewCount.toLocaleString()}개
           </span>
         </h2>
 
         <div className='flex flex-col items-center w-full mb-7.5'>
           <p className='text-24 font-semibold mb-1 md:text-32 md:font-bold'>
-            {activity.rating}
+            {activity.rating.toFixed(1)}
           </p>
           <p className='text-14 font-bold mb-1.5 md:text-16'>
             <RatingText rating={activity.rating} />
@@ -59,7 +58,7 @@ export default function ActivityDetail({ activity, reviewData }: Props) {
               <Image src='/images/icons/StarFilled.svg' alt='체험별점' fill />
             </div>
             <span className='text-gray-500 text-14 font-medium'>
-              {activity.reviewCount}개의 후기
+              {activity.reviewCount.toLocaleString()}개의 후기
             </span>
           </div>
         </div>
@@ -67,28 +66,13 @@ export default function ActivityDetail({ activity, reviewData }: Props) {
         {/* 리뷰 목록 */}
         <ReviewList reviews={currentReviews} />
 
-        {/* 임시 페이지네이션 UI  */}
-        {reviewData.reviews.length > REVIEWS_PER_PAGE && (
-          <div className='flex justify-center gap-2 w-full mt-10 mb-20'>
-            <button
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage((prev) => prev - 1)}
-            >
-              이전
-            </button>
-            {Array.from({ length: totalPages }, (_, i) => (
-              <button key={i + 1} onClick={() => setCurrentPage(i + 1)}>
-                {i + 1}
-              </button>
-            ))}
-            <button
-              disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage((prev) => prev + 1)}
-            >
-              다음
-            </button>
-          </div>
-        )}
+        {/* 페이지네이션 */}
+        <Pagination
+          currentPage={currentPage}
+          totalItems={reviewData.reviews.length}
+          itemsPerPage={REVIEWS_PER_PAGE}
+          onPageChange={setCurrentPage}
+        />
       </section>
     </>
   );
