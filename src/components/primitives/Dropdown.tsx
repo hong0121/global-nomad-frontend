@@ -3,11 +3,16 @@
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
+interface DropdownItem {
+  id: number;
+  title: string;
+}
+
 interface DropdownProps {
   label: string;
-  items: string[];
+  items: DropdownItem[];
   value: string | null;
-  onChange: (value: string) => void;
+  onChange: (id: number) => void;
   error?: string;
 }
 
@@ -18,6 +23,7 @@ export default function Dropdown({
   onChange,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<DropdownItem | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -44,7 +50,7 @@ export default function Dropdown({
         className='inline-flex w-full justify-between items-center border border-gray-100 rounded-2xl px-5 py-4 font-medium text-gray-400  mt-2.5'
       >
         <span className={value ? 'text-gray-900' : 'text-gray-400'}>
-          {value ?? '카테고리를 선택해 주세요'}
+          {selectedItem?.title ?? '카테고리를 선택해 주세요'}
         </span>
         <Image
           src={'/images/icons/TriangleDownIcon.svg'}
@@ -57,15 +63,16 @@ export default function Dropdown({
         <div className='absolute right-0 z-10 mt-2 w-full p-3 origin-top-right bg-white border border-gray-100 rounded-2xl'>
           {items.map((item) => (
             <button
-              key={item}
+              key={item.id}
               onClick={() => {
-                onChange(item);
+                onChange(item.id);
+                setSelectedItem(item);
                 setIsOpen(false);
               }}
               className='flex flex-col w-full px-5 py-4 gap-1 text-left text-sm text-gray-900 rounded-xl
                            hover:bg-[#E5F3FF]'
             >
-              {item}
+              {item.title}
             </button>
           ))}
         </div>

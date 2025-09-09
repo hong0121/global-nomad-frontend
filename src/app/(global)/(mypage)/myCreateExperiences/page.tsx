@@ -28,6 +28,14 @@ interface ExperiencesFormData {
 }
 
 export default function MyCreateExperiencesPage() {
+  const dropdownItems = [
+    { id: 1, title: '문화 ∙ 예술' },
+    { id: 2, title: '식음료' },
+    { id: 3, title: '스포츠' },
+    { id: 4, title: '투어' },
+    { id: 5, title: '관광' },
+    { id: 6, title: '웰빙' },
+  ];
   const {
     register,
     handleSubmit,
@@ -61,8 +69,14 @@ export default function MyCreateExperiencesPage() {
         endTime: slot.endTime!,
       }));
 
-    console.log('폼 제출됨 ✅', { ...data, schedules, bannerImages });
+    const categoryTitle = dropdownItems.find(
+      (el) => el.id === parseInt(data.category)
+    );
+    const activity = { ...data, category: categoryTitle?.title };
+
+    console.log('폼 제출됨 ✅', { ...activity, schedules, bannerImages });
   };
+
   return (
     <div>
       <form
@@ -84,14 +98,7 @@ export default function MyCreateExperiencesPage() {
           render={({ field, fieldState }) => (
             <Dropdown
               label='카테고리'
-              items={[
-                '문화 ∙ 예술',
-                '식음료',
-                '스포츠',
-                '투어',
-                '관광',
-                '웰빙',
-              ]}
+              items={dropdownItems}
               value={field.value}
               onChange={field.onChange}
               error={fieldState.error?.message}
