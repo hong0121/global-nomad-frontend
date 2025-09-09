@@ -31,7 +31,7 @@ export async function getMyReservationStatus(
   activityId: number,
   year: string,
   month: string
-): Promise<IReservedSchedule> {
+): Promise<IReservedSchedule[]> {
   try {
     const res = await apiClient.get(
       `/my-activities/${activityId}/reservation-dashboard`,

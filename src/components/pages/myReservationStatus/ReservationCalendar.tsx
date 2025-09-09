@@ -14,8 +14,10 @@ export default function ReservationCalendar({
 }: {
   schedule: IReservedSchedule[] | null;
 }) {
-  const { displayController } = useReservationStore();
-  const daysArray = getDaysArray(new Date());
+  const displayController = useReservationStore(
+    (state) => state.displayController
+  );
+  const daysArray = getDaysArray(displayController.dateToDisplay);
   const yoils = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
   const handleLeftClick = () => {
