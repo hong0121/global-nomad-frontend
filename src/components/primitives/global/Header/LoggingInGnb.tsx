@@ -3,10 +3,13 @@ import BellIcon from '@/public/images/icons/Bell.svg';
 import { useState } from 'react';
 import NotificationModal from '../../notification/NotificationModal';
 import UserMenuDropdown from './UserMenuDropdown';
+import useCurrentUser from '@/src/hooks/useCurrentUser';
 
 export default function LoggingInGnb() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
+  const userInfo = useCurrentUser();
 
   return (
     <div className='relative'>
@@ -40,12 +43,15 @@ export default function LoggingInGnb() {
             onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
           >
             <Image
-              src='/images/UserDefaultImg.svg'
+              src={userInfo?.profileImageUrl || '/images/UserDefaultImg.svg'}
               width={30}
               height={30}
-              alt='유저 기본 이미지'
+              className='w-7.5 h-7.5 rounded-full object-cover'
+              alt='유저 프로필 이미지'
             />
-            <strong className='text-14 font-medium'>홍길동</strong>
+            <strong className='text-14 font-medium'>
+              {userInfo?.nickname || '홍길동'}
+            </strong>
           </button>
 
           {isUserMenuOpen && (
