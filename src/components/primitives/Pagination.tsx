@@ -1,3 +1,5 @@
+'use client';
+
 import { cn } from '@/src/utils/cn';
 import LeftIcon from '@/public/images/icons/ChevronLeftIcon.svg';
 import RightIcon from '@/public/images/icons/ChevronRightIcon.svg';
@@ -19,8 +21,6 @@ export default function Pagination({
   const visiblePages = 5;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  if (totalPages <= 1) return null;
-
   const pages = useMemo(() => {
     const start =
       Math.floor((currentPage - 1) / visiblePages) * visiblePages + 1;
@@ -28,6 +28,8 @@ export default function Pagination({
 
     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
   }, [currentPage, totalPages]);
+
+  if (totalPages <= 1) return null;
 
   return (
     <div className='flex justify-center gap-2 w-full mt-10 mb-20'>
