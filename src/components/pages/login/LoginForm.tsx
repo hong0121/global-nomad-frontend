@@ -22,7 +22,7 @@ export default function LoginForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
-  } = useForm<FormDataType>({ mode: 'onBlur' });
+  } = useForm<FormDataType>({ mode: 'onChange' });
 
   const handleSubmitForm = async (formData: FormDataType) => {
     loginMutation.mutate(formData, {

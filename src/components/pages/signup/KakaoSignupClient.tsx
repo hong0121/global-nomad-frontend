@@ -2,6 +2,7 @@
 import LoadingSpinner from '@/src/components/primitives/LoadingSpinner';
 import { KAKAO_REDIRECT_URI_SIGNUP } from '@/src/constants/social';
 import { createKakaoUser } from '@/src/services/pages/signup/api';
+import { useToastStore } from '@/src/store/useToastStore';
 import { AxiosError } from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
@@ -11,10 +12,14 @@ export default function KakaoSignupClient() {
   const flagRef = useRef(false);
   const searchParams = useSearchParams();
   const code = searchParams.get('code');
+  const createToast = useToastStore((state) => state.createToast);
 
   useEffect(() => {
     if (!code) {
-      alert('인가 코드가 없습니다. 다시 시도해주세요.');
+      createToast({
+        message: '인가 코드가 없습니다. 다시 시도해주세요.',
+        type: 'failed',
+      });
       router.replace('/signup');
       return;
     }
@@ -34,14 +39,18 @@ export default function KakaoSignupClient() {
         const err = error as AxiosError<{ message: string }>;
 
         if (err?.response?.status === 400) {
-          // 유저 안내 메세지 - 추후에 토스트로 변경 예정
-          alert('이미 등록된 사용자입니다. 로그인 페이지로 이동합니다.');
+          createToast({
+            message: '이미 등록된 사용자입니다. 로그인 페이지로 이동합니다.',
+            type: 'failed',
+          });
           router.replace('/login'); // 로그인 페이지로 이동
           return;
         }
         console.error(err?.response?.data?.message);
-        // 유저 안내 메세지 - 추후에 토스트로 변경 예정
-        alert('카카오 회원가입에 실패하였습니다. 다시 시도해주세요.');
+        createToast({
+          message: '카카오 회원가입에 실패하였습니다. 다시 시도해주세요.',
+          type: 'failed',
+        });
         // 회원가입 실패시 회원가입 페이지로 이동
         router.replace('/signup');
       }
