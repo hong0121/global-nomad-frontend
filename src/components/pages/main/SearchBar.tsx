@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function SearchBar() {
   return (
-    <div className='mt-[33px] md:mt-[62px] lg:mt-[82px]'>
+    <section className='mt-[33px] md:mt-[62px] lg:mt-[82px]'>
       <h2 className='mb-3 text-center text-16 font-bold md:mb-9 md:text-32'>
         무엇을 체험하고 싶으신가요?
       </h2>
@@ -24,6 +24,6 @@ export default function SearchBar() {
           검색하기
         </Button>
       </form>
-    </div>
+    </section>
   );
 }
