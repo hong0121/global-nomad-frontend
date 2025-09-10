@@ -14,7 +14,7 @@ export default function MainPage() {
   return (
     <div
       className={cn(
-        'pt-[122px] pb-[136px]  bg-linear-to-b from-[#BBDDFF] via-[#F7FBFF] via-27% to-white md:pt-[183px] md:pb-[204px] lg:pb-[218px] ',
+        'pt-[122px] pb-[56px]  bg-linear-to-b from-[#BBDDFF] via-[#F7FBFF] via-27% to-white md:pt-[183px] md:pb-[124px] lg:pb-[138px] ',
         'before:content-[""] before:absolute before:top-0 before:w-full before:h-full before:bg-[center_top] before:bg-auto before:bg-repeat-x before:bg-[url(/images/MainBgMO.png)] md:before:bg-[url(/images/MainBgTB.png)] lg:before:bg-[url(/images/MainBgPC.png)]'
       )}
     >
