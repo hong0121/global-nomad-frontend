@@ -29,10 +29,11 @@ export function useBreakPoint(): BreakPoint {
         isMd: width >= md,
         isLg: width >= lg,
       };
-      // 이전 값과 동일하면 상태 업데이트하지 않음 -> 불필요한 리렌더링 방지
-      if (breakPoint.isMd !== next.isMd || breakPoint.isLg !== next.isLg) {
-        setBreakpoint(next);
-      }
+
+      setBreakpoint((prev) => {
+        if (prev.isMd === next.isMd && prev.isLg === next.isLg) return prev;
+        return next;
+      });
     };
 
     handleResize();
