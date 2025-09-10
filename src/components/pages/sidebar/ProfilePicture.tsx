@@ -29,9 +29,10 @@ export default function ProfilePicture() {
   return (
     <div className='relative h-[120px] md:h-[70px] lg:h-[120px] aspect-square'>
       {userData && userData.profileImageUrl ? (
-        <img
+        <Image
           src={userData.profileImageUrl}
           alt={`${userData.nickname}의 아바타`}
+          fill
           className='w-full h-full rounded-full object-cover'
         />
       ) : (

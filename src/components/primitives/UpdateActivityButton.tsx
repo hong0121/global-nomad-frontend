@@ -4,17 +4,21 @@ import { cn } from '@/src/utils/cn';
 import { useRouter } from 'next/navigation';
 
 interface Props {
+  activityId: number;
   onClick?: () => void;
   className?: string;
 }
 
-export default function UpdateActivityButton({ onClick, className }: Props) {
+export default function UpdateActivityButton({
+  onClick,
+  className,
+  activityId,
+}: Props) {
   const router = useRouter();
 
   const handleClick = () => {
     if (onClick) return onClick();
-    // 동적 라우팅으로 변경 예정 (수정 페이지 담당(성현님)과 소통 필요!)
-    router.push('/myUpdateExperiences');
+    router.push(`/myUpdateExperiences/${activityId}`);
   };
 
   return (
