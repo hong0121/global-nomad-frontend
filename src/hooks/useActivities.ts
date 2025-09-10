@@ -6,5 +6,6 @@ export const useActivities = (params: ActivitiesParams) => {
   return useQuery<ActivitiesResponse>({
     queryKey: ['activities', params],
     queryFn: () => getActivities(params),
+    placeholderData: (prev) => prev,
   });
 };

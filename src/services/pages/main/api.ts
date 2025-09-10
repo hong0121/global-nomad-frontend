@@ -3,10 +3,16 @@
 import { apiClient } from '@/src/services/primitives/apiClient';
 import { ActivitiesResponse } from '@/src/types/activityType';
 
+export type ActivitiesSort =
+  | 'most_reviewed'
+  | 'price_asc'
+  | 'price_desc'
+  | 'latest';
+
 export interface ActivitiesParams {
   category?: string;
   keyword?: string;
-  sort?: 'most_reviewed' | 'price_asc' | 'price_desc' | 'latest';
+  sort?: ActivitiesSort;
   page?: number;
   size?: number;
 }

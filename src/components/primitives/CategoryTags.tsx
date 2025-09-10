@@ -18,12 +18,12 @@ const CATEGORIES_DATA = [
 ];
 
 interface CategoryTagsProps {
-  cat: string | null;
+  currentCat: string | undefined;
   onSelectCategory: (category: string) => void;
 }
 
 export default function CategoryTags({
-  cat,
+  currentCat,
   onSelectCategory,
 }: CategoryTagsProps) {
   return (
@@ -32,7 +32,7 @@ export default function CategoryTags({
         <FilterButton
           key={category.label}
           label={category.label}
-          activeCategory={cat}
+          activeCategory={currentCat}
           onClick={() => onSelectCategory(category.label)}
           Icon={category.icon}
         />

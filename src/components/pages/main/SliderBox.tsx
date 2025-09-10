@@ -74,7 +74,7 @@ export default function SliderBox() {
         {pagesData.map((page) =>
           page.activities.map((activitie) => (
             <SwiperSlide key={activitie.id}>
-              <MainExperienceCard activitie={activitie} />
+              <MainExperienceCard activity={activitie} />
             </SwiperSlide>
           ))
         )}

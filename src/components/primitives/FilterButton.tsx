@@ -5,7 +5,7 @@ import { cn } from '@/src/utils/cn';
 
 interface FilterButtonProps {
   label: string;
-  activeCategory: string | null;
+  activeCategory: string | undefined;
   Icon?: React.FC<SVGProps<SVGSVGElement>>;
   onClick: () => void;
 }

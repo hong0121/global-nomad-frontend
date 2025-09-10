@@ -17,28 +17,11 @@ interface MainExperienceType {
 }
 
 interface Props {
-  activitie: MainExperienceType;
+  activity: MainExperienceType;
 }
 
-const mockData: MainExperienceType = {
-  id: 5716,
-  userId: 2479,
-  title: '초보자를 위한 스케이트보드 체험',
-  description: '안전 장비와 함께 스케이트보드 기본 기술을 배워보는 시간',
-  category: '스포츠',
-  price: 18000,
-  address: '서울특별시 송파구 올림픽로 50',
-  bannerImageUrl:
-    'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/16-4_2479_1756873890919.webp',
-  rating: 0,
-  reviewCount: 0,
-  createdAt: '2025-09-03T13:33:48.755Z',
-  updatedAt: '2025-09-03T13:33:48.755Z',
-};
-
-export default function MainExperienceCard({ activitie }: Props) {
-  if (!activitie) return;
-  const { id, title, price, bannerImageUrl, rating, reviewCount } = activitie;
+export default function MainExperienceCard({ activity }: Props) {
+  const { id, title, price, bannerImageUrl, rating, reviewCount } = activity;
 
   return (
     <Link
