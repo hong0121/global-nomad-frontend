@@ -3,7 +3,7 @@
 import AllExperiencesList from '@/src/components/pages/main/AllExperiencesList';
 import SortDropdown from '@/src/components/pages/main/SortDropdown';
 import CategoryTags from '@/src/components/primitives/CategoryTags';
-import { useActivities } from '@/src/hooks/useActivities';
+import { useActivities } from '@/src/hooks/pages/main/useActivities';
 import { useBreakPoint } from '@/src/hooks/useBreakPoint';
 import { ActivitiesSort } from '@/src/services/pages/main/api';
 import { useEffect, useState } from 'react';
@@ -43,7 +43,11 @@ export default function AllExperiencesSection() {
     if (isLg && isMd) setSize(MAX_SIZE['pc']);
     else if (isMd && !isLg) setSize(MAX_SIZE['tb']);
     else setSize(MAX_SIZE['mo']);
-  }, [isMd, isLg]);
+
+    if (allExperiences?.activities.length === 0) {
+      setPage((prev) => prev - 1);
+    }
+  }, [isMd, isLg, allExperiences]);
 
   return (
     <section className='mt-[25px] md:mt-[65px]'>

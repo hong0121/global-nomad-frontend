@@ -1,6 +1,6 @@
 'use client';
 import AllExperiencesList from '@/src/components/pages/main/AllExperiencesList';
-import { useActivities } from '@/src/hooks/useActivities';
+import { useActivities } from '@/src/hooks/pages/main/useActivities';
 import { useBreakPoint } from '@/src/hooks/useBreakPoint';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
