@@ -4,22 +4,25 @@ import AllExperiencesList from '@/src/components/pages/main/AllExperiencesList';
 import SortDropdown from '@/src/components/pages/main/SortDropdown';
 import CategoryTags from '@/src/components/primitives/CategoryTags';
 import { useActivities } from '@/src/hooks/pages/main/useActivities';
-import { useBreakPoint } from '@/src/hooks/useBreakPoint';
+import useMainSize from '@/src/hooks/pages/main/useMainSize';
 import { ActivitiesSort } from '@/src/services/pages/main/api';
 import { useEffect, useState } from 'react';
 
-const MAX_SIZE = {
-  mo: 6,
-  tb: 4,
-  pc: 8,
-};
-
 export default function AllExperiencesSection() {
-  const { isMd, isLg } = useBreakPoint();
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(MAX_SIZE['mo']);
   const [cat, setCat] = useState<string | undefined>(undefined);
   const [sort, setSort] = useState<ActivitiesSort>('latest');
+  const { size } = useMainSize();
+  const {
+    data: allExperiences,
+    isLoading,
+    isFetching,
+  } = useActivities({
+    page,
+    size,
+    category: cat,
+    sort,
+  });
 
   const handleClickCategory = (selectCategory: string) => {
     const nextCategory = cat === selectCategory ? undefined : selectCategory;
@@ -32,22 +35,14 @@ export default function AllExperiencesSection() {
     setPage(1); // 페이지 초기화
   };
 
-  const { data: allExperiences, isLoading } = useActivities({
-    page,
-    size,
-    category: cat,
-    sort,
-  });
-
   useEffect(() => {
-    if (isLg && isMd) setSize(MAX_SIZE['pc']);
-    else if (isMd && !isLg) setSize(MAX_SIZE['tb']);
-    else setSize(MAX_SIZE['mo']);
+    const totalCount = allExperiences?.totalCount;
+    const lastPage = totalCount && Math.ceil(totalCount / size);
 
-    if (allExperiences?.activities.length === 0) {
-      setPage((prev) => prev - 1);
+    if (lastPage && size > lastPage) {
+      setPage(lastPage);
     }
-  }, [isMd, isLg, allExperiences]);
+  }, [allExperiences, size]);
 
   return (
     <section className='mt-[25px] md:mt-[65px]'>
@@ -64,7 +59,7 @@ export default function AllExperiencesSection() {
         </div>
       </div>
       <AllExperiencesList
-        isLoading={isLoading}
+        isLoading={isLoading && isFetching}
         data={allExperiences}
         onPageChange={setPage}
         currentPage={page}
