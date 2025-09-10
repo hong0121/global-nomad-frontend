@@ -39,8 +39,6 @@ export default function SliderBox() {
 
   const pagesData = popularExperiences?.pages ?? [];
 
-  console.log(pagesData);
-
   if (isLoading)
     return (
       <div className='flex justify-center items-center py-10'>
