@@ -26,9 +26,11 @@ export default function AllExperiencesList({
       </div>
     );
 
+  if (!data) return;
+
   return (
     <div className='mt-6 md:mt-[30px]'>
-      {!!data ? (
+      {data.activities.length !== 0 ? (
         <>
           <ul className='grid grid-cols-2 gap-[18px] md:gap-x-5 md:gap-y-6 lg:grid-cols-4 lg:gap-x-6 lg:gap-y-[30px]'>
             {data.activities.map((activity) => (
