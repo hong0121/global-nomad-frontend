@@ -1,58 +1,31 @@
-"use client";
+'use client';
 
-import React from "react";
-import Image from "next/image";
+import React, { SVGProps } from 'react';
+import { cn } from '@/src/utils/cn';
 
 interface FilterButtonProps {
-  state?: "normal" | "active";
-  size?: "pc/tb" | "mo";
-  showIcon?: boolean;
   label: string;
-  icon?: string;
-  onClick?: () => void;
+  activeCategory: string | null;
+  Icon?: React.FC<SVGProps<SVGSVGElement>>;
+  onClick: () => void;
 }
 
-const FilterButton: React.FC<FilterButtonProps> = ({
-  state = "normal",
-  size = "pc/tb",
-  showIcon = true,
+export default function FilterButton({
   label,
-  icon, 
+  activeCategory,
+  Icon,
   onClick,
-}) => {
-  const isLarge = size === "pc/tb";
-  const isActive = state === "active";
-
-  const baseStyles =
-    "inline-flex items-center justify-center rounded-full transition-colors duration-200";
-  const sizeStyles = isLarge
-    ? "h-[44px] px-4 gap-[6px] text-[16px]"
-    : "h-[37px] px-[14px] gap-[4px] text-[14px]";
-  const stateStyles = isActive
-    ? "bg-[#333333] text-white font-bold"
-    : "bg-white text-[#1F1F22] border border-[#D8D8D8] font-medium";
-
-  const iconSize = isLarge ? 20 : 16;
-
+}: FilterButtonProps) {
   return (
     <button
-      className={`${baseStyles} ${sizeStyles} ${stateStyles} font-pretendard`}
+      className={cn(
+        'inline-flex items-center justify-center rounded-full bg-white border border-[#D8D8D8] font-medium h-[37px] px-[14px] gap-[6px] text-14 shrink-0 md:h-[44px] md:px-4 md:gap-1 md:text-16',
+        activeCategory === label && 'bg-[#333333] text-white font-bold'
+      )}
       onClick={onClick}
     >
-    
-      {showIcon && icon && (
-        <Image
-          src={icon}
-          alt={`${label} 아이콘`}
-          width={iconSize}
-          height={iconSize}
-          className={isActive ? "invert" : ""}
-        />
-      )}
-      <span className="leading-[100%] -tracking-[0.025em]">{label}</span>
+      {Icon && <Icon className='w-4 h-4 md:w-6 md:h-6' />}
+      <span className='leading-[100%] -tracking-[0.025em]'>{label}</span>
     </button>
   );
-};
-
-export default FilterButton;
-
+}

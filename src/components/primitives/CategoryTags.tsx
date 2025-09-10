@@ -1,41 +1,40 @@
 'use client';
 
-import { useState } from 'react';
 import FilterButton from './FilterButton';
+import MusicIcon from '@/src/assets/icons/MusicIcon.svg';
+import FoodIcon from '@/src/assets/icons/FoodIcon.svg';
+import SportIcon from '@/src/assets/icons/SportIcon.svg';
+import TourIcon from '@/src/assets/icons/TourIcon.svg';
+import BusIcon from '@/src/assets/icons/BusIcon.svg';
+import WellbeingIcon from '@/src/assets/icons/WellbeingIcon.svg';
 
 const CATEGORIES_DATA = [
-  { label: '문화 · 예술', icon: '/images/icons/MusicIcon.svg' },
-  { label: '식음료', icon: '/images/icons/FoodIcon.svg' },
-  { label: '스포츠', icon: '/images/icons/SportIcon.svg' },
-  { label: '투어', icon: '/images/icons/TourIcon.svg' },
-  { label: '관광', icon: '/images/icons/n.svg' },
-  { label: '웰빙', icon: '/images/icons/WellbeingIcon.svg' },
+  { label: '문화 · 예술', icon: MusicIcon },
+  { label: '식음료', icon: FoodIcon },
+  { label: '스포츠', icon: SportIcon },
+  { label: '투어', icon: TourIcon },
+  { label: '관광', icon: BusIcon },
+  { label: '웰빙', icon: WellbeingIcon },
 ];
 
 interface CategoryTagsProps {
+  cat: string | null;
   onSelectCategory: (category: string) => void;
 }
 
-export default function CategoryTags({ onSelectCategory }: CategoryTagsProps) {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-
-  const handleTagClick = (categoryLabel: string) => {
-    const newSelectedCategory = selectedCategory === categoryLabel ? null : categoryLabel;
-    
-    setSelectedCategory(newSelectedCategory);
-    onSelectCategory(newSelectedCategory || '전체');
-  };
-
+export default function CategoryTags({
+  cat,
+  onSelectCategory,
+}: CategoryTagsProps) {
   return (
-    <div className="flex flex-wrap gap-2 md:gap-3">
+    <div className='flex gap-2 md:gap-5 overflow-auto pr-6 -mr-6 md:overflow-hidden md:pr-0 md:mr-0 md:flex-wrap'>
       {CATEGORIES_DATA.map((category) => (
         <FilterButton
           key={category.label}
           label={category.label}
-          state={selectedCategory === category.label ? 'active' : 'normal'}
-          onClick={() => handleTagClick(category.label)}
-          icon={category.icon}
-          showIcon={true}
+          activeCategory={cat}
+          onClick={() => onSelectCategory(category.label)}
+          Icon={category.icon}
         />
       ))}
     </div>
