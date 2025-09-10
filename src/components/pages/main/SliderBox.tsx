@@ -7,7 +7,6 @@ import 'swiper/css/navigation';
 import Image from 'next/image';
 import { cn } from '@/src/utils/cn';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { getActivities } from '@/src/services/pages/main/api';
 import LoadingSpinner from '@/src/components/primitives/LoadingSpinner';
 import EmptyList from '@/src/components/primitives/EmptyList';
 import { queries } from '@/src/services/primitives/queries';
@@ -47,6 +46,7 @@ export default function SliderBox() {
             modules={[Navigation]}
             spaceBetween={12}
             slidesPerView={2.5}
+            slidesPerGroup={2}
             navigation={{
               prevEl: '.prev-btn',
               nextEl: '.next-btn',
@@ -54,10 +54,12 @@ export default function SliderBox() {
             breakpoints={{
               744: {
                 slidesPerView: 2,
+                slidesPerGroup: 2,
                 spaceBetween: 20,
               },
               1200: {
                 slidesPerView: 4,
+                slidesPerGroup: 4,
                 spaceBetween: 24,
               },
             }}
