@@ -31,6 +31,7 @@ export default function SearchResultSection() {
     else setSize(MAX_SIZE['mo']);
 
     // 마지막 페이지네이션에서 pagePerView 가 변경되었을 때 페이지의 데이터가 빈값이면 이전 페이지네이션을 보여주도록 처리
+    // 조금 불안정. 다시 테스트 필요
     if (resultList?.activities.length === 0) {
       setPage((prev) => prev - 1);
     }

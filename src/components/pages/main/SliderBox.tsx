@@ -10,6 +10,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { getActivities } from '@/src/services/pages/main/api';
 import LoadingSpinner from '@/src/components/primitives/LoadingSpinner';
 import EmptyList from '@/src/components/primitives/EmptyList';
+import { queries } from '@/src/services/primitives/queries';
 
 const ArrowCommonStyle =
   'hidden absolute top-1/2 -translate-y-1/2 w-[54px] h-[54px] border border-[rgba(0,0,0,0.3)] bg-white rounded-full z-[1] md:flex md:items-center md:justify-center disabled:opacity-0';
@@ -24,18 +25,7 @@ export default function SliderBox() {
     fetchNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ['popularExperiences'],
-    queryFn: ({ pageParam }) =>
-      getActivities({
-        sort: 'most_reviewed',
-        page: pageParam,
-        size: MAX_SIZE,
-      }),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allpage, lastPageParam) =>
-      lastPage.totalCount > allpage.length * MAX_SIZE
-        ? lastPageParam + 1
-        : undefined,
+    ...queries.popularActivitiesOptions(MAX_SIZE),
   });
 
   const pagesData = popularExperiences?.pages ?? [];
