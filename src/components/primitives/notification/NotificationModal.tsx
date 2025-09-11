@@ -1,58 +1,46 @@
 'use client';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import CloseIcon from '@/public/images/icons/DeleteIcon.svg';
-import { getNotifications } from '@/src/services/pages/notifications/api';
+import { deleteNotificationById } from '@/src/services/pages/notifications/api';
 import { Notifications } from '@/src/types/notificationType';
+import { cn } from '@/src/utils/cn';
 import { dateToCalendarDate } from '@/src/utils/dateParser';
-import { useEffect, useState } from 'react';
+import {
+  getNotificationType,
+  isRecent,
+  parseContent,
+} from '@/src/utils/notifications';
 
 interface Props {
   setVisible: (state: boolean) => void;
+  notifications: Notifications | null;
 }
 
-function getNotificationType(content: string) {
-  if (content.includes('승인')) return 'RESERVATION_APPROVED';
-  if (content.includes('거절')) return 'RESERVATION_REJECTED';
-  return 'OTHER';
-}
+export default function NotificationModal({
+  setVisible,
+  notifications,
+}: Props) {
+  const queryClient = useQueryClient();
 
-function parseContent(content: string) {
-  let formatted = content.replace(/(\))\s*(예약)/, '$1<br />$2');
+  const deleteMutation = useMutation({
+    mutationFn: (id: number) => deleteNotificationById(id),
+    onSuccess: (_, id) => {
+      queryClient.setQueryData<Notifications | null>(
+        ['notifications', 10],
+        (old) => {
+          if (!old) return old;
+          return {
+            ...old,
+            notifications: old.notifications.filter((n) => n.id !== id),
+            totalCount: old.totalCount - 1,
+          };
+        }
+      );
+    },
+  });
 
-  if (content.includes('승인')) {
-    formatted = formatted.replace(
-      '승인',
-      `<span class="text-primary-500">승인</span>`
-    );
-  } else if (content.includes('거절')) {
-    formatted = formatted.replace(
-      '거절',
-      `<span class="text-red-500">거절</span>`
-    );
-  }
-
-  return formatted;
-}
-
-export default function NotificationModal({ setVisible }: Props) {
-  const [notifications, setNotifications] = useState<Notifications | null>(
-    null
-  );
-  const [cursorId, setCursorId] = useState<number>(0);
-  const size = 10;
-
-  useEffect(() => {
-    async function fetchNotifications() {
-      try {
-        const res = await getNotifications({ size });
-        setNotifications(res);
-      } catch (error) {
-        console.error('알림 가져오기 실패', error);
-      }
-    }
-
-    fetchNotifications();
-  }, [cursorId]);
+  const handleDelete = (id: number) => deleteMutation.mutate(id);
 
   return (
     <div className='w-full max-w-[327px] md:w-[231px] md:max-w-none h-auto pt-4 bg-white rounded-2xl shadow'>
@@ -60,15 +48,13 @@ export default function NotificationModal({ setVisible }: Props) {
         <h2 className='text-16 font-bold'>
           알림 {notifications?.totalCount ?? 0}개
         </h2>
-        <div className='flex w-23 justify-between'>
-          <button className='text-14 font-medium text-red-400'>
-            모두 삭제
-          </button>
+        <div className='flex justify-between'>
           <button onClick={() => setVisible(false)}>
             <CloseIcon />
           </button>
         </div>
       </div>
+
       <div>
         {notifications?.notifications.map((n) => {
           const notificationType = getNotificationType(n.content);
@@ -76,25 +62,40 @@ export default function NotificationModal({ setVisible }: Props) {
           const formatted = parseContent(n.content);
 
           return (
-            <article key={n.id} className='px-5 py-4 h-34'>
+            <article
+              key={n.id}
+              className={cn(
+                'px-5 py-4 h-34',
+                isRecent(n.createdAt, n.updatedAt)
+                  ? 'bg-primary-100'
+                  : 'bg-gray-25',
+                'border-b border-gray-100 last:border-b-0 last:rounded-b-2xl'
+              )}
+            >
               <div className='flex flex-col h-full gap-2'>
                 <div className='flex justify-between'>
-                  <h3 className='text-14 font-bold'>
-                    예약{' '}
-                    {notificationType === 'RESERVATION_APPROVED'
-                      ? '승인'
-                      : '거절'}
-                  </h3>
-                  <span className='text-12 font-medium text-gray-400'>
-                    {relative}
-                  </span>
+                  <div className='flex items-center gap-2'>
+                    <h3 className='text-14 font-bold'>
+                      예약{' '}
+                      {notificationType === 'RESERVATION_APPROVED'
+                        ? '승인'
+                        : '거절'}
+                    </h3>
+                    <span className='text-12 font-medium text-gray-400'>
+                      {relative}
+                    </span>
+                  </div>
+                  <button
+                    className='text-13 font-medium text-red-400'
+                    onClick={() => handleDelete(n.id)}
+                  >
+                    삭제
+                  </button>
                 </div>
                 <div className='flex flex-col'>
                   <p
                     className='text-14-body font-medium text-gray-800 leading-[180%] align-middle'
-                    dangerouslySetInnerHTML={{
-                      __html: formatted,
-                    }}
+                    dangerouslySetInnerHTML={{ __html: formatted }}
                   />
                 </div>
               </div>

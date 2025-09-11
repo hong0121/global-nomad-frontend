@@ -1,15 +1,31 @@
 import Image from 'next/image';
 import BellIcon from '@/public/images/icons/Bell.svg';
+import ActiveBellIcon from '@/public/images/icons/ActiveBellIcon.svg';
 import { useState } from 'react';
 import NotificationModal from '../../notification/NotificationModal';
 import UserMenuDropdown from './UserMenuDropdown';
 import useCurrentUser from '@/src/hooks/useCurrentUser';
+import { getNotifications } from '@/src/services/pages/notifications/api';
+import { Notifications } from '@/src/types/notificationType';
+import { useQuery } from '@tanstack/react-query';
 
 export default function LoggingInGnb() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const userInfo = useCurrentUser();
+  const size = 10;
+
+  const { data: notifications = null } = useQuery<Notifications>({
+    queryKey: ['notifications', size],
+    queryFn: () => getNotifications({ size }),
+    staleTime: 1000 * 60,
+  });
+
+  const hasUnread = notifications?.notifications.some((n) => {
+    new Date().getTime() - new Date(n.updatedAt).getTime() <
+      24 * 60 * 60 * 1000;
+  });
 
   return (
     <div className='relative'>
@@ -19,7 +35,7 @@ export default function LoggingInGnb() {
             onClick={() => setIsModalVisible(!isModalVisible)}
             className='align-middle'
           >
-            <BellIcon />
+            {hasUnread ? <ActiveBellIcon /> : <BellIcon />}
           </button>
 
           {isModalVisible && (
@@ -34,7 +50,10 @@ export default function LoggingInGnb() {
 '
                 onClick={(e) => e.stopPropagation()}
               >
-                <NotificationModal setVisible={setIsModalVisible} />
+                <NotificationModal
+                  setVisible={setIsModalVisible}
+                  notifications={notifications}
+                />
               </div>
             </>
           )}
