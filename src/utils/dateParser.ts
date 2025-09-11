@@ -1,4 +1,5 @@
-import { format, getDay } from 'date-fns';
+import { format, formatDistanceToNow, getDay } from 'date-fns';
+import { ko } from 'date-fns/locale';
 
 export function dateToCalendarDate(date: Date) {
   const calendarDate = {
@@ -7,6 +8,7 @@ export function dateToCalendarDate(date: Date) {
     month: format(date, 'MM'),
     day: format(date, 'dd'),
     yoil: getDay(date),
+    relative: formatDistanceToNow(date, { addSuffix: true, locale: ko }),
   };
 
   return calendarDate;

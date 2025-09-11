@@ -15,7 +15,10 @@ export default function LoggingInGnb() {
     <div className='relative'>
       <div className='flex items-center gap-5'>
         <div className='relative'>
-          <button onClick={() => setIsModalVisible(!isModalVisible)}>
+          <button
+            onClick={() => setIsModalVisible(!isModalVisible)}
+            className='align-middle'
+          >
             <BellIcon />
           </button>
 
@@ -27,7 +30,8 @@ export default function LoggingInGnb() {
               />
 
               <div
-                className='absolute top-full left-1/2 -translate-x-1/2 mt-2 z-20 rounded-2xl shadow-[0_4px_24px_0_#9CB4CA33]'
+                className='fixed inset-0 flex items-start justify-center md:absolute md:inset-auto md:top-full md:left-1/2 md:-translate-x-1/2 md:mt-4 top-10 mt-2 z-20 rounded-2xl shadow-[0_4px_24px_0_#9CB4CA33]
+'
                 onClick={(e) => e.stopPropagation()}
               >
                 <NotificationModal setVisible={setIsModalVisible} />
