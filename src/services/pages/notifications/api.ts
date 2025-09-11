@@ -12,3 +12,10 @@ export async function getNotifications(params?: Params) {
   });
   return data;
 }
+
+export async function deleteNotificationById(notificationId: number) {
+  const { data } = await apiClient.delete(
+    `/my-notifications/${notificationId}`
+  );
+  return data;
+}
