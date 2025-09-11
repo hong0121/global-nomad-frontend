@@ -24,3 +24,14 @@ export type ReservationResponse = {
   reservations: Reservation[];
   totalCount: number;
 };
+
+export interface IReserveSchedule {
+  scheduleId: number;
+  startTime: string;
+  endTime: string;
+  count: {
+    declined: number;
+    confirmed: number;
+    pending: number;
+  };
+}

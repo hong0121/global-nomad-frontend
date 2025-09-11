@@ -20,6 +20,11 @@ interface IReservationStore {
   };
 }
 
+interface IActivityIdStore {
+  activityId: number;
+  setActivityId: (id: number) => void;
+}
+
 export const useReservationStore = create<IReservationStore>()((set) => ({
   dateSelector: {
     selectedDate: new Date(),
@@ -68,4 +73,12 @@ export const useReservationStore = create<IReservationStore>()((set) => ({
         },
       })),
   },
+}));
+
+export const useActivityIdStore = create<IActivityIdStore>()((set) => ({
+  activityId: 0,
+  setActivityId: (by) =>
+    set(() => ({
+      activityId: by,
+    })),
 }));

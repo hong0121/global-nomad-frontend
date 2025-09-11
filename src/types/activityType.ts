@@ -37,3 +37,23 @@ export interface IReservation {
   scheduleId: number;
   headCount: number;
 }
+
+export interface ActivityListItem {
+  id: number;
+  userId: number;
+  title: string;
+  description: string;
+  category: string;
+  price: number;
+  address: string;
+  bannerImageUrl: string;
+  reviewCount: number;
+  rating: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ActivitiesResponse {
+  totalCount: number;
+  activities: ActivityListItem[];
+}
