@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from '@/src/utils/cn';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
@@ -24,7 +25,26 @@ export default function Dropdown({
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<DropdownItem | null>(null);
+  const [contentUp, setContentUp] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isOpen && dropdownRef.current && contentRef.current) {
+      const dropdownRect = dropdownRef.current.getBoundingClientRect();
+      const contentHeight = contentRef.current.offsetHeight;
+      const viewportHeight = window.innerHeight;
+
+      const spaceBelow = viewportHeight - dropdownRect.bottom;
+      const spaceAbove = dropdownRect.top;
+
+      if (spaceBelow < contentHeight && spaceAbove > contentHeight) {
+        setContentUp(true);
+      } else {
+        setContentUp(false);
+      }
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -60,7 +80,13 @@ export default function Dropdown({
         />
       </button>
       {isOpen && (
-        <div className='absolute right-0 z-10 mt-2 w-full p-3 origin-top-right bg-white border border-gray-100 rounded-2xl'>
+        <div
+          className={cn(
+            contentUp ? 'bottom-full' : 'top-full',
+            'absolute right-0 z-10 mt-2 w-full p-3 origin-top-right bg-white border border-gray-100 rounded-2xl'
+          )}
+          ref={contentRef}
+        >
           {items.map((item) => (
             <button
               key={item.id}

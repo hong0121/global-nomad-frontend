@@ -1,18 +1,19 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Dropdown from '../../primitives/Dropdown';
 import LoadingSpinner from '../../primitives/LoadingSpinner';
 import Image from 'next/image';
 import BackBtn from '../../primitives/mypage/BackBtn';
 import { Activity } from '@/src/types/activityType';
 import ReservationCalendar from './ReservationCalendar';
-import { getMyReservationStatus } from '@/src/services/pages/myExperiences/api';
-import { useReservationStore } from '@/src/store/ReservationStore';
+import {
+  useActivityIdStore,
+  useReservationStore,
+} from '@/src/store/ReservationStore';
 import { format } from 'date-fns';
-import { IReservedSchedule } from '@/src/types/scheduleType';
 import { useQuery } from '@tanstack/react-query';
-import { queries } from '@/src/services/primitives/queries';
+import { queries, reservationQueries } from '@/src/services/primitives/queries';
+import { useShallow } from 'zustand/shallow';
 
 export default function MyReservationStatusPage() {
   const { data: activities, isPending } = useQuery(
@@ -53,27 +54,32 @@ export default function MyReservationStatusPage() {
 }
 
 function DropdownAndCalendar({ data }: { data: Activity[] }) {
-  const [selectedActivity, setSelectedActivity] = useState<number | null>(null);
-  const [schedule, setSchedule] = useState<IReservedSchedule[] | null>(null);
+  const { activityId, setActivityId } = useActivityIdStore(
+    useShallow((state) => ({
+      activityId: state.activityId,
+      setActivityId: state.setActivityId,
+    }))
+  );
+  // const [schedule, setSchedule] = useState<IReservedSchedule[] | null>(null);
   const selectedDate = useReservationStore(
     (state) => state.displayController.dateToDisplay
   );
 
-  useEffect(() => {
-    if (!selectedActivity) return;
-    getMyReservationStatus(
-      selectedActivity,
+  const { data: schedule } = useQuery(
+    reservationQueries.monthScheduleOptions(
+      activityId,
       format(selectedDate, 'yyyy'),
       format(selectedDate, 'MM')
-    ).then((res) => setSchedule(res));
-  }, [selectedActivity, selectedDate]);
+    )
+  );
+
   return (
     <>
       <Dropdown
         label=''
         items={data}
         value={'category'}
-        onChange={setSelectedActivity}
+        onChange={setActivityId}
       />
       {schedule && <ReservationCalendar schedule={schedule} />}
     </>

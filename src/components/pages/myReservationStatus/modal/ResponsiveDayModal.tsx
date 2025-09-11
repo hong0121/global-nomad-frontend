@@ -18,7 +18,7 @@ interface IProps extends ComponentPropsWithRef<'div'> {
   schedule: IScheduleCount;
 }
 
-export default function DayModal({
+export default function ResponsiveDayModal({
   setIsModalVisible,
   selectedDate,
   schedule,
@@ -45,13 +45,10 @@ export default function DayModal({
     return () => {
       body?.classList.toggle('overflow-hidden');
     };
-  }, [activityId, selectedDate]);
+  }, []);
 
   return (
-    <div
-      className='absolute left-2 top-2 w-[340px] px-6 py-8 z-[1] bg-white rounded-2xl shadow'
-      {...props}
-    >
+    <div className='w-full p-6 pt-6 rounded-2xl space-x-6' {...props}>
       {daySchedule ? (
         <Tabs.Root defaultValue='pending'>
           <div className='w-full mb-2 flex justify-between items-center'>
@@ -80,49 +77,53 @@ export default function DayModal({
               거절
             </Tabs.Trigger>
           </Tabs.List>
-          <h2 className='mt-6 text-18 font-bold'>예약 시간</h2>
-          <Dropdown
-            items={daySchedule!.map((el) => {
-              return {
-                id: el.scheduleId,
-                title: `${el.startTime} ~ ${el.endTime}`,
-              };
-            })}
-            label=''
-            value={'time'}
-            onChange={setScheduleId}
-          />
-          {timeSchedule && (
-            <>
-              <Tabs.Content value='pending'>
-                <TabsContent
-                  data={timeSchedule.reservations.filter(
-                    (el) => el.status === 'pending'
-                  )}
-                  activitiyId={activityId}
-                  scheduleId={scheduleId!}
-                />
-              </Tabs.Content>
-              <Tabs.Content value='confirmed'>
-                <TabsContent
-                  data={timeSchedule.reservations.filter(
-                    (el) => el.status === 'confirmed'
-                  )}
-                  activitiyId={activityId}
-                  scheduleId={scheduleId!}
-                />
-              </Tabs.Content>
-              <Tabs.Content value='declined'>
-                <TabsContent
-                  data={timeSchedule.reservations.filter(
-                    (el) => el.status === 'declined'
-                  )}
-                  activitiyId={activityId}
-                  scheduleId={scheduleId!}
-                />
-              </Tabs.Content>
-            </>
-          )}
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+            <div>
+              <h2 className='mt-6 text-18 font-bold'>예약 시간</h2>
+              <Dropdown
+                items={daySchedule!.map((el) => {
+                  return {
+                    id: el.scheduleId,
+                    title: `${el.startTime} ~ ${el.endTime}`,
+                  };
+                })}
+                label=''
+                value={'time'}
+                onChange={setScheduleId}
+              />
+            </div>
+            {timeSchedule && (
+              <>
+                <Tabs.Content value='pending' className='mt-0'>
+                  <TabsContent
+                    data={timeSchedule.reservations.filter(
+                      (el) => el.status === 'pending'
+                    )}
+                    activitiyId={activityId}
+                    scheduleId={scheduleId!}
+                  />
+                </Tabs.Content>
+                <Tabs.Content value='confirmed' className='mt-0'>
+                  <TabsContent
+                    data={timeSchedule.reservations.filter(
+                      (el) => el.status === 'confirmed'
+                    )}
+                    activitiyId={activityId}
+                    scheduleId={scheduleId!}
+                  />
+                </Tabs.Content>
+                <Tabs.Content value='declined' className='mt-0'>
+                  <TabsContent
+                    data={timeSchedule.reservations.filter(
+                      (el) => el.status === 'declined'
+                    )}
+                    activitiyId={activityId}
+                    scheduleId={scheduleId!}
+                  />
+                </Tabs.Content>
+              </>
+            )}
+          </div>
         </Tabs.Root>
       ) : (
         <LoadingSpinner />
@@ -161,10 +162,10 @@ function TabsContent({
   };
   return (
     <>
-      <h2 className='text-18 font-bold'>예약 내역</h2>
+      <h2 className='text-18 font-bold mt-6 mb-0'>예약 내역</h2>
       {data.map((el) => (
         <div
-          className='px-4 py-3.5 flex justify-between items-center border border-gray-100 rounded-2xl'
+          className='px-4 py-3.5 mt-2.5 flex justify-between items-center border border-gray-100 rounded-2xl'
           key={el.id}
         >
           <div className='w-fit h-fit grid grid-cols-2 gap-2'>
