@@ -55,7 +55,7 @@ export default function NotificationModal({
         </div>
       </div>
 
-      <div>
+      <div className='max-h-[350px] overflow-y-auto scrollbar-hide'>
         {notifications?.notifications.map((n) => {
           const notificationType = getNotificationType(n.content);
           const { relative } = dateToCalendarDate(new Date(n.createdAt));
