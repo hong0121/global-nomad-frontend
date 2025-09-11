@@ -56,52 +56,58 @@ export default function NotificationModal({
       </div>
 
       <div className='max-h-[350px] overflow-y-auto scrollbar-hide'>
-        {notifications?.notifications.map((n) => {
-          const notificationType = getNotificationType(n.content);
-          const { relative } = dateToCalendarDate(new Date(n.createdAt));
-          const formatted = parseContent(n.content);
+        {notifications?.notifications.length ? (
+          notifications?.notifications.map((n) => {
+            const notificationType = getNotificationType(n.content);
+            const { relative } = dateToCalendarDate(new Date(n.createdAt));
+            const formatted = parseContent(n.content);
 
-          return (
-            <article
-              key={n.id}
-              className={cn(
-                'px-5 py-4 h-34',
-                isRecent(n.createdAt, n.updatedAt)
-                  ? 'bg-primary-100'
-                  : 'bg-gray-25',
-                'border-b border-gray-100 last:border-b-0 last:rounded-b-2xl'
-              )}
-            >
-              <div className='flex flex-col h-full gap-2'>
-                <div className='flex justify-between'>
-                  <div className='flex items-center gap-2'>
-                    <h3 className='text-14 font-bold'>
-                      예약{' '}
-                      {notificationType === 'RESERVATION_APPROVED'
-                        ? '승인'
-                        : '거절'}
-                    </h3>
-                    <span className='text-12 font-medium text-gray-400'>
-                      {relative}
-                    </span>
+            return (
+              <article
+                key={n.id}
+                className={cn(
+                  'px-5 py-4 h-34',
+                  isRecent(n.createdAt, n.updatedAt)
+                    ? 'bg-primary-100'
+                    : 'bg-gray-25',
+                  'border-b border-gray-100 last:border-b-0 last:rounded-b-2xl'
+                )}
+              >
+                <div className='flex flex-col h-full gap-2'>
+                  <div className='flex justify-between'>
+                    <div className='flex items-center gap-2'>
+                      <h3 className='text-14 font-bold'>
+                        예약{' '}
+                        {notificationType === 'RESERVATION_APPROVED'
+                          ? '승인'
+                          : '거절'}
+                      </h3>
+                      <span className='text-12 font-medium text-gray-400'>
+                        {relative}
+                      </span>
+                    </div>
+                    <button
+                      className='text-13 font-medium text-red-400'
+                      onClick={() => handleDelete(n.id)}
+                    >
+                      삭제
+                    </button>
                   </div>
-                  <button
-                    className='text-13 font-medium text-red-400'
-                    onClick={() => handleDelete(n.id)}
-                  >
-                    삭제
-                  </button>
+                  <div className='flex flex-col'>
+                    <p
+                      className='text-14-body font-medium text-gray-800 leading-[180%] align-middle'
+                      dangerouslySetInnerHTML={{ __html: formatted }}
+                    />
+                  </div>
                 </div>
-                <div className='flex flex-col'>
-                  <p
-                    className='text-14-body font-medium text-gray-800 leading-[180%] align-middle'
-                    dangerouslySetInnerHTML={{ __html: formatted }}
-                  />
-                </div>
-              </div>
-            </article>
-          );
-        })}
+              </article>
+            );
+          })
+        ) : (
+          <article className='px-5 py-4 h-34 flex items-center justify-center text-gray-400'>
+            아직 알람이 없습니다
+          </article>
+        )}
       </div>
     </div>
   );
