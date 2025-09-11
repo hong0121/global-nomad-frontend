@@ -9,7 +9,7 @@ export interface Notification {
 }
 
 export interface Notifications {
-  cursorId: number;
+  cursorId: number | null;
   notifications: Notification[];
   totalCount: number;
 }
