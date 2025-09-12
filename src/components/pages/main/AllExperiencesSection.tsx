@@ -39,10 +39,10 @@ export default function AllExperiencesSection() {
     const totalCount = allExperiences?.totalCount;
     const lastPage = totalCount && Math.ceil(totalCount / size);
 
-    if (lastPage && size > lastPage) {
+    if (lastPage && page > lastPage) {
       setPage(lastPage);
     }
-  }, [allExperiences, size]);
+  }, [allExperiences, size, page]);
 
   return (
     <section className='mt-[25px] md:mt-[65px]'>

@@ -21,10 +21,10 @@ export default function SearchResultSection() {
     const totalCount = resultList?.totalCount;
     const lastPage = totalCount && Math.ceil(totalCount / size);
 
-    if (lastPage && size > lastPage) {
+    if (lastPage && page > lastPage) {
       setPage(lastPage);
     }
-  }, [size, resultList]);
+  }, [resultList, size, page]);
 
   useEffect(() => {
     // 검색값이 변경되면, 페이지네이션 초기화
