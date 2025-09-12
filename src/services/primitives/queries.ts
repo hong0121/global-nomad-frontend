@@ -17,6 +17,9 @@ import {
   getReservedSchedule,
   getTimeSchedule,
 } from '../pages/myReservationStatus/myActivities';
+import { getQueryClient } from '@/src/utils/getQueryClient';
+
+const queryClient = getQueryClient();
 
 export const queries = {
   user: () => ['user'],
@@ -49,6 +52,10 @@ export const queries = {
       mutationKey: [...queries.myExperiences()],
       mutationFn: (experienceId: number) =>
         deleteMyExperiences(experienceId ?? 0),
+      onSuccess: async () =>
+        await queryClient.invalidateQueries({
+          queryKey: [...queries.myExperiences()],
+        }),
     }),
   allActivities: (params: ActivitiesParams) => ['allActivities', params],
   allActivitiesOptions: (params: ActivitiesParams) =>
