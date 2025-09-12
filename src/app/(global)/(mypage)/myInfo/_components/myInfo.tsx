@@ -1,0 +1,151 @@
+'use client';
+
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+
+import { patchMyInfo } from '@/src/services/pages/users/api';
+import { queries } from '@/src/services/primitives/queries';
+import Button from '@/src/components/primitives/Button';
+import FormInput from '@/src/components/primitives/input/FormInput';
+import AlertModal from '@/src/components/primitives/modal/AlertModal';
+import BackBtn from '@/src/components/primitives/mypage/BackBtn';
+import useCurrentUser from '@/src/hooks/useCurrentUser';
+
+type MyInfoFormData = {
+  nickname: string;
+  password?: string;
+  checkpassword?: string;
+};
+
+export default function MyInfoPage() {
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid },
+  } = useForm<MyInfoFormData>({ mode: 'onChange' });
+
+  const queryClient = useQueryClient();
+  const userInfo = useCurrentUser();
+
+  useEffect(() => {
+    if (userInfo) {
+      reset({
+        nickname: userInfo.nickname,
+        password: '',
+        checkpassword: '',
+      });
+    }
+  }, [userInfo, reset]);
+
+  const mutation = useMutation({
+    mutationFn: (payload: MyInfoFormData) => patchMyInfo(payload),
+    onSuccess: (_, variables) => {
+      reset({
+        nickname: variables.nickname,
+        password: '',
+        checkpassword: '',
+      });
+
+      queryClient.invalidateQueries({ queryKey: queries.user() });
+
+      setAlertMessage('내 정보가 저장되었습니다!');
+      setAlertOpen(true);
+    },
+    onError: () => {
+      setAlertMessage('저장에 실패했습니다.');
+      setAlertOpen(true);
+    },
+  });
+
+  const onSubmit = async (data: MyInfoFormData) => {
+    const payload = {
+      ...data,
+      ...(data.password ? { password: data.password } : {}),
+    };
+    mutation.mutate(payload);
+  };
+
+  return (
+    <>
+      <div className='flex items-center gap-4 mb-7.5 md:mb-8.5'>
+        <BackBtn />
+        <div>
+          <h1 className='font-bold text-18 mb-2.5'>내 정보</h1>
+          <p className='text-14 font-medium text-gray-500'>
+            닉네임과 비밀번호를 수정하실 수 있습니다
+          </p>
+        </div>
+      </div>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className='flex flex-col gap-4.5 md:gap-6'
+      >
+        <FormInput
+          label='닉네임'
+          variant='experience'
+          placeholder='닉네임을 입력하세요'
+          errorMessage={errors.nickname?.message}
+          {...register('nickname', {
+            required: '필수 입력 항목입니다.',
+            maxLength: {
+              value: 10,
+              message: '닉네임은 10자 이하로 작성해주세요.',
+            },
+            pattern: { value: /^\S*$/, message: '공백 없이 입력해주세요.' },
+          })}
+        />
+        <FormInput
+          label='이메일'
+          variant='experience'
+          placeholder='이메일을 입력하세요'
+          defaultValue={userInfo?.email}
+          readOnly
+        />
+        <FormInput
+          label='새 비밀번호'
+          isPassword={true}
+          variant='experience'
+          placeholder='8자 이상 입력해 주세요'
+          errorMessage={errors.password?.message}
+          {...register('password', {
+            minLength: { value: 8, message: '8자 이상 입력해주세요.' },
+            pattern: { value: /^\S*$/, message: '공백 없이 입력해주세요.' },
+          })}
+        />
+        <FormInput
+          label='비밀번호 확인'
+          isPassword={true}
+          variant='experience'
+          placeholder='비밀번호를 한 번 더 입력해 주세요'
+          errorMessage={errors.checkpassword?.message}
+          {...register('checkpassword', {
+            minLength: { value: 8, message: '8자 이상 입력해주세요.' },
+            validate: (value, formValues) =>
+              value === formValues.password || '비밀번호가 일치하지 않습니다.',
+            pattern: { value: /^\S*$/, message: '공백 없이 입력해주세요.' },
+          })}
+        />
+        <div className='w-full flex justify-center'>
+          <Button
+            type='submit'
+            className='w-30'
+            variant='primary'
+            disabled={!isValid}
+          >
+            저장하기
+          </Button>
+        </div>
+      </form>
+
+      <AlertModal
+        isOpen={alertOpen}
+        message={alertMessage}
+        onClose={() => setAlertOpen(false)}
+      />
+    </>
+  );
+}

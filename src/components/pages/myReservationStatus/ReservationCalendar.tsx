@@ -1,0 +1,68 @@
+'use client';
+
+import { addMonths, format } from 'date-fns';
+import LeftArrowIcon from '@/public/images/icons/ArrowLeft.svg';
+import RightArrowIcon from '@/public/images/icons/ArrowRight.svg';
+import ReservationDay from './ReservationDay';
+import { IReservedSchedule } from '@/src/types/scheduleType';
+import { mergeScheduleWithDays } from '@/src/utils/mergeTwoDateArray';
+import { getDaysArray } from '@/src/utils/getDaysArray';
+import { useReservationStore } from '@/src/store/ReservationStore';
+
+export default function ReservationCalendar({
+  schedule,
+}: {
+  schedule: IReservedSchedule[] | null;
+}) {
+  const displayController = useReservationStore(
+    (state) => state.displayController
+  );
+  const daysArray = getDaysArray(displayController.dateToDisplay);
+  const yoils = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+  const handleLeftClick = () => {
+    displayController.setDateToDisplay((prev) => addMonths(prev, -1));
+  };
+  const handleRightClick = () => {
+    displayController.setDateToDisplay((prev) => addMonths(prev, 1));
+  };
+
+  const displayYear = format(displayController.dateToDisplay, 'yyyy');
+  const displayMonth = format(displayController.dateToDisplay, 'M');
+
+  const mappedScheduleToDate = mergeScheduleWithDays(schedule, daysArray);
+
+  return (
+    <section className='w-[375px] md:w-[476px] lg:w-[640px] rounded-2xl shadow space-y-6'>
+      <div className='w-full py-6 flex justify-center items-center gap-8'>
+        <button onClick={handleLeftClick}>
+          <LeftArrowIcon className='w-6 h-6' />
+        </button>
+        <span className='text-20 font-bold'>
+          {displayYear}년 {displayMonth}월
+        </span>
+        <button onClick={handleRightClick}>
+          <RightArrowIcon className='w-6 h-6' />
+        </button>
+      </div>
+      <div className='grid grid-cols-7 place-items-center'>
+        {yoils.map((yoil, i) => (
+          <div key={i} className='text-13 sm:text-16 font-bold'>
+            {yoil}
+          </div>
+        ))}
+      </div>
+      <div className='w-full border-b border-b-gray-100' />
+      <div className='grid grid-cols-7 place-items-center'>
+        {mappedScheduleToDate.map((date, i) => (
+          <ReservationDay
+            date={date.date}
+            schedule={date.schedule}
+            displayMonth={displayController.dateToDisplay}
+            key={i}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
