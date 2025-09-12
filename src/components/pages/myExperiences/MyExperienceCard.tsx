@@ -5,6 +5,7 @@ import StarIcon from '@/public/images/icons/StarFilled.svg';
 import ExperienceButton from './ExperienceButton';
 
 export default function MyExperienceCard({ data }: { data: IActivity }) {
+  console.log(data);
   // TODO: 카드 클릭하면 체험 관리 페이지로 가게
   return (
     <div className='w-full p-6 flex justify-between rounded-3xl shadow'>
@@ -32,7 +33,7 @@ export default function MyExperienceCard({ data }: { data: IActivity }) {
         </div>
       </div>
       <img
-        src={data.subImages[0].imageUrl}
+        src={data.bannerImageUrl}
         alt='행사 이미지 URL'
         className='h-[82px] lg:h-[142px] aspect-square rounded-3xl object-cover'
       />

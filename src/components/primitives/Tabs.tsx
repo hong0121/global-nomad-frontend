@@ -40,14 +40,19 @@ function List({ children }: { children: React.ReactNode }) {
 function Trigger({
   children,
   value,
+  onClick,
 }: {
   children: React.ReactNode;
   value: string;
+  onClick: () => void;
 }) {
   const { value: selectedValue, setValue } = useContext(TabsContext);
   return (
     <button
-      onClick={() => setValue(value)}
+      onClick={() => {
+        onClick();
+        setValue(value);
+      }}
       className={cn(
         'p-2',
         value === selectedValue &&

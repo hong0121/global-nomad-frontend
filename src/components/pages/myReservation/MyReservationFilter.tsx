@@ -23,7 +23,7 @@ export default function MyReservationFilter({ status, onChange }: Props) {
   };
 
   return (
-    <div className='flex items-center gap-2 mb-3 md:mb-[30px] overflow-x-auto'>
+    <div className='flex items-center gap-2 mb-3 pr-6 -mr-6 overflow-x-auto md:mb-[30px] md:pr-[30px] md:-mr-[30px] lg:pr-0 lg:mr-0'>
       {Object.entries(filterMatching).map(([key, value]) => (
         <button
           key={key}

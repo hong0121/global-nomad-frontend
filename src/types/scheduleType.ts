@@ -53,3 +53,5 @@ export interface IReservation {
   scheduleId: number;
   headCount: number;
 }
+
+export type TScheduleStatus = 'declined' | 'pending' | 'confirmed';

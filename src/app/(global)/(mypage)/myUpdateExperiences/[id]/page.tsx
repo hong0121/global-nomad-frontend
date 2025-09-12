@@ -6,7 +6,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { format } from 'date-fns';
 
 import AvailableTimeSlots from '@/src/components/pages/myCreateExperiences/AvailableTimeSlots';
-import Dropdown from '@/src/components/pages/myCreateExperiences/Dropdown';
+
 import UploadBannerImage from '@/src/components/pages/myCreateExperiences/UploadBannerImage';
 import Button from '@/src/components/primitives/Button';
 import FormInput from '@/src/components/primitives/input/FormInput';
@@ -26,8 +26,12 @@ import { useTimeSlotStore } from '@/src/store/TimeSlotStore';
 import { useActivityStore } from '@/src/store/useActivityStore';
 import { openDaumPostcode } from '@/src/utils/daumPostcode';
 import AlertModal from '@/src/components/primitives/modal/AlertModal';
+
 import ConfirmModal from '@/src/components/primitives/modal/ConfirmModal';
 import Image from 'next/image';
+
+import Dropdown from '@/src/components/primitives/Dropdown';
+
 
 interface Schedule {
   date: string;
