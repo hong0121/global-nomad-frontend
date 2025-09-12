@@ -11,7 +11,7 @@ interface DropdownItem {
 
 interface DropdownProps {
   label: string;
-  items: DropdownItem[];
+  items: string[] | DropdownItem[];
   value: string | null;
   onChange: (id: number) => void;
   error?: string;
@@ -28,6 +28,9 @@ export default function Dropdown({
   const [contentUp, setContentUp] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const dropdownItems: DropdownItem[] = items.map((item, idx) =>
+    typeof item === 'string' ? { id: idx + 1, title: item } : item
+  );
 
   useEffect(() => {
     if (isOpen && dropdownRef.current && contentRef.current) {
@@ -87,7 +90,7 @@ export default function Dropdown({
           )}
           ref={contentRef}
         >
-          {items.map((item) => (
+          {dropdownItems.map((item) => (
             <button
               key={item.id}
               onClick={() => {
