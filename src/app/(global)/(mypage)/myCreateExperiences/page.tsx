@@ -1,9 +1,9 @@
 'use client';
 
 import AvailableTimeSlots from '@/src/components/pages/myCreateExperiences/AvailableTimeSlots';
-import Dropdown from '@/src/components/pages/myCreateExperiences/Dropdown';
 import UploadBannerImage from '@/src/components/pages/myCreateExperiences/UploadBannerImage';
 import Button from '@/src/components/primitives/Button';
+import Dropdown from '@/src/components/primitives/Dropdown';
 import FormInput from '@/src/components/primitives/input/FormInput';
 import AlertModal from '@/src/components/primitives/modal/AlertModal';
 import ConfirmModal from '@/src/components/primitives/modal/ConfirmModal';
@@ -37,6 +37,14 @@ interface ExperiencesFormData {
 }
 
 export default function MyCreateExperiencesPage() {
+  const dropdownItems = [
+    { id: 1, title: '문화 ∙ 예술' },
+    { id: 2, title: '식음료' },
+    { id: 3, title: '스포츠' },
+    { id: 4, title: '투어' },
+    { id: 5, title: '관광' },
+    { id: 6, title: '웰빙' },
+  ];
   const {
     register,
     handleSubmit,
@@ -137,14 +145,7 @@ export default function MyCreateExperiencesPage() {
           render={({ field, fieldState }) => (
             <Dropdown
               label='카테고리'
-              items={[
-                '문화 · 예술',
-                '식음료',
-                '스포츠',
-                '투어',
-                '관광',
-                '웰빙',
-              ]}
+              items={dropdownItems}
               value={field.value}
               onChange={field.onChange}
               error={fieldState.error?.message}

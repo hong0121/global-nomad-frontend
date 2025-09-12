@@ -5,7 +5,10 @@ import { IScheduleCount } from '@/src/types/scheduleType';
 import { dateToCalendarDate } from '@/src/utils/dateParser';
 import { format } from 'date-fns';
 import DayModal from './modal/DayModal';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useBreakPoint } from '@/src/hooks/useBreakPoint';
+import PopupWrapper from '../../primitives/popup/PopupWrapper';
+import ResponsiveDayModal from './modal/ResponsiveDayModal';
 
 export default function ReservationDay({
   date,
@@ -21,6 +24,8 @@ export default function ReservationDay({
   const currentMonth = format(displayMonth, 'MM');
   const calendarDate = dateToCalendarDate(date);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const { isLg } = useBreakPoint();
 
   const prevNextMonthClasses =
     calendarDate.month !== currentMonth ? 'text-gray-200' : 'text-black';
@@ -31,6 +36,17 @@ export default function ReservationDay({
     calendarDate.month === currentMonth &&
     (calendarDate.yoil === 0 || calendarDate.yoil === 6) &&
     'text-red-500';
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node))
+        setIsModalVisible(false);
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   if (!schedule) {
     return (
@@ -67,8 +83,25 @@ export default function ReservationDay({
             </CalendarChip>
           )}
         </button>
-        {isModalVisible && (
-          <DayModal setIsVisible={setIsModalVisible} schedule={schedule} />
+        {isLg && isModalVisible ? (
+          <DayModal
+            ref={modalRef}
+            schedule={schedule}
+            selectedDate={date}
+            setIsModalVisible={setIsModalVisible}
+          />
+        ) : (
+          <PopupWrapper
+            isVisible={isModalVisible}
+            setIsVisible={setIsModalVisible}
+          >
+            <ResponsiveDayModal
+              ref={modalRef}
+              schedule={schedule}
+              selectedDate={date}
+              setIsModalVisible={setIsModalVisible}
+            />
+          </PopupWrapper>
         )}
       </div>
     );

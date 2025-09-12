@@ -10,7 +10,7 @@ import { TabContext } from './pageContext';
 import LeftSidebar from '@/src/components/pages/sidebar/LeftSidebar';
 import MyExperiencesPage from './_components/myExperiences';
 import MyInfoPage from './_components/myInfo';
-import MyReservationStatusPage from './_components/myReservationStatus';
+import MyReservationStatusPage from '@/src/components/pages/myReservationStatus/myReservationStatus';
 import MyReservation from '@/src/components/pages/myReservation/MyReservation';
 
 export interface ISidebarButtons {
@@ -53,7 +53,10 @@ export default function MypageLayout() {
 
   return (
     <TabContext.Provider value={{ tab, setTab, isTabOpen, setIsTabOpen }}>
-      <section className='w-full pt-[85px] pb-[64px] overflow-hidden md:pt-[120px] md:pb-[54px] h-full'>
+      <section
+        id='my-info-body'
+        className='w-full pt-[85px] pb-[64px] overflow-hidden md:pt-[120px] md:pb-[54px] h-full'
+      >
         <div
           className={cn(
             'flex w-[200vw] transition-all md:w-[calc(100%-60px)] md:gap-[30px] md:max-w-[980px] md:mx-auto lg:gap-[50px] h-[480px] md:h-auto',

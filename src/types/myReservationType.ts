@@ -13,6 +13,7 @@ export interface MyReservationItem {
   };
   scheduleId: number;
   id: number;
+  nickname: string;
   teamId: string;
   userId: number;
   status: ReservationStatus;
