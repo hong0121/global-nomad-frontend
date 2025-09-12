@@ -86,7 +86,7 @@ export default function Dropdown({
         <div
           className={cn(
             contentUp ? 'bottom-full' : 'top-full',
-            'absolute right-0 z-10 mt-2 w-full p-3 origin-top-right bg-white border border-gray-100 rounded-2xl'
+            'absolute right-0 z-10 mt-2 w-full h-44 lg:h-64 p-3 origin-top-right bg-white border border-gray-100 rounded-2xl overflow-scroll'
           )}
           ref={contentRef}
         >

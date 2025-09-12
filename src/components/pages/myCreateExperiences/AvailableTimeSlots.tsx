@@ -1,4 +1,4 @@
-import TimepickerDropdown from './TimePickerDropdown';
+import TimepickerDropdown from './Dropdown';
 import CalendarInput from '../../primitives/input/CalendarInput';
 import { useTimeSlotStore } from '@/src/store/TimeSlotStore';
 import Image from 'next/image';

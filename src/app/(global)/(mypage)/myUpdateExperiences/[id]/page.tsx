@@ -6,7 +6,6 @@ import { Controller, useForm } from 'react-hook-form';
 import { format } from 'date-fns';
 
 import AvailableTimeSlots from '@/src/components/pages/myCreateExperiences/AvailableTimeSlots';
-
 import UploadBannerImage from '@/src/components/pages/myCreateExperiences/UploadBannerImage';
 import Button from '@/src/components/primitives/Button';
 import FormInput from '@/src/components/primitives/input/FormInput';
@@ -42,6 +41,15 @@ interface ExperiencesFormData {
   address: string;
   schedules: Schedule[];
 }
+
+const dropdownItem = [
+  { id: 1, title: '문화 · 예술' },
+  { id: 2, title: '식음료' },
+  { id: 3, title: '스포츠' },
+  { id: 4, title: '투어' },
+  { id: 5, title: '관광' },
+  { id: 6, title: '웰빙' },
+];
 
 export default function MyUpdateExperiencesPage() {
   const { id } = useParams<{ id: string }>();
@@ -215,14 +223,7 @@ export default function MyUpdateExperiencesPage() {
           render={({ field, fieldState }) => (
             <Dropdown
               label='카테고리'
-              items={[
-                '문화 · 예술',
-                '식음료',
-                '스포츠',
-                '투어',
-                '관광',
-                '웰빙',
-              ]}
+              items={dropdownItem}
               value={field.value}
               onChange={field.onChange}
               error={fieldState.error?.message}

@@ -2,8 +2,13 @@ import { ActivitiesParams, getActivities } from '@/src/services/pages/main/api';
 import { getMyReservationList } from '@/src/services/pages/myReservation/api';
 import getUserInfo from '@/src/services/primitives/getUserInfo';
 import { ReservationStatus } from '@/src/types/myReservationType';
-import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 import {
+  infiniteQueryOptions,
+  mutationOptions,
+  queryOptions,
+} from '@tanstack/react-query';
+import {
+  deleteMyExperiences,
   getMyExperiences,
   getMyReservationStatus,
 } from '../pages/myExperiences/api';
@@ -38,6 +43,12 @@ export const queries = {
     queryOptions({
       queryKey: [...queries.myExperiences()],
       queryFn: () => getMyExperiences(),
+    }),
+  myExperiencesMutationOptions: () =>
+    mutationOptions({
+      mutationKey: [...queries.myExperiences()],
+      mutationFn: (experienceId: number) =>
+        deleteMyExperiences(experienceId ?? 0),
     }),
   allActivities: (params: ActivitiesParams) => ['allActivities', params],
   allActivitiesOptions: (params: ActivitiesParams) =>
