@@ -17,6 +17,7 @@ import { useTimeSlotStore } from '@/src/store/TimeSlotStore';
 import { useActivityStore } from '@/src/store/useActivityStore';
 import { openDaumPostcode } from '@/src/utils/daumPostcode';
 import { format } from 'date-fns';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
@@ -54,7 +55,6 @@ export default function MyCreateExperiencesPage() {
   } = useForm<ExperiencesFormData>({ mode: 'onBlur' });
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-
   const router = useRouter();
 
   const handleAddressClick = async () => {
@@ -66,18 +66,27 @@ export default function MyCreateExperiencesPage() {
     }
   };
 
+  const handleBackClick = () => {
+    setIsConfirmOpen(true);
+  };
+
   const handleCloseModal = () => {
     router.back();
   };
 
   const handleConfirm = () => {
     setIsConfirmOpen(false);
+    router.back();
   };
 
   const handleCancel = () => {
     setIsConfirmOpen(false);
   };
 
+  const formatNumber = (value?: number) => {
+    if (value === undefined || value === null) return '';
+    return value.toLocaleString();
+  };
   const { timeSlots } = useTimeSlotStore();
   const selectedDate = useReservationStore(
     (state) => state.dateSelector.selectedDate
@@ -85,13 +94,12 @@ export default function MyCreateExperiencesPage() {
   const { bannerImages, subImages } = useActivityStore();
 
   const onSubmit: SubmitHandler<ExperiencesFormData> = async (data) => {
-    console.log('소개 이미지 상태:', subImages);
     try {
       // 1️⃣ schedules 변환
       const schedules: Schedule[] = timeSlots
         .filter((slot) => slot.startTime && slot.endTime)
         .map((slot) => ({
-          date: selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '',
+          date: selectedDate ? format(selectedDate, 'yyyy-MM-dd') : 'yy/mm/dd',
           startTime: slot.startTime!,
           endTime: slot.endTime!,
         }));
@@ -104,8 +112,6 @@ export default function MyCreateExperiencesPage() {
       const subImageUrls = subImages.length
         ? await uploadActivityImages(subImages)
         : [];
-
-      console.log('업로드 후 소개 이미지 URL:', subImageUrls);
 
       // 4️⃣ payload 생성
       const payload = {
@@ -128,9 +134,19 @@ export default function MyCreateExperiencesPage() {
     <div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='flex flex-col gap-[30px]'
+        className='flex flex-col gap-[30px] mt-[78px] mb-[53px] px-6 lg:w-[700px] lg:mx-auto'
       >
-        <h1 className='font-bold text-18 text-gray-950'>내 체험 등록</h1>
+        <div className='flex justify-between'>
+          <h1 className='font-bold text-18 text-gray-950'>내 체험 등록</h1>
+          <button onClick={handleBackClick}>
+            <Image
+              src='/images/icons/BackIcon.svg'
+              alt='BackIcon'
+              width={24}
+              height={24}
+            />
+          </button>
+        </div>
         <FormInput
           label='제목'
           variant='experience'
@@ -160,16 +176,24 @@ export default function MyCreateExperiencesPage() {
           errorMessage={errors.description?.message}
           {...register('description', { required: '필수 입력 항목입니다.' })}
         />
-        <FormInput
-          label='가격'
-          type='number'
-          variant='experience'
-          placeholder='체험 금액을 입력해 주세요'
-          errorMessage={errors.price?.message}
-          {...register('price', {
-            valueAsNumber: true,
-            required: '필수 입력 항목입니다.',
-          })}
+        <Controller
+          name='price'
+          control={control}
+          rules={{ required: '필수 입력 항목입니다.' }}
+          render={({ field }) => (
+            <FormInput
+              label='가격'
+              variant='experience'
+              placeholder='체험 금액을 입력해 주세요'
+              value={formatNumber(field.value)}
+              onChange={(e) => {
+                const raw = e.target.value.replace(/,/g, '');
+                const parsed = raw === '' ? undefined : Number(raw);
+                field.onChange(parsed);
+              }}
+              errorMessage={errors.price?.message}
+            />
+          )}
         />
         <FormInput
           label='주소'

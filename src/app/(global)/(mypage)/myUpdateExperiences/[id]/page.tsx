@@ -6,7 +6,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { format } from 'date-fns';
 
 import AvailableTimeSlots from '@/src/components/pages/myCreateExperiences/AvailableTimeSlots';
-import Dropdown from '@/src/components/pages/myCreateExperiences/Dropdown';
+
 import UploadBannerImage from '@/src/components/pages/myCreateExperiences/UploadBannerImage';
 import Button from '@/src/components/primitives/Button';
 import FormInput from '@/src/components/primitives/input/FormInput';
@@ -27,6 +27,12 @@ import { useActivityStore } from '@/src/store/useActivityStore';
 import { openDaumPostcode } from '@/src/utils/daumPostcode';
 import AlertModal from '@/src/components/primitives/modal/AlertModal';
 
+import ConfirmModal from '@/src/components/primitives/modal/ConfirmModal';
+import Image from 'next/image';
+
+import Dropdown from '@/src/components/primitives/Dropdown';
+
+
 interface Schedule {
   date: string;
   startTime: string;
@@ -46,6 +52,7 @@ export default function MyUpdateExperiencesPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [existingSubImages, setExistingSubImages] = useState<
     { id: number; url: string }[]
   >([]);
@@ -79,8 +86,26 @@ export default function MyUpdateExperiencesPage() {
     }
   };
 
+  const handleBackClick = () => {
+    setIsConfirmOpen(true);
+  };
+
+  const handleConfirm = () => {
+    setIsConfirmOpen(false);
+    router.back();
+  };
+
+  const handleCancel = () => {
+    setIsConfirmOpen(false);
+  };
+
   const handleCloseModal = () => {
     router.back();
+  };
+
+  const formatNumber = (value?: number) => {
+    if (value === undefined || value === null) return '';
+    return value.toLocaleString();
   };
 
   const { timeSlots, setTimeSlots } = useTimeSlotStore();
@@ -195,10 +220,19 @@ export default function MyUpdateExperiencesPage() {
     <div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='flex flex-col gap-[30px]'
+        className='flex flex-col gap-[30px] mt-[78px] mb-[53px] px-6 lg:w-[700px] lg:mx-auto'
       >
-        <h1 className='font-bold text-18 text-gray-950'>체험 수정하기</h1>
-
+        <div className='flex justify-between'>
+          <h1 className='font-bold text-18 text-gray-950'>체험 수정하기</h1>
+          <button onClick={handleBackClick}>
+            <Image
+              src='/images/icons/BackIcon.svg'
+              alt='BackIcon'
+              width={24}
+              height={24}
+            />
+          </button>
+        </div>
         <FormInput
           label='제목'
           variant='experience'
@@ -206,7 +240,6 @@ export default function MyUpdateExperiencesPage() {
           errorMessage={errors.title?.message}
           {...register('title', { required: '필수 입력 항목입니다.' })}
         />
-
         <Controller
           name='category'
           control={control}
@@ -228,7 +261,6 @@ export default function MyUpdateExperiencesPage() {
             />
           )}
         />
-
         <FormInput
           label='설명'
           variant='experience'
@@ -237,19 +269,25 @@ export default function MyUpdateExperiencesPage() {
           errorMessage={errors.description?.message}
           {...register('description', { required: '필수 입력 항목입니다.' })}
         />
-
-        <FormInput
-          label='가격'
-          type='number'
-          variant='experience'
-          placeholder='체험 금액을 입력해 주세요'
-          errorMessage={errors.price?.message}
-          {...register('price', {
-            valueAsNumber: true,
-            required: '필수 입력 항목입니다.',
-          })}
+        <Controller
+          name='price'
+          control={control}
+          rules={{ required: '필수 입력 항목입니다.' }}
+          render={({ field }) => (
+            <FormInput
+              label='가격'
+              variant='experience'
+              placeholder='체험 금액을 입력해 주세요'
+              value={formatNumber(field.value)}
+              onChange={(e) => {
+                const raw = e.target.value.replace(/,/g, '');
+                const parsed = raw === '' ? undefined : Number(raw);
+                field.onChange(parsed);
+              }}
+              errorMessage={errors.price?.message}
+            />
+          )}
         />
-
         <FormInput
           label='주소'
           placeholder='주소를 입력해 주세요'
@@ -258,9 +296,7 @@ export default function MyUpdateExperiencesPage() {
           errorMessage={errors.address?.message}
           onClick={handleAddressClick}
         />
-
         <AvailableTimeSlots />
-
         <UploadBannerImage
           label='배너'
           maxImages={1}
@@ -268,7 +304,6 @@ export default function MyUpdateExperiencesPage() {
           setImages={setBannerImages}
           existingImages={bannerUrls}
         />
-
         <UploadBannerImage
           label='소개'
           maxImages={4}
@@ -288,6 +323,12 @@ export default function MyUpdateExperiencesPage() {
         isOpen={isAlertOpen}
         message='체험 등록이 완료되었습니다'
         onClose={handleCloseModal}
+      />
+      <ConfirmModal
+        isOpen={isConfirmOpen}
+        message='작업 중인 내용이 저장되지 않습니다. 정말 이동하시겠습니까?'
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
       />
     </div>
   );
