@@ -55,7 +55,7 @@ export default function MypageLayout() {
     <TabContext.Provider value={{ tab, setTab, isTabOpen, setIsTabOpen }}>
       <section
         id='my-info-body'
-        className='w-full pt-[85px] pb-[64px] overflow-hidden md:pt-[120px] md:pb-[54px] h-full'
+        className='w-full pt-[85px] pb-[64px] overflow-hidden md:pt-[120px] md:pb-[54px]'
       >
         <div
           className={cn(

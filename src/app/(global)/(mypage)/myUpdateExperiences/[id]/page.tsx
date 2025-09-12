@@ -6,7 +6,6 @@ import { Controller, useForm } from 'react-hook-form';
 import { format } from 'date-fns';
 
 import AvailableTimeSlots from '@/src/components/pages/myCreateExperiences/AvailableTimeSlots';
-
 import UploadBannerImage from '@/src/components/pages/myCreateExperiences/UploadBannerImage';
 import Button from '@/src/components/primitives/Button';
 import FormInput from '@/src/components/primitives/input/FormInput';
@@ -47,6 +46,15 @@ interface ExperiencesFormData {
   address: string;
   schedules: Schedule[];
 }
+
+const dropdownItem = [
+  { id: 1, title: '문화 · 예술' },
+  { id: 2, title: '식음료' },
+  { id: 3, title: '스포츠' },
+  { id: 4, title: '투어' },
+  { id: 5, title: '관광' },
+  { id: 6, title: '웰빙' },
+];
 
 export default function MyUpdateExperiencesPage() {
   const { id } = useParams<{ id: string }>();
@@ -119,6 +127,12 @@ export default function MyUpdateExperiencesPage() {
   const [bannerUrls, setBannerUrls] = useState<string[]>([]);
   const [subUrls, setSubUrls] = useState<string[]>([]);
 
+  // 서버에서 받아온 카테고리 상태
+  const [categoryDefaultValue, setCategoryDefaultValue] = useState<{
+    id: number;
+    title: string;
+  } | null>(null);
+
   // 1️⃣ 기존 데이터 불러오기
   useEffect(() => {
     const fetchData = async () => {
@@ -135,6 +149,11 @@ export default function MyUpdateExperiencesPage() {
           price: detail.price,
           address: detail.address,
         });
+
+        // 카테고리 상태 세팅
+        setCategoryDefaultValue(
+          dropdownItem.filter((el) => el.title === detail.category)[0]
+        );
 
         // 이미지 상태 세팅
         setBannerUrls([detail.bannerImageUrl]);
@@ -197,6 +216,11 @@ export default function MyUpdateExperiencesPage() {
         console.log('📌 새로 업로드한 이미지 URL:', subImageUrlsToAdd);
       }
 
+      // 드롭다운 이름 파싱
+      data.category = dropdownItem.find(
+        (el) => el.id === parseInt(data.category)
+      )!.title;
+
       // 4️⃣ payload 구성 (기존 이미지는 API에서 자동 유지됨)
       const payload: UpdateExperiencePayload = {
         ...data,
@@ -247,16 +271,10 @@ export default function MyUpdateExperiencesPage() {
           render={({ field, fieldState }) => (
             <Dropdown
               label='카테고리'
-              items={[
-                '문화 · 예술',
-                '식음료',
-                '스포츠',
-                '투어',
-                '관광',
-                '웰빙',
-              ]}
+              items={dropdownItem}
               value={field.value}
               onChange={field.onChange}
+              defaultValue={categoryDefaultValue!}
               error={fieldState.error?.message}
             />
           )}

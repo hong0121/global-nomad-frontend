@@ -3,10 +3,17 @@
 import { IActivity } from '@/src/types/scheduleType';
 import StarIcon from '@/public/images/icons/StarFilled.svg';
 import ExperienceButton from './ExperienceButton';
+import Link from 'next/link';
 
-export default function MyExperienceCard({ data }: { data: IActivity }) {
-  console.log(data);
-  // TODO: 카드 클릭하면 체험 관리 페이지로 가게
+export default function MyExperienceCard({
+  data,
+  callbackId,
+  setIsModalVisible,
+}: {
+  data: IActivity;
+  callbackId: (id: number) => void;
+  setIsModalVisible: (state: boolean) => void;
+}) {
   return (
     <div className='w-full p-6 flex justify-between rounded-3xl shadow'>
       <div className='flex flex-col gap-2.5 lg:gap-3'>
@@ -24,10 +31,20 @@ export default function MyExperienceCard({ data }: { data: IActivity }) {
           &#8361; {data.price.toLocaleString()} <span>&#47; 인</span>
         </h2>
         <div className='flex gap-2'>
-          <ExperienceButton size='sm' variant='outline'>
-            수정하기
-          </ExperienceButton>
-          <ExperienceButton size='sm' variant='outline' alert={true}>
+          <Link href={`/myUpdateExperiences/${data.id}`}>
+            <ExperienceButton size='sm' variant='outline'>
+              수정하기
+            </ExperienceButton>
+          </Link>
+          <ExperienceButton
+            size='sm'
+            variant='outline'
+            alert={true}
+            onClick={() => {
+              callbackId(data.id);
+              setIsModalVisible(true);
+            }}
+          >
             삭제하기
           </ExperienceButton>
         </div>

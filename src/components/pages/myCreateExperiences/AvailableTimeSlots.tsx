@@ -1,8 +1,8 @@
 'use client';
 
+import TimepickerDropdown from './Dropdown';
 import { useBreakPoint } from '@/src/hooks/useBreakPoint';
 import CalendarInput from '../../primitives/input/CalendarInput';
-import TimepickerDropdown from './TimePickerDropdown';
 import { useTimeSlotStore } from '@/src/store/TimeSlotStore';
 import Image from 'next/image';
 
