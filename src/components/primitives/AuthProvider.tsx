@@ -25,8 +25,8 @@ export default function AuthProvicder({ children }: Props) {
 
   // 리다이렉트 분기
   useEffect(() => {
-    // accessToken이 undefined 이거나 리액트 쿼리 페칭중이라면 return
-    if (accessToken === undefined || isLoading) return;
+    // 리액트 쿼리 페칭중이라면 return
+    if (isLoading) return;
 
     const isLoggingIn = !!userInfo;
 
@@ -61,8 +61,8 @@ export default function AuthProvicder({ children }: Props) {
     }
   }, [pathname, router, accessToken, isLoading, userInfo]);
 
-  // // accessToken이 undefined 이거나 리액트 쿼리 페칭중이라면 로딩 보여주기.
-  if (accessToken === undefined || isLoading)
+  // 리액트 쿼리 페칭중이라면 로딩 보여주기.
+  if (isLoading)
     return (
       <div className='flex items-center justify-center w-screen h-screen'>
         <LoadingSpinner />
