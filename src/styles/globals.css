@@ -98,4 +98,25 @@
       opacity: 0;
     }
   }
+
+  @layer base {
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .thin-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .thin-scrollbar::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 9999px;
+    }
+    .thin-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+  }
 }
