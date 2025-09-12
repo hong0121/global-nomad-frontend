@@ -6,7 +6,7 @@ import NotificationModal from '../../notification/NotificationModal';
 import UserMenuDropdown from './UserMenuDropdown';
 import useCurrentUser from '@/src/hooks/useCurrentUser';
 import { getNotifications } from '@/src/services/pages/notifications/api';
-import { Notifications } from '@/src/types/notificationType';
+import { INotifications } from '@/src/types/notificationType';
 import { useQuery } from '@tanstack/react-query';
 
 export default function LoggingInGnb() {
@@ -16,16 +16,17 @@ export default function LoggingInGnb() {
   const userInfo = useCurrentUser();
   const size = 10;
 
-  const { data: notifications = null } = useQuery<Notifications>({
+  const { data: notifications } = useQuery<INotifications>({
     queryKey: ['notifications', size],
     queryFn: () => getNotifications({ size }),
     staleTime: 1000 * 60,
   });
 
-  const hasUnread = notifications?.notifications.some((n) => {
-    new Date().getTime() - new Date(n.updatedAt).getTime() <
-      24 * 60 * 60 * 1000;
-  });
+  const hasUnread = notifications?.notifications.some(
+    (n) =>
+      new Date().getTime() - new Date(n.updatedAt).getTime() <
+      24 * 60 * 60 * 1000
+  );
 
   return (
     <div className='relative'>
@@ -52,7 +53,7 @@ export default function LoggingInGnb() {
               >
                 <NotificationModal
                   setVisible={setIsModalVisible}
-                  notifications={notifications}
+                  notifications={notifications ?? null}
                 />
               </div>
             </>

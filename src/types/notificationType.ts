@@ -1,4 +1,4 @@
-export interface Notification {
+export interface INotification {
   id: number;
   teamId: string;
   userId: number;
@@ -8,8 +8,8 @@ export interface Notification {
   deletedAt: string | null;
 }
 
-export interface Notifications {
+export interface INotifications {
   cursorId: number | null;
-  notifications: Notification[];
+  notifications: INotification[];
   totalCount: number;
 }

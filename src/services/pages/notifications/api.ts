@@ -1,4 +1,4 @@
-import { Notifications } from '@/src/types/notificationType';
+import { INotifications } from '@/src/types/notificationType';
 import { apiClient } from '../../primitives/apiClient';
 
 interface Params {
@@ -7,7 +7,7 @@ interface Params {
 }
 
 export async function getNotifications(params?: Params) {
-  const { data } = await apiClient.get<Notifications>('/my-notifications', {
+  const { data } = await apiClient.get<INotifications>('/my-notifications', {
     params,
   });
   return data;
