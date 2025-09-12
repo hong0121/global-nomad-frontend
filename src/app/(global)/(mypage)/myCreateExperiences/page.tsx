@@ -5,11 +5,20 @@ import UploadBannerImage from '@/src/components/pages/myCreateExperiences/Upload
 import Button from '@/src/components/primitives/Button';
 import Dropdown from '@/src/components/primitives/Dropdown';
 import FormInput from '@/src/components/primitives/input/FormInput';
+import AlertModal from '@/src/components/primitives/modal/AlertModal';
+import ConfirmModal from '@/src/components/primitives/modal/ConfirmModal';
+import {
+  uploadActivityImage,
+  uploadActivityImages,
+} from '@/src/services/pages/createImageUrl/api';
+import { createExperience } from '@/src/services/pages/myCreateExperiences/api';
 import { useReservationStore } from '@/src/store/ReservationStore';
 import { useTimeSlotStore } from '@/src/store/TimeSlotStore';
 import { useActivityStore } from '@/src/store/useActivityStore';
 import { openDaumPostcode } from '@/src/utils/daumPostcode';
 import { format } from 'date-fns';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 
 interface Schedule {
@@ -43,6 +52,10 @@ export default function MyCreateExperiencesPage() {
     control,
     formState: { errors },
   } = useForm<ExperiencesFormData>({ mode: 'onBlur' });
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
+  const router = useRouter();
 
   const handleAddressClick = async () => {
     try {
@@ -53,28 +66,62 @@ export default function MyCreateExperiencesPage() {
     }
   };
 
+  const handleCloseModal = () => {
+    router.back();
+  };
+
+  const handleConfirm = () => {
+    setIsConfirmOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsConfirmOpen(false);
+  };
+
   const { timeSlots } = useTimeSlotStore();
   const selectedDate = useReservationStore(
     (state) => state.dateSelector.selectedDate
   );
-  const { bannerImages } = useActivityStore();
+  const { bannerImages, subImages } = useActivityStore();
 
-  const onSubmit: SubmitHandler<ExperiencesFormData> = (data) => {
-    // timeSlots 배열을 schedules 형태로 변환
-    const schedules: Schedule[] = timeSlots
-      .filter((slot) => slot.startTime && slot.endTime)
-      .map((slot) => ({
-        date: selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '',
-        startTime: slot.startTime!,
-        endTime: slot.endTime!,
-      }));
+  const onSubmit: SubmitHandler<ExperiencesFormData> = async (data) => {
+    console.log('소개 이미지 상태:', subImages);
+    try {
+      // 1️⃣ schedules 변환
+      const schedules: Schedule[] = timeSlots
+        .filter((slot) => slot.startTime && slot.endTime)
+        .map((slot) => ({
+          date: selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '',
+          startTime: slot.startTime!,
+          endTime: slot.endTime!,
+        }));
 
-    const categoryTitle = dropdownItems.find(
-      (el) => el.id === parseInt(data.category)
-    );
-    const activity = { ...data, category: categoryTitle?.title };
+      // 2️⃣ 배너 이미지 업로드 (단일)
+      if (!bannerImages[0]) throw new Error('배너 이미지를 선택해주세요.');
+      const bannerUrl = await uploadActivityImage(bannerImages[0]);
 
-    console.log('폼 제출됨 ✅', { ...activity, schedules, bannerImages });
+      // 3️⃣ 서브 이미지 업로드 (다중)
+      const subImageUrls = subImages.length
+        ? await uploadActivityImages(subImages)
+        : [];
+
+      console.log('업로드 후 소개 이미지 URL:', subImageUrls);
+
+      // 4️⃣ payload 생성
+      const payload = {
+        ...data,
+        schedules,
+        bannerImageUrl: bannerUrl,
+        subImageUrls,
+      };
+
+      // 5️⃣ 체험 등록 API 호출
+      const response = await createExperience(payload);
+      console.log('✅ 체험 등록 성공', response);
+      setIsAlertOpen(true);
+    } catch (error) {
+      console.error('❌ 체험 등록 실패', error);
+    }
   };
 
   return (
@@ -149,6 +196,17 @@ export default function MyCreateExperiencesPage() {
           </Button>
         </div>
       </form>
+      <AlertModal
+        isOpen={isAlertOpen}
+        message='체험 등록이 완료되었습니다'
+        onClose={handleCloseModal}
+      />
+      <ConfirmModal
+        isOpen={isConfirmOpen}
+        message='작업 중인 내용이 저장되지 않습니다. 정말 이동하시겠습니까?'
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+      />
     </div>
   );
 }

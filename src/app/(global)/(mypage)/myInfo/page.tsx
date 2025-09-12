@@ -59,7 +59,8 @@ export default function MypageLayout() {
       >
         <div
           className={cn(
-            'flex w-[200vw] transition-all md:w-[calc(100%-60px)] md:gap-[30px] md:max-w-[980px] md:mx-auto lg:gap-[50px] -translate-x-1/2 md:translate-x-0 h-auto'
+            'flex w-[200vw] transition-all md:w-[calc(100%-60px)] md:gap-[30px] md:max-w-[980px] md:mx-auto lg:gap-[50px] h-[480px] md:h-auto',
+            isTabOpen && '-translate-x-1/2 md:translate-x-0 h-auto'
           )}
         >
           <div className='w-screen px-6 shrink-0 md:w-[178px] md:px-0 lg:w-[290px]'>

@@ -7,48 +7,75 @@ import { useActivityStore } from '@/src/store/useActivityStore';
 interface UploadBannerImageProps {
   label: string;
   maxImages: number;
-  required?: boolean;
-  storeKey: 'bannerImages' | 'subImages';
+  storeKey?: 'bannerImages' | 'subImages'; // 등록 페이지용
+  files?: File[]; // 수정 페이지용
+  setImages?: (files: File[]) => void; // 수정 페이지용
+  existingImages?: string[]; // 수정 페이지용: 서버에서 받아온 기존 이미지
+  setExistingImages?: (urls: string[]) => void;
 }
 
 const UploadBannerImage = ({
   label,
   maxImages,
   storeKey,
+  files: propFiles,
+  setImages: propSetImages,
+  existingImages = [],
+  setExistingImages,
 }: UploadBannerImageProps) => {
   const store = useActivityStore();
-  const images = store[storeKey];
-  const setImages = (files: File[]) => store.setStoreImages(storeKey, files);
+
+  // storeKey 기반이면 store에서 가져오기
+  const storeFiles = storeKey ? store[storeKey] : [];
+  const setStoreImages = storeKey
+    ? (newFiles: File[]) => {
+        if (storeKey === 'bannerImages') store.setBannerImages(newFiles);
+        else store.setSubImages(newFiles);
+      }
+    : undefined;
+
+  const files = propFiles ?? storeFiles;
+  const setImages = propSetImages ?? setStoreImages!;
 
   const [previews, setPreviews] = useState<string[]>([]);
 
   useEffect(() => {
-    // 기존 이미지 파일로 미리보기 생성
-    const previewUrls = images.map((file: File) => URL.createObjectURL(file));
-    setPreviews(previewUrls);
+    // 새로 생성한 파일 미리보기 URL
+    const filePreviews = files.map((file) => URL.createObjectURL(file));
 
-    // 컴포넌트 언마운트 시 URL 객체 해제
-    return () => previewUrls.forEach((url) => URL.revokeObjectURL(url));
-  }, [images]);
+    const validExistingImages = existingImages.filter((url) => !!url);
+
+    // 기존 URL + 새 파일 URL 합치기
+    setPreviews([...validExistingImages, ...filePreviews]);
+
+    // Cleanup: 새 파일 URL 해제
+    return () => {
+      filePreviews.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [files, existingImages.join('|')]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) return;
-
-    const fileArray = Array.from(files);
-    const newImages = [...images, ...fileArray].slice(0, maxImages);
-
-    setImages(newImages);
-
-    const previewUrls = newImages.map((file) => URL.createObjectURL(file));
-    setPreviews(previewUrls);
+    const newFiles = e.target.files ? Array.from(e.target.files) : [];
+    const updatedFiles = [...files, ...newFiles].slice(0, maxImages);
+    setImages(updatedFiles);
 
     e.target.value = '';
   };
 
   const handleRemove = (index: number) => {
-    const newImages = images.filter((_, i) => i !== index);
-    setImages(newImages);
+    if (index < existingImages.length) {
+      const newExisting = existingImages.filter((_, i) => i !== index);
+      setExistingImages?.(newExisting); // 반드시 호출
+      setPreviews([
+        ...newExisting,
+        ...files.map((f) => URL.createObjectURL(f)),
+      ]);
+      return;
+    }
+
+    const fileIndex = index - existingImages.length;
+    const newFiles = files.filter((_, i) => i !== fileIndex);
+    setImages(newFiles);
   };
 
   return (
@@ -71,7 +98,7 @@ const UploadBannerImage = ({
               height={40}
             />
             <div className='text-xs text-gray-500 mt-1'>
-              {images.length}/{maxImages}
+              {files.length + existingImages.length}/{maxImages}
             </div>
           </div>
         </label>
@@ -85,6 +112,7 @@ const UploadBannerImage = ({
               src={src}
               alt={`Preview ${idx + 1}`}
               fill
+              sizes='(max-width: 768px) 80px, (max-width: 1024px) 126px, 128px'
               className='object-cover'
             />
             <button

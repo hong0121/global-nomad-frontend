@@ -1,3 +1,4 @@
+import { ActivitiesParams, getActivities } from '@/src/services/pages/main/api';
 import { getMyReservationList } from '@/src/services/pages/myReservation/api';
 import getUserInfo from '@/src/services/primitives/getUserInfo';
 import { ReservationStatus } from '@/src/types/myReservationType';
@@ -37,6 +38,29 @@ export const queries = {
     queryOptions({
       queryKey: [...queries.myExperiences()],
       queryFn: () => getMyExperiences(),
+    }),
+  allActivities: (params: ActivitiesParams) => ['allActivities', params],
+  allActivitiesOptions: (params: ActivitiesParams) =>
+    queryOptions({
+      queryKey: [...queries.allActivities(params)],
+      queryFn: () => getActivities(params),
+      placeholderData: (prev) => prev,
+    }),
+  popularActivities: () => ['popularActivities'],
+  popularActivitiesOptions: (MAX_SIZE: number) =>
+    infiniteQueryOptions({
+      queryKey: [...queries.popularActivities()],
+      queryFn: ({ pageParam }) =>
+        getActivities({
+          sort: 'most_reviewed',
+          page: pageParam,
+          size: MAX_SIZE,
+        }),
+      initialPageParam: 1,
+      getNextPageParam: (lastPage, allpage, lastPageParam) =>
+        lastPage.totalCount > allpage.length * MAX_SIZE
+          ? lastPageParam + 1
+          : undefined,
     }),
 };
 
