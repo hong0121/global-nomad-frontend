@@ -5,12 +5,15 @@ import { format } from 'date-fns';
 import Image from 'next/image';
 import Calendar from '@/src/components/pages/detail/DateSelector/Calendar';
 import { useReservationStore } from '@/src/store/ReservationStore';
+import { useBreakPoint } from '@/src/hooks/useBreakPoint';
 
 export default function CalendarInput() {
   const [open, setOpen] = useState(false);
   const selectedDate = useReservationStore(
     (state) => state.dateSelector.selectedDate
   );
+
+  const { isMd } = useBreakPoint();
 
   const prevDateRef = useRef<Date | null>(null);
   useEffect(() => {
@@ -26,7 +29,9 @@ export default function CalendarInput() {
       <button
         type='button'
         onClick={() => setOpen((prev) => !prev)}
-        className='w-full flex items-center justify-between border border-gray-100 rounded-2xl pt-4 pr-5 pb-4 pl-5'
+        className={`flex items-center justify-between border border-gray-100 rounded-2xl pt-4 pr-5 pb-4 pl-5 w-full ${
+          isMd ? 'max-w-[344px]' : 'w-full'
+        }`}
       >
         <span>
           {selectedDate ? format(selectedDate, 'yyyy-MM-dd') : 'yy/mm/dd'}

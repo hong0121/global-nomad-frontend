@@ -8,6 +8,7 @@ interface TimepickerDropdownProps {
   selectedTime?: string;
   onSelect: (time: string) => void;
   placeholder?: string;
+  disabled?: boolean;
 }
 
 export default function TimepickerDropdown({
@@ -15,15 +16,21 @@ export default function TimepickerDropdown({
   selectedTime,
   onSelect,
   placeholder = '시간 선택',
+  disabled = false,
 }: TimepickerDropdownProps) {
   const [open, setOpen] = useState(false);
-
+  const handleButtonClick = () => {
+    if (disabled) return; // ✅ 비활성화 시 클릭 무시
+    setOpen((prev) => !prev);
+  };
   return (
     <div className='relative'>
       <button
         type='button'
-        onClick={() => setOpen((prev) => !prev)}
-        className='flex w-full justify-between border border-gray-100 rounded-2xl pt-4 pr-5 pb-4 pl-5'
+        onClick={handleButtonClick}
+        className={`flex w-full justify-between border border-gray-100 rounded-2xl pt-4 pr-5 pb-4 pl-5 ${
+          disabled ? ' cursor-not-allowed' : ''
+        }`}
       >
         {selectedTime || placeholder}
         <Image
