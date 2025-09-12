@@ -2,6 +2,8 @@ import { IActivity } from '@/src/types/scheduleType';
 import Button from '../../primitives/Button';
 import { format } from 'date-fns';
 import { useReservationStore } from '@/src/store/ReservationStore';
+import { createReservation } from '@/src/services/pages/detail/postReservation';
+import { useToastStore } from '@/src/store/useToastStore';
 
 export default function ActivityFooter({
   activity,
@@ -16,12 +18,28 @@ export default function ActivityFooter({
   const timeInfo = activity.schedules.find(
     (schedule) => schedule.id === timeSelector.timeId
   );
+  const createToast = useToastStore((state) => state.createToast);
 
   const handleReserveClick = () => {
-    console.log({
+    createReservation(activity.id, {
       scheduleId: timeSelector.timeId!,
       headCount: personSelector.person,
-    });
+    })
+      .then(() => {
+        createToast({
+          message: '예약이 완료되었습니다!',
+          type: 'success',
+        });
+      })
+      .catch((err) => {
+        createToast({
+          message:
+            err.response.status === 409
+              ? '이미 예약된 스케줄입니다!'
+              : '예약이 실패했습니다!',
+          type: 'failed',
+        });
+      });
   };
 
   return (
