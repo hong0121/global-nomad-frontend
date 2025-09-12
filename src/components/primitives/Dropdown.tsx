@@ -15,6 +15,7 @@ interface DropdownProps {
   value: string | null;
   onChange: (id: number) => void;
   error?: string;
+  defaultValue?: DropdownItem;
 }
 
 export default function Dropdown({
@@ -22,9 +23,12 @@ export default function Dropdown({
   items,
   value,
   onChange,
+  defaultValue,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<DropdownItem | null>(null);
+  const [selectedItem, setSelectedItem] = useState<DropdownItem | null>(
+    defaultValue ?? null
+  );
   const [contentUp, setContentUp] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -50,6 +54,7 @@ export default function Dropdown({
   }, [isOpen]);
 
   useEffect(() => {
+    if (defaultValue) setSelectedItem(defaultValue);
     function handleClickOutside(event: MouseEvent) {
       if (
         dropdownRef.current &&
@@ -62,6 +67,10 @@ export default function Dropdown({
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (defaultValue) setSelectedItem(defaultValue);
+  }, [defaultValue]);
   return (
     <div
       ref={dropdownRef}
@@ -69,7 +78,10 @@ export default function Dropdown({
     >
       {label}
       <button
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={(e) => {
+          e.preventDefault();
+          setIsOpen((prev) => !prev);
+        }}
         className='inline-flex w-full justify-between items-center border border-gray-100 rounded-2xl px-5 py-4 font-medium text-gray-400  mt-2.5'
       >
         <span className={value ? 'text-gray-900' : 'text-gray-400'}>
