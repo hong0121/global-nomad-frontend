@@ -40,19 +40,14 @@ const UploadBannerImage = ({
   const [previews, setPreviews] = useState<string[]>([]);
 
   useEffect(() => {
-    // 새로 생성한 파일 미리보기 URL
     const filePreviews = files.map((file) => URL.createObjectURL(file));
-
     const validExistingImages = existingImages.filter((url) => !!url);
-
-    // 기존 URL + 새 파일 URL 합치기
     setPreviews([...validExistingImages, ...filePreviews]);
 
-    // Cleanup: 새 파일 URL 해제
     return () => {
       filePreviews.forEach((url) => URL.revokeObjectURL(url));
     };
-  }, [files, existingImages.join('|')]);
+  }, [files, existingImages]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newFiles = e.target.files ? Array.from(e.target.files) : [];
@@ -64,18 +59,13 @@ const UploadBannerImage = ({
 
   const handleRemove = (index: number) => {
     if (index < existingImages.length) {
-      const newExisting = existingImages.filter((_, i) => i !== index);
-      setExistingImages?.(newExisting); // 반드시 호출
-      setPreviews([
-        ...newExisting,
-        ...files.map((f) => URL.createObjectURL(f)),
-      ]);
-      return;
+      // 기존 이미지 삭제
+      setExistingImages?.(existingImages.filter((_, i) => i !== index));
+    } else {
+      // 새로 추가한 파일 삭제
+      const fileIndex = index - existingImages.length;
+      setImages(files.filter((_, i) => i !== fileIndex));
     }
-
-    const fileIndex = index - existingImages.length;
-    const newFiles = files.filter((_, i) => i !== fileIndex);
-    setImages(newFiles);
   };
 
   return (

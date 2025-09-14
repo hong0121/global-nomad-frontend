@@ -31,8 +31,8 @@ import Image from 'next/image';
 
 import Dropdown from '@/src/components/primitives/Dropdown';
 
-
 interface Schedule {
+  id: number;
   date: string;
   startTime: string;
   endTime: string;
@@ -64,6 +64,19 @@ export default function MyUpdateExperiencesPage() {
   const [existingSubImages, setExistingSubImages] = useState<
     { id: number; url: string }[]
   >([]);
+  const [existingSchedules, setExistingSchedules] = useState<Schedule[]>([]);
+  const { timeSlots, setTimeSlots } = useTimeSlotStore();
+  const { bannerImages, subImages, setBannerImages, setSubImages } =
+    useActivityStore();
+  const { setSelectedDate } = useReservationStore(
+    (state) => state.dateSelector
+  );
+  const [bannerUrls, setBannerUrls] = useState<string[]>([]);
+  const [subUrls, setSubUrls] = useState<string[]>([]);
+  const [categoryDefaultValue, setCategoryDefaultValue] = useState<{
+    id: number;
+    title: string;
+  } | null>(null);
 
   // ✅ 수정 전용 useForm
   const {
@@ -116,35 +129,19 @@ export default function MyUpdateExperiencesPage() {
     return value.toLocaleString();
   };
 
-  const { timeSlots, setTimeSlots } = useTimeSlotStore();
-  const { bannerImages, subImages, setBannerImages, setSubImages } =
-    useActivityStore();
-  const { setSelectedDate } = useReservationStore(
-    (state) => state.dateSelector
-  );
-
-  // 🆕 서버에서 받아온 기존 이미지(URL) 상태
-  const [bannerUrls, setBannerUrls] = useState<string[]>([]);
-  const [subUrls, setSubUrls] = useState<string[]>([]);
-
-  // 서버에서 받아온 카테고리 상태
-  const [categoryDefaultValue, setCategoryDefaultValue] = useState<{
-    id: number;
-    title: string;
-  } | null>(null);
-
   // 1️⃣ 기존 데이터 불러오기
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // console.log('id:', id);
-
         const detail = await getExperienceDetail(id);
 
         // form 값 세팅
         reset({
           title: detail.title,
-          category: detail.category,
+          category:
+            dropdownItem
+              .find((el) => el.title === detail.category)
+              ?.id.toString() || '',
           description: detail.description,
           price: detail.price,
           address: detail.address,
@@ -152,7 +149,7 @@ export default function MyUpdateExperiencesPage() {
 
         // 카테고리 상태 세팅
         setCategoryDefaultValue(
-          dropdownItem.filter((el) => el.title === detail.category)[0]
+          dropdownItem.find((el) => el.title === detail.category) ?? null
         );
 
         // 이미지 상태 세팅
@@ -164,10 +161,12 @@ export default function MyUpdateExperiencesPage() {
         );
 
         setExistingSubImages(detail.subImages ?? []);
+        setExistingSchedules(detail.schedules ?? []);
 
         // timeSlots & 날짜 세팅
         setTimeSlots(
           detail.schedules.map((s: Schedule) => ({
+            id: s.id,
             startTime: s.startTime,
             endTime: s.endTime,
           }))
@@ -184,6 +183,17 @@ export default function MyUpdateExperiencesPage() {
 
   const onSubmit = async (data: ExperiencesFormData) => {
     try {
+      const selectedCategory = dropdownItem.find(
+        (el) => el.id === parseInt(data.category)
+      );
+
+      if (!selectedCategory) {
+        alert('유효한 카테고리를 선택해주세요.');
+        return;
+      }
+
+      data.category = selectedCategory.title;
+
       // 1️⃣ 스케줄 처리
       const schedulesToAdd = timeSlots
         .filter((slot) => slot.startTime && slot.endTime)
@@ -193,17 +203,16 @@ export default function MyUpdateExperiencesPage() {
           endTime: slot.endTime!,
         }));
 
+      const scheduleIdsToRemove = existingSchedules
+        .filter((s) => !timeSlots.some((slot) => slot.id === s.id)) // 현재 timeSlots에 없는 스케줄
+        .map((s) => s.id);
+
       // 2️⃣ 배너 이미지 처리
       const bannerUrl = bannerImages[0]
         ? await uploadActivityImage(bannerImages[0])
         : bannerUrls[0]; // 기존 URL 유지
 
       // 3️⃣ 서브 이미지 처리
-      // 삭제할 기존 이미지 ID 추출
-      const subImageIdsToRemove = existingSubImages
-        .filter((img) => !subUrls.includes(img.url)) // 삭제된 것만
-        .map((img) => img.id);
-
       // 새로 업로드한 파일만 업로드
       const newFiles = subImages.filter(
         (file) => file instanceof File
@@ -213,13 +222,11 @@ export default function MyUpdateExperiencesPage() {
       let subImageUrlsToAdd: string[] = [];
       if (newFiles.length > 0) {
         subImageUrlsToAdd = await uploadActivityImages(newFiles);
-        console.log('📌 새로 업로드한 이미지 URL:', subImageUrlsToAdd);
       }
-
-      // 드롭다운 이름 파싱
-      data.category = dropdownItem.find(
-        (el) => el.id === parseInt(data.category)
-      )!.title;
+      // 삭제할 기존 이미지 ID 추출
+      const subImageIdsToRemove = existingSubImages
+        .filter((img) => !subUrls.includes(img.url)) // 삭제된 것만
+        .map((img) => img.id);
 
       // 4️⃣ payload 구성 (기존 이미지는 API에서 자동 유지됨)
       const payload: UpdateExperiencePayload = {
@@ -227,7 +234,7 @@ export default function MyUpdateExperiencesPage() {
         bannerImageUrl: bannerUrl,
         subImageIdsToRemove,
         subImageUrlsToAdd,
-        scheduleIdsToRemove: [],
+        scheduleIdsToRemove,
         schedulesToAdd,
       };
 
@@ -339,7 +346,7 @@ export default function MyUpdateExperiencesPage() {
       </form>
       <AlertModal
         isOpen={isAlertOpen}
-        message='체험 등록이 완료되었습니다'
+        message='체험 수정이 완료되었습니다'
         onClose={handleCloseModal}
       />
       <ConfirmModal
