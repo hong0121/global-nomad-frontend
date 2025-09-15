@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 
 interface TimeSlot {
+  id?: number;
   startTime?: string;
   endTime?: string;
 }

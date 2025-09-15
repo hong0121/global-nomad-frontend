@@ -15,9 +15,6 @@ export default function AvailableTimeSlots() {
     return `${hour}:00`;
   });
 
-  // 가이드 슬롯 (UI용, 첫 번째)
-  const guideSlot = { startTime: '', endTime: '' };
-
   const handleAddSlot = () => {
     // 실제 슬롯 배열 (첫 번째는 UI 가이드용이므로 제외)
     const actualSlots = timeSlots;
@@ -45,6 +42,20 @@ export default function AvailableTimeSlots() {
   ) => {
     const updatedSlots = [...timeSlots];
     updatedSlots[index][field] = value;
+
+    const start = updatedSlots[index].startTime;
+    const end = updatedSlots[index].endTime;
+
+    const toMinutes = (t: string) => {
+      const [h, m] = t.split(':').map(Number);
+      return h * 60 + m;
+    };
+
+    // 시간 순서 체크
+    if (start && end && toMinutes(start) >= toMinutes(end)) {
+      alert('체험 시작 시간은 종료 시간보다 빨라야 합니다.');
+      return;
+    }
 
     // 중복 체크
     const duplicate = updatedSlots.some(

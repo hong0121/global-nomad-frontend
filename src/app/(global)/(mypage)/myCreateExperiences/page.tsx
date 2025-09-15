@@ -39,7 +39,7 @@ interface ExperiencesFormData {
 
 export default function MyCreateExperiencesPage() {
   const dropdownItems = [
-    { id: 1, title: '문화 ∙ 예술' },
+    { id: 1, title: '문화 · 예술' },
     { id: 2, title: '식음료' },
     { id: 3, title: '스포츠' },
     { id: 4, title: '투어' },
@@ -113,9 +113,14 @@ export default function MyCreateExperiencesPage() {
         ? await uploadActivityImages(subImages)
         : [];
 
+      const categoryTitle =
+        dropdownItems.find((item) => item.id === Number(data.category))
+          ?.title ?? '';
+
       // 4️⃣ payload 생성
       const payload = {
         ...data,
+        category: categoryTitle,
         schedules,
         bannerImageUrl: bannerUrl,
         subImageUrls,
