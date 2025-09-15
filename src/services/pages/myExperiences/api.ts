@@ -44,3 +44,15 @@ export async function getMyReservationStatus(
     throw err;
   }
 }
+
+// 내 체험 지우기
+export async function deleteMyExperiences(experienceId: number) {
+  try {
+    await apiClient.delete(`/my-activities/${experienceId}`);
+
+    return { ok: true };
+  } catch (err) {
+    if (err instanceof Error)
+      console.error('체험을 지우는데 실패했습니다!', err.message);
+  }
+}

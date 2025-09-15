@@ -16,7 +16,7 @@ export default function UserMenuDropdown({
   };
 
   return (
-    <div className='flex flex-col justify-around items-center w-32 py-2 bg-white border border-[#dfdfdf] rounded-lg'>
+    <div className='flex flex-col justify-around items-center w-32 py-2 bg-white border border-gray-50 rounded-lg'>
       <button
         type='button'
         className='px-4 py-2 text-14 lg:text-16 font-medium text-left'

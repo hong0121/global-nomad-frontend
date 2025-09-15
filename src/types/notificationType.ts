@@ -1,12 +1,15 @@
 export interface INotification {
-  cursorId: number;
-  notification: {
-    id: number;
-    teamId: string;
-    userId: number;
-    createdAt: string;
-    updatedAt: string;
-    deletedAt: string;
-  }[];
+  id: number;
+  teamId: string;
+  userId: number;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+}
+
+export interface INotifications {
+  cursorId: number | null;
+  notifications: INotification[];
   totalCount: number;
 }
